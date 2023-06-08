@@ -1,0 +1,66 @@
+@import "../../sass/utils/mixin";
+@import "../../sass/utils/variables";
+
+.selectWrapper {
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+.select {
+  @include font(500px, 16px, 1.25);
+
+  width: 224px;
+  height: 48px;
+
+  padding: 14px 18px;
+  border: 1px solid rgba(18, 20, 23, 0.2);
+  border-radius: 14px;
+}
+.options {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 8px;
+  & .option {
+    @include font(500px, 16px, 1.25);
+
+    width: 108px;
+    height: 48px;
+    border: 1px solid rgba(18, 20, 23, 0.2);
+    border-radius: 14px;
+
+    padding: 14px 80px 14px 18px;
+  }
+}
+.colorPicker {
+  margin-bottom: 38px;
+}
+.textWrapper {
+  margin-bottom: 24px;
+}
+.title {
+  @include font(500px, 14px, 1.29);
+  color: $gray-text-color;
+  padding-bottom: 8px;
+}
+.text {
+  @include font(400px, 12px, 1.17);
+}
+.ordering {
+  margin-bottom: 34px;
+}
+.coment {
+  @include font(400, 12px, 1.33);
+  color: $secondary-text-color;
+  margin-bottom: 16px;
+}
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px;
+
+  background: $white-text-color;
+  border: 1px solid $btn-open-modal-color;
+  border-radius: 16px;
+}
