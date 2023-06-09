@@ -1,14 +1,14 @@
-import * as React from "react";
+import { useState } from "react";
 import Box from "@mui/joy/Box";
-import Radio, { radioClasses } from "@mui/joy/Radio";
+import Radio from "@mui/joy/Radio";
 import RadioGroup from "@mui/joy/RadioGroup";
 import FormatAlignCenterIcon from "@mui/icons-material/FormatAlignCenter";
 import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
 import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
 
 export function TextPositionAdnFormat() {
-  const [alignment, setAlignment] = React.useState("left");
-  const [format, setFormat] = React.useState("dash");
+  const [alignment, setAlignment] = useState("left");
+  const [format, setFormat] = useState("dash");
 
   return (
     <>
@@ -70,7 +70,7 @@ export function TextPositionAdnFormat() {
           aria-label="Format"
           name="format"
           value={format}
-          onChange={(event) => setAlignment(event.target.value)}
+          onChange={(event) => setFormat(event.target.value)}
           sx={() => ({
             gap: "8px",
             marginBottom: "8px",

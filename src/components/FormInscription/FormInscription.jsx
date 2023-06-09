@@ -1,9 +1,11 @@
 import { Formik, Form, Field } from "formik";
 import Options from "./Options";
 import TextPositionAndFormat from "./TextPositionAndFormat";
-import Colorpicker from "./Colorpicker";
+import ColorPicker from "./ColorPicker/ColorPicker";
+import colorPickerOptions from "./ColorPicker/colorPickerOptions";
 import BtnOpenModal from "../BtnOpenModal/BtnOpenMoadl";
 import s from "./FormInscription.module.scss";
+
 const initalValues = {
   textarea: "",
   width: 0,
@@ -19,16 +21,20 @@ const FormInscription = () => {
     <>
       <Formik initialValues={initalValues} onSubmit={handleSubmit}>
         <Form autoComplete="off">
-          <Field
-            type="textarea"
-            name="textarea"
-            placeholder="Введіть текст"
-          ></Field>
+          <div className={s.textSettingsWrapper}>
+            <Field
+              className={s.textarea}
+              type="textarea"
+              name="textarea"
+              placeholder="Введіть текст"
+            ></Field>
+            <div>
+              <Options />
+              <TextPositionAndFormat />
+            </div>
+          </div>
+          <ColorPicker options={colorPickerOptions} />
 
-          <Options />
-          <TextPositionAndFormat />
-
-          <Colorpicker />
           <div className={s.ordering}>
             <p className={s.coment}>
               Додайте більше характеристик і перейдіть до оформлення замовлення.
