@@ -1,12 +1,11 @@
 import { useState } from "react";
-import s from "../FormInscription.module.scss";
-import styles from "./ColorPiker.module.scss";
+import s from "./ColorPiker.module.scss";
 
 export function ColorPicker({ options }) {
   const [activeOptionIdx, setActiveOptionIdx] = useState(0);
 
   const makeOptionClassName = (index) => {
-    return index === activeOptionIdx ? styles.activeOption : styles.option;
+    return index === activeOptionIdx ? s.activeOption : s.option;
   };
 
   return (
@@ -16,11 +15,11 @@ export function ColorPicker({ options }) {
           <p className={s.title}>Колір</p>
           <p className={s.text}>Виберіть колір вашої неонової вивіски</p>
         </div>
-        <div className={styles.container}>
-          <div>
+        <div className={s.container}>
+          <div className={s.item}>
             {options.map(({ label, color }, index) => (
               <button
-                key={label}
+                key={index}
                 aria-label={label}
                 className={makeOptionClassName(index)}
                 style={{ backgroundColor: color }}

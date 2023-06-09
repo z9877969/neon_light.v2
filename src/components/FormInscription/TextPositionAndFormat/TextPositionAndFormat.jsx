@@ -5,13 +5,14 @@ import RadioGroup from "@mui/joy/RadioGroup";
 import FormatAlignCenterIcon from "@mui/icons-material/FormatAlignCenter";
 import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
 import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
+import s from "../FormInscription.module.scss";
 
 export function TextPositionAdnFormat() {
   const [alignment, setAlignment] = useState("left");
   const [format, setFormat] = useState("dash");
 
   return (
-    <>
+    <div className={s.TextPositionAndFormat}>
       <RadioGroup
         orientation="horizontal"
         aria-label="Alignment"
@@ -20,6 +21,7 @@ export function TextPositionAdnFormat() {
         onChange={(event) => setAlignment(event.target.value)}
         sx={() => ({
           gap: "8px",
+
           marginBottom: "8px",
         })}
       >
@@ -73,7 +75,6 @@ export function TextPositionAdnFormat() {
           onChange={(event) => setFormat(event.target.value)}
           sx={() => ({
             gap: "8px",
-            marginBottom: "8px",
           })}
         >
           {["dash", "AA", "aa", "Aa"].map((item) => (
@@ -123,7 +124,7 @@ export function TextPositionAdnFormat() {
           ))}
         </RadioGroup>
       </>
-    </>
+    </div>
   );
 }
 

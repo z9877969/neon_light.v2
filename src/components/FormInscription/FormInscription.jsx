@@ -1,6 +1,6 @@
 import { Formik, Form, Field } from "formik";
-import Options from "./Options";
-import TextPositionAndFormat from "./TextPositionAndFormat";
+import Options from "./Options/Options";
+import TextPositionAndFormat from "./TextPositionAndFormat/TextPositionAndFormat";
 import ColorPicker from "./ColorPicker/ColorPicker";
 import colorPickerOptions from "./ColorPicker/colorPickerOptions";
 import BtnOpenModal from "../BtnOpenModal/BtnOpenMoadl";
@@ -21,7 +21,7 @@ const FormInscription = () => {
     <>
       <Formik initialValues={initalValues} onSubmit={handleSubmit}>
         <Form autoComplete="off">
-          <div className={s.textSettingsWrapper}>
+          <div className={s.textSettings}>
             <Field
               className={s.textarea}
               type="textarea"

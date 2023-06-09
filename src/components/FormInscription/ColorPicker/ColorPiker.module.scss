@@ -1,4 +1,40 @@
 @import "../../../sass//utils/mixin";
+@import "../../../sass//utils/variables";
+
+.colorPicker {
+  @include tablet {
+    position: absolute;
+    top: 230px;
+  }
+  @include desktop {
+    position: static;
+  }
+  margin-bottom: 38px;
+  .textWrapper {
+    margin-bottom: 24px;
+  }
+  .text {
+    @include font(400px, 12px, 1.17);
+  }
+}
+.title {
+  @include font(500px, 14px, 1.29);
+  color: $gray-text-color;
+  padding-bottom: 8px;
+}
+
+.warrningText {
+  margin-top: 18px;
+  @include font(400, 12px, 1.33);
+  color: $secondary-text-color;
+  @include tablet {
+    width: 292px;
+  }
+  @include desktop {
+    width: 448px;
+  }
+}
+
 .container {
   display: inline-block;
   @include tablet {
@@ -6,7 +42,10 @@
     padding-right: 40px;
   }
 }
-
+// .item {
+//   display: flex;
+//   gap: 8px;
+// }
 .heading {
   line-height: 1.3;
 }
