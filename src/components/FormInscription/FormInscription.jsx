@@ -38,6 +38,10 @@ const FormInscription = () => {
               <BtnOpenModal type="submit" text="Точна ціна" />
             </div>
           </div>
+          <p className={s.warrningText}>
+            Ціна не є остаточною. Залиште заявку, щоб отримати точний
+            розрахунок. Ми зв'яжемося з вами протягом одного робочого дня.
+          </p>
         </Form>
       </Formik>
     </>

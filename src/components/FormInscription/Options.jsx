@@ -9,22 +9,26 @@ const Options = () => {
         <p className={s.title}>Шрифт</p>
         <Field className={s.select} as="select" name="fonts">
           {fonts.map(({ name, value }) => (
-            <option key={Math.random()} className={s.font} value={value}>
+            <option key={name} value={value}>
               {name}
             </option>
           ))}
         </Field>
       </div>
       <ul className={s.options}>
-        <li className={s.item}>
+        <li>
           <p className={s.title}>Ширина</p>
           <Field className={s.option} type="text" name="width" />
         </li>
-        <li className={s.item}>
+        <li>
           <p className={s.title}>Висота</p>
           <Field className={s.option} type="text" name="height" />
         </li>
       </ul>
+      <p className={s.warrningText}>
+        Зверніть увагу, що вказані параметри ширини та висоти можуть
+        відрізнятися від дійсних через процес виготовлення або вимірювання.
+      </p>
     </>
   );
 };

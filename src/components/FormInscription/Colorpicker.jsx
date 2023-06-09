@@ -27,6 +27,10 @@ const Colorpicker = () => {
         <FormControlLabel value="" control={<Radio />} label="" />
         <FormControlLabel value="" control={<Radio />} label="" />
       </RadioGroup>
+      <p className={s.warrningText}>
+        Зверніть увагу: колір продукту на вашому екрані може відрізнятися від
+        реального через індивідуальні налаштування екрану.
+      </p>
     </div>
   );
 };
