@@ -1,0 +1,136 @@
+@import "../../sass/utils/variables";
+@import "../../sass/utils/mixin";
+
+.FormBox {
+  width: 100%;
+  max-width: 287px;
+
+  @include tablet {
+    max-width: 420px;
+  }
+}
+
+.FormTitle {
+  margin-bottom: 18px;
+
+  font-family: $primary-font;
+  @include font(500, 18px, 24px);
+  color: $secondary-text-color;
+
+  @include tablet {
+    @include font(500, 24px, 24px);
+    margin-bottom: 24px;
+  }
+}
+
+.InputBox {
+  position: relative;
+
+  margin-bottom: 14px;
+
+  @include tablet {
+    margin-bottom: 18px;
+  }
+}
+
+.FormTextArea {
+  margin-bottom: 14px;
+  padding: 16px 18px;
+
+  height: 106px;
+  width: 100%;
+  border: 1px solid $border-color;
+  border-radius: 12px;
+  font-family: $primary-font;
+  @include font(400, 14px, 20px);
+  color: $secondary-text-color;
+  outline: none;
+  overflow-y: auto;
+  resize: none;
+
+  @include tablet {
+    @include font(400, 16px, 24px);
+    height: 120px;
+  }
+}
+
+.FormTextArea::placeholder {
+  font-family: $primary-font;
+  @include font(400, 14px, 20px);
+  color: $secondary-text-color;
+  opacity: 1;
+
+  @include tablet {
+    @include font(400, 16px, 24px);
+  }
+}
+
+.FileInputLabel {
+  margin-bottom: 24px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  cursor: pointer;
+}
+
+.FileName {
+  max-width: 260px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: $primary-font;
+  @include font(400, 10px, 12px);
+  text-decoration-line: underline;
+  color: $primary-text-color;
+
+  @include tablet {
+    @include font(400, 12px, 14px);
+    max-width: 400px;
+  }
+}
+
+.FileInputIcon {
+  width: 16px;
+  height: 16px;
+
+  @include tablet {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.FileInput {
+  display: none;
+}
+
+.TextContact {
+  margin-bottom: 18px;
+  font-family: $primary-font;
+  @include font(400, 10px, 12px);
+  color: $primary-text-color;
+
+  @include tablet {
+    @include font(400, 12px, 16px);
+  }
+}
+
+.Button {
+  width: 100%;
+  height: 54px;
+  background: $main-accent-color;
+  border-radius: 12px;
+  font-family: $primary-font;
+
+  @include font(600, 14px, 20px);
+  color: $white-text-color;
+}
+
+.CheckBox {
+  position: relative;
+
+  margin-bottom: 40px;
+  display: flex;
+  gap: 8px;
+}
