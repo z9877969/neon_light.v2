@@ -1,13 +1,77 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Radio, RadioGroup, Typography, useMediaQuery } from "@mui/material";
 import { fabric } from "fabric";
 import background1 from "../../images/bg1@1x.jpg";
 import background2 from "../../images/bg2@1x.jpg";
 import background3 from "../../images/bg3@1x.jpg";
 import background4 from "../../images/bg4@1x.jpg";
+import CustomSwitch from "../Switch/Switch";
+import styles from "./ScreenStyles";
 
 const ScreenComponent = () => {
+  const [textWidthState] = useState(178);
+  const [textHeightState] = useState(32);
+  const [textState] = useState("web design");
+  const canvasRef = useRef(null);
+  const containerRef = useRef(null);
   const [selectedBackground, setSelectedBackground] = useState(null);
+  const [textBlur, setTextBlur] = useState(true);
+
+  useEffect(() => {
+    const canvas = new fabric.Canvas(canvasRef.current);
+
+    const addText = () => {
+      const text = new fabric.Text(textState, {
+        left: 0,
+        top: 0,
+        fontSize: 250,
+        fill: "#FFF303",
+        selectable: false,
+        shadow: textBlur ? "rgba(255, 243, 3, 0.5) -25.5px 10px 50px" : null,
+        shadowBlur: textBlur ? 100 : 0,
+        shadowColor: textBlur ? "rgba(255, 243, 3, 0.5)" : null,
+      });
+
+      const desiredWidth = textWidthState;
+      const desiredHeight = textHeightState;
+
+      const scaleX = desiredWidth / text.width;
+      const scaleY = desiredHeight / text.height;
+
+      text.set({ scaleX, scaleY });
+
+      const textWidth = text.getScaledWidth();
+      const textHeight = text.getScaledHeight();
+
+      containerRef.current.style.width = `${textWidth}px`;
+      containerRef.current.style.height = `${textHeight}px`;
+      // containerRef.current.style.filter = textBlur ? "blur(5px)" : "none";
+
+      canvas.setDimensions({ width: textWidth, height: textHeight });
+
+      canvas.add(text);
+    };
+
+    addText();
+
+    const setCanvasSize = () => {
+      const containerWidth = canvasRef.current.offsetWidth;
+      const containerHeight = canvasRef.current.offsetHeight;
+
+      canvas.setWidth(containerWidth);
+      canvas.setHeight(containerHeight);
+      canvas.renderAll();
+    };
+
+    setCanvasSize();
+
+    window.addEventListener("resize", setCanvasSize);
+
+    return () => {
+      window.removeEventListener("resize", setCanvasSize);
+      canvas.dispose();
+    };
+  }, [textWidthState, textHeightState, textState, textBlur]);
 
   const backgrounds = [
     { value: "background1", imageUrl: background1 },
@@ -37,60 +101,43 @@ const ScreenComponent = () => {
     }
   };
 
+  const handleTextBlurChange = () => {
+    setTextBlur((prevBlur) => !prevBlur);
+  };
+
   const isMobile = useMediaQuery("(max-width: 375px)");
   const isTablet = useMediaQuery("(min-width: 768px)");
   const isDesktop = useMediaQuery("(min-width: 1440px)");
 
-  const containerStyle = {
-    width: isMobile ? "100%" : isTablet ? "704px" :isDesktop ? "742px" : "335px",
-    height: isTablet ? "640px" : "420px",
-    backgroundImage: selectedBackground ? `url(${selectedBackground})` : "",
-    backgroundColor: selectedBackground ? "" : "#121417",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    borderRadius: "10px",
-    position: "relative",
-  };
-
-  const radioGroupStyle = {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: isTablet ? "flex-end" : "flex-start",
-    position: "absolute",
-    bottom: "16px",
-    right: "16px",
-    gap:  "8px",
-  };
-
-  const iconStyle = {
-    height: isTablet ? "64px" : "40px",
-    width: isTablet ? "64px" : "40px",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    cursor: "pointer",
-    borderRadius: "6px",
-  };
-
-  const textStyle = {
-    fontFamily: "Roboto",
-    fontSize: "14px",
-    fontWeight: 500,
-    lineHeight: "18px",
-    letterSpacing: "0em",
-    textAlign:  "right",
-    color: "#FFFFFF",
-    position: "absolute",
-    bottom: isTablet ? "88px" : "64px",
-    right:  "24px",
-  };
-
   return (
-    <div style={containerStyle}>
+    <div
+      style={styles.container(
+        isMobile,
+        isTablet,
+        isDesktop,
+        selectedBackground
+      )}
+    >
+      <div style={styles.canvasWrapper}>
+        <div style={styles.canvasContainer} ref={containerRef}>
+          <div style={styles.canvasHeight}>{textHeightState} см</div>
+          <div style={styles.canvasWidth}>{textWidthState} см</div>
+          <canvas ref={canvasRef} />
+        </div>
+      </div>
+      <div
+        style={isMobile ? styles.customSwitchMobile : styles.customSwitchTablet}
+      >
+        <CustomSwitch
+          unchecked={textBlur.toString()}
+          onChange={handleTextBlurChange}
+        />
+      </div>
+
       <RadioGroup
         value={selectedBackground}
         onChange={handleRadioChange}
-        style={radioGroupStyle}
+        style={styles.radioGroup(isTablet)}
       >
         {backgrounds.map((background) => (
           <div
@@ -112,7 +159,7 @@ const ScreenComponent = () => {
                 handleRadioChange({ target: { value: background.imageUrl } })
               }
               style={{
-                ...iconStyle,
+                ...styles.icon(isTablet),
                 backgroundImage: `url(${background.imageUrl})`,
                 border:
                   selectedBackground === background.imageUrl
@@ -123,7 +170,7 @@ const ScreenComponent = () => {
           </div>
         ))}
       </RadioGroup>
-      <Typography variant="body1" style={textStyle}>
+      <Typography variant="body1" style={styles.text(isTablet)}>
         Фони
       </Typography>
     </div>
@@ -131,4 +178,3 @@ const ScreenComponent = () => {
 };
 
 export default ScreenComponent;
-
