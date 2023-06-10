@@ -8,20 +8,19 @@ import background4 from "../../images/bg4@1x.jpg";
 import CustomSwitch from "../Switch/Switch";
 import styles from "./ScreenStyles";
 
-const ScreenComponent = () => {
+const ScreenComponent = ({ text }) => {
   const [textWidthState] = useState(178);
   const [textHeightState] = useState(32);
-  const [textState] = useState("web design");
+  const [textBlur, setTextBlur] = useState(true);
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
   const [selectedBackground, setSelectedBackground] = useState(null);
-  const [textBlur, setTextBlur] = useState(true);
 
   useEffect(() => {
     const canvas = new fabric.Canvas(canvasRef.current);
 
     const addText = () => {
-      const text = new fabric.Text(textState, {
+      const textObject = new fabric.Text(text, {
         left: 0,
         top: 0,
         fontSize: 250,
@@ -35,21 +34,20 @@ const ScreenComponent = () => {
       const desiredWidth = textWidthState;
       const desiredHeight = textHeightState;
 
-      const scaleX = desiredWidth / text.width;
-      const scaleY = desiredHeight / text.height;
+      const scaleX = desiredWidth / textObject.width;
+      const scaleY = desiredHeight / textObject.height;
 
-      text.set({ scaleX, scaleY });
+      textObject.set({ scaleX, scaleY });
 
-      const textWidth = text.getScaledWidth();
-      const textHeight = text.getScaledHeight();
+      const textWidth = textObject.getScaledWidth();
+      const textHeight = textObject.getScaledHeight();
 
       containerRef.current.style.width = `${textWidth}px`;
       containerRef.current.style.height = `${textHeight}px`;
-      // containerRef.current.style.filter = textBlur ? "blur(5px)" : "none";
 
       canvas.setDimensions({ width: textWidth, height: textHeight });
 
-      canvas.add(text);
+      canvas.add(textObject);
     };
 
     addText();
@@ -71,7 +69,7 @@ const ScreenComponent = () => {
       window.removeEventListener("resize", setCanvasSize);
       canvas.dispose();
     };
-  }, [textWidthState, textHeightState, textState, textBlur]);
+  }, [text, textWidthState, textHeightState, textBlur]);
 
   const backgrounds = [
     { value: "background1", imageUrl: background1 },
