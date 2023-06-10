@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import Options from "./Options/Options";
 import TextPositionAndFormat from "./TextPositionAndFormat/TextPositionAndFormat";
@@ -7,16 +8,34 @@ import BtnOpenModal from "../BtnOpenModal/BtnOpenMoadl";
 import s from "./FormInscription.module.scss";
 
 const initalValues = {
-  textarea: "",
-  width: 0,
-  height: 0,
+  text: "",
+  fonts: "alumini sans",
+  width: "",
+  height: "",
 };
 
 const FormInscription = () => {
+  const [state, setState] = useState({
+    text: "",
+    fonts: "",
+    width: "",
+    height: "",
+    color: "",
+    price: "",
+    positionText: "",
+    styleText: "",
+  });
+
+  const handleColor = (color) => {
+    setState((prevState) => ({ ...prevState, color }));
+  };
+
   const handleSubmit = (values, { resetForm }) => {
     console.log(values);
+    console.log(state);
     resetForm();
   };
+
   return (
     <>
       <Formik initialValues={initalValues} onSubmit={handleSubmit}>
@@ -25,7 +44,7 @@ const FormInscription = () => {
             <Field
               className={s.textarea}
               type="textarea"
-              name="textarea"
+              name="text"
               placeholder="Введіть текст"
             ></Field>
             <div>
@@ -33,7 +52,7 @@ const FormInscription = () => {
               <TextPositionAndFormat />
             </div>
           </div>
-          <ColorPicker options={colorPickerOptions} />
+          <ColorPicker options={colorPickerOptions} setColor={handleColor} />
 
           <div className={s.ordering}>
             <p className={s.coment}>
@@ -44,10 +63,10 @@ const FormInscription = () => {
               <BtnOpenModal type="submit" text="Точна ціна" />
             </div>
           </div>
-          <p className={s.warrningText}>
+          {/* <p className={s.warrningText}>
             Ціна не є остаточною. Залиште заявку, щоб отримати точний
             розрахунок. Ми зв'яжемося з вами протягом одного робочого дня.
-          </p>
+          </p> */}
         </Form>
       </Formik>
     </>

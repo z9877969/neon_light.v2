@@ -16,16 +16,26 @@ const Options = () => {
             ))}
           </Field>
         </div>
-        <ul className={s.options}>
-          <li>
+        <div className={s.options}>
+          <label>
             <p className={s.title}>Ширина</p>
-            <Field className={s.option} type="text" name="width" />
-          </li>
-          <li>
+            <Field
+              className={s.option}
+              type="text"
+              name="width"
+              placeholder="0"
+            />
+          </label>
+          <label>
             <p className={s.title}>Висота</p>
-            <Field className={s.option} type="text" name="height" />
-          </li>
-        </ul>
+            <Field
+              className={s.option}
+              type="text"
+              name="height"
+              placeholder="0"
+            />
+          </label>
+        </div>
       </div>
       <p className={s.warrningText}>
         Зверніть увагу, що вказані параметри ширини та висоти можуть
