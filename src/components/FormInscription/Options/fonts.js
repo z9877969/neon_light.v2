@@ -1,30 +1,30 @@
 const fonts = [
   {
-    name: "Alumini Sans",
-    value: "alumini sans",
-  },
-  {
-    name: "Caveat",
-    value: "caveat",
-  },
-  {
-    name: "Comfortaa",
+    label: "Comfortaa",
     value: "comfortaa",
   },
   {
-    name: "Exo2",
+    label: "Alumini Sans",
+    value: "alumini sans",
+  },
+  {
+    label: "Caveat",
+    value: "caveat",
+  },
+  {
+    label: "Exo2",
     value: "exo2",
   },
   {
-    name: "Poiret One",
+    label: "Poiret One",
     value: "poiret One",
   },
   {
-    name: "Shantell Sans",
+    label: "Shantell Sans",
     value: "shantell Sans",
   },
   {
-    name: "Source Code Pro",
+    label: "Source Code Pro",
     value: "source Code Pro",
   },
 ];

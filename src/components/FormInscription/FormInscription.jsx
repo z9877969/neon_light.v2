@@ -6,25 +6,41 @@ import ColorPicker from "./ColorPicker/ColorPicker";
 import colorPickerOptions from "./ColorPicker/colorPickerOptions";
 import BtnOpenModal from "../BtnOpenModal/BtnOpenMoadl";
 import s from "./FormInscription.module.scss";
+import fonts from "./Options/fonts";
 
 const initalValues = {
   text: "",
-  fonts: "alumini sans",
+  font: "comfortaa",
   width: "",
   height: "",
 };
 
 const FormInscription = () => {
   const [state, setState] = useState({
+    font: "comfortaa",
+    positionText: "start",
+    styleText: "none",
     text: "",
-    fonts: "",
-    width: "",
-    height: "",
     color: "",
-    price: "",
-    positionText: "",
-    styleText: "",
+    width: 0,
+    height: 0,
+    price: 0,
   });
+
+  const getSelectValue = () => {
+    return state.font ? fonts.find((c) => c.value === state.font) : "";
+  };
+
+  const onChangeSelectValue = (newValue) => {
+    setState((prevState) => ({
+      ...prevState,
+      font: newValue.value,
+    }));
+  };
+
+  const numberWithSpaces = (x) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  };
 
   const handleColor = (color) => {
     setState((prevState) => ({ ...prevState, color }));
@@ -33,6 +49,10 @@ const FormInscription = () => {
   const handleSubmit = (values, { resetForm }) => {
     console.log(values);
     console.log(state);
+    setState((prevState) => ({
+      ...prevState,
+      ...values,
+    }));
     resetForm();
   };
 
@@ -48,19 +68,27 @@ const FormInscription = () => {
               placeholder="Введіть текст"
             ></Field>
             <div>
-              <Options />
+              <Options
+                getSelectValue={getSelectValue()}
+                onChangeSelectValue={onChangeSelectValue}
+              />
               <TextPositionAndFormat />
             </div>
           </div>
-          <ColorPicker options={colorPickerOptions} setColor={handleColor} />
+          <div>
+            <ColorPicker options={colorPickerOptions} setColor={handleColor} />
 
-          <div className={s.ordering}>
-            <p className={s.coment}>
-              Додайте більше характеристик і перейдіть до оформлення замовлення.
-            </p>
-            <div className={s.wrapper}>
-              <p>0.00 грн</p>
-              <BtnOpenModal type="submit" text="Точна ціна" />
+            <div className={s.ordering}>
+              <p className={s.coment}>
+                Додайте більше характеристик і перейдіть до оформлення
+                замовлення.
+              </p>
+              <div className={s.wrapper}>
+                <b className={s.price}>
+                  {numberWithSpaces(Math.round(state.price))} грн
+                </b>
+                <BtnOpenModal type="submit" text="Точна ціна" />
+              </div>
             </div>
           </div>
           {/* <p className={s.warrningText}>

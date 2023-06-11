@@ -8,8 +8,8 @@ import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
 import s from "../FormInscription.module.scss";
 
 export function TextPositionAdnFormat() {
-  const [alignment, setAlignment] = useState("left");
-  const [format, setFormat] = useState("dash");
+  const [alignment, setAlignment] = useState("start");
+  const [format, setFormat] = useState("none");
 
   return (
     <div className={s.TextPositionAndFormat}>
@@ -19,16 +19,15 @@ export function TextPositionAdnFormat() {
         name="alignment"
         value={alignment}
         onChange={(event) => setAlignment(event.target.value)}
-        sx={() => ({
+        sx={{
           gap: "8px",
-
           marginBottom: "8px",
-        })}
+        }}
       >
-        {["left", "center", "right"].map((item) => (
+        {["start", "center", "end"].map((item) => (
           <Box
             key={item}
-            sx={() => ({
+            sx={{
               position: "relative",
               display: "flex",
               justifyContent: "center",
@@ -38,7 +37,8 @@ export function TextPositionAdnFormat() {
               border: "1px solid",
               borderColor: "divider",
               borderRadius: 4,
-            })}
+              zIndex: 0,
+            }}
           >
             <Radio
               value={item}
@@ -46,16 +46,25 @@ export function TextPositionAdnFormat() {
               overlay
               label={
                 {
-                  left: <FormatAlignLeftIcon />,
-                  right: <FormatAlignRightIcon />,
-                  center: <FormatAlignCenterIcon />,
+                  start: <FormatAlignLeftIcon className={s.svgIcon} />,
+                  end: <FormatAlignRightIcon className={s.svgIcon} />,
+                  center: <FormatAlignCenterIcon className={s.svgIcon} />,
                 }[item]
               }
+              sx={{
+                "& .Joy-checked": {
+                  backgroundColor: "#fff",
+                },
+              }}
               variant={alignment === item ? "solid" : "plain"}
               slotProps={{
                 input: { "aria-label": item },
                 action: {
                   sx: {
+                    "&:hover": {
+                      backgroundColor: "#fff",
+                    },
+
                     borderRadius: 4,
                     transition: "none",
                   },
@@ -73,14 +82,14 @@ export function TextPositionAdnFormat() {
           name="format"
           value={format}
           onChange={(event) => setFormat(event.target.value)}
-          sx={() => ({
+          sx={{
             gap: "8px",
-          })}
+          }}
         >
-          {["dash", "AA", "aa", "Aa"].map((item) => (
+          {["none", "AA", "aa", "Aa"].map((item) => (
             <Box
               key={item}
-              sx={() => ({
+              sx={{
                 position: "relative",
                 display: "flex",
                 justifyContent: "center",
@@ -90,22 +99,26 @@ export function TextPositionAdnFormat() {
                 border: "1px solid",
                 borderColor: "divider",
                 borderRadius: 4,
-              })}
+                zIndex: 0,
+              }}
             >
               <Radio
-                sx={() => ({
+                sx={{
                   fontSize: "14px",
                   fontWeight: 500,
-                })}
+                  "& .Joy-checked": {
+                    backgroundColor: "#fff",
+                  },
+                }}
                 value={item}
                 disableIcon
                 overlay
                 label={
                   {
-                    dash: "-",
-                    AA: "AA",
-                    aa: "aa",
-                    Aa: "Aa",
+                    none: <p className={s.svgIcon}>-</p>,
+                    AA: <p className={s.svgIcon}>AA</p>,
+                    aa: <p className={s.svgIcon}>aa</p>,
+                    Aa: <p className={s.svgIcon}>Aa</p>,
                   }[item]
                 }
                 variant={format === item ? "solid" : "plain"}
@@ -113,6 +126,9 @@ export function TextPositionAdnFormat() {
                   input: { "aria-label": item },
                   action: {
                     sx: {
+                      "&:hover": {
+                        backgroundColor: "#fff",
+                      },
                       borderRadius: 4,
                       transition: "none",
                     },

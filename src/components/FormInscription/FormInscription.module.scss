@@ -2,11 +2,10 @@
 @import "../../sass/utils/variables";
 
 .textSettings {
-  position: relative;
   @include tablet {
-    width: 768px;
     display: flex;
     gap: 32px;
+    width: 768px;
   }
   @include desktop {
     display: block;
@@ -51,9 +50,6 @@
 }
 
 .ordering {
-  @include tablet {
-    margin-top: 128px;
-  }
   margin-bottom: 34px;
 
   .coment {
@@ -83,4 +79,12 @@
   @include desktop {
     margin-bottom: 24px;
   }
+}
+
+.svgIcon {
+  color: black;
+}
+
+.price {
+  @include font(500, 24px, 1);
 }
