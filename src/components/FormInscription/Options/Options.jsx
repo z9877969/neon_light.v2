@@ -3,7 +3,8 @@ import fonts from "./fonts";
 import s from "./Options.module.scss";
 import Select from "react-select";
 
-const Options = ({ textWidth, textHeight, onWidthChange, onHeightChange,onChangeSelectValue, getSelectValue }) => {
+const Options = ({ textWidth, textHeight, onWidthChange, onHeightChange, onChangeSelectValue, getSelectValue, onFontChange, font }) => {
+  
   const handleWidthChange = (event) => {
     const newWidth = event.target.value;
     onWidthChange(newWidth);
@@ -14,6 +15,13 @@ const Options = ({ textWidth, textHeight, onWidthChange, onHeightChange,onChange
     onHeightChange(newHeight);
   };
 
+  const handleFontChange = (event) => {
+    const newFont = event.target.value;
+    onFontChange(newFont);
+  };
+
+  const selectedOption = { value: getSelectValue, label: font };
+
   return (
     <div className={s.optionContainer}>
       <div className={s.optionSetting}>
@@ -22,7 +30,8 @@ const Options = ({ textWidth, textHeight, onWidthChange, onHeightChange,onChange
           <Select
             name="font"
             onChange={onChangeSelectValue}
-            value={getSelectValue}
+            defaultValue={selectedOption}
+            onFontChange={handleFontChange}
             isSearchable={false}
             className="select-container"
             classNamePrefix="select"

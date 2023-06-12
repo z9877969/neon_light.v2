@@ -14,6 +14,7 @@ const App = () => {
   const [textWidth, setTextWidth] = useState('');
   const [textHeight, setTextHeight] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const [font, setFont] = useState("");
 
   const handleModalClose = () => {
     setIsOpen(!isOpen);
@@ -39,6 +40,10 @@ const App = () => {
     setTextHeight(newHeight);
   };
 
+  const handleFontChange = (newFont) => {
+    setFont(newFont);
+  }
+
   return (
     <Container>
       <Tabs onFormInscription={onFormInscription} onOwnDesign={onOwnDesign} />
@@ -49,6 +54,9 @@ const App = () => {
           onTextChange={handleTextChange}
           onWidthChange={handleWidthChange}
           onHeightChange={handleHeightChange}
+          onFontChange={handleFontChange}
+          font={font}
+
         />
 
       ) :
@@ -65,6 +73,7 @@ const App = () => {
         text={text}
         textWidth={textWidth}
         textHeight={textHeight}
+        font={font}
       />
     </Container>
   );

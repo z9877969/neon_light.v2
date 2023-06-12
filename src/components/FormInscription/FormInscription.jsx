@@ -22,6 +22,8 @@ const FormInscription = ({
   textHeight,
   onWidthChange,
   onHeightChange,
+  onFontChange,
+  font,
 }) => {
   const [state, setState] = useState({
     font: "comfortaa",
@@ -46,6 +48,10 @@ const FormInscription = ({
   const handleHeightChange = (newHeight) => {
     onHeightChange(newHeight);
   };
+
+  const handleFontChange = (newFont) => {
+    onFontChange(newFont)
+  }
 
   const getSelectValue = () => {
     return state.font ? fonts.find((c) => c.value === state.font) : "";
@@ -95,6 +101,8 @@ const FormInscription = ({
                 textHeight={textHeight}
                 onWidthChange={handleWidthChange}
                 onHeightChange={handleHeightChange}
+                onFontChange={handleFontChange}
+                font={font}
              
                 getSelectValue={getSelectValue()}
                 onChangeSelectValue={onChangeSelectValue}

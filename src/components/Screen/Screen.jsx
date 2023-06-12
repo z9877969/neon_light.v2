@@ -8,7 +8,7 @@ import background4 from "../../images/bg4@1x.jpg";
 import CustomSwitch from "../Switch/Switch";
 import styles from "./ScreenStyles";
 
-const ScreenComponent = ({ text, textWidth, textHeight }) => {
+const ScreenComponent = ({ text, textWidth, textHeight, font }) => {
   const textWidthState = textWidth || "";
   const textHeightState = textHeight || "";
   const [textBlur, setTextBlur] = useState(true);
@@ -43,6 +43,7 @@ const ScreenComponent = ({ text, textWidth, textHeight }) => {
     lineHeight: lineHeight,
     fill: "rgba(255, 255, 255, 0.5)",
     selectable: false,
+    fontFamily: font,
     shadow: textBlur ? "rgba(255, 243, 3, 0.5) -25.5px 10px 50px" : null,
     shadowBlur: textBlur ? 100 : 0,
     shadowColor: textBlur ? "rgba(255, 243, 3, 0.5)" : null,
@@ -109,6 +110,7 @@ const cmToPxRatio = () => {
     isTablet,
     isDesktop,
     isMobileAdaptive,
+    font
   ]);
 
   const backgrounds = [
