@@ -15,7 +15,14 @@ const initalValues = {
   height: "",
 };
 
-const FormInscription = () => {
+const FormInscription = ({
+  text,
+  onTextChange,
+  textWidth,
+  textHeight,
+  onWidthChange,
+  onHeightChange,
+}) => {
   const [state, setState] = useState({
     font: "comfortaa",
     positionText: "start",
@@ -26,6 +33,19 @@ const FormInscription = () => {
     height: 0,
     price: 0,
   });
+
+  const handleTextChange = (event) => {
+    const newText = event.target.value;
+    onTextChange(newText);
+  };
+
+  const handleWidthChange = (newWidth) => {
+    onWidthChange(newWidth);
+  };
+
+  const handleHeightChange = (newHeight) => {
+    onHeightChange(newHeight);
+  };
 
   const getSelectValue = () => {
     return state.font ? fonts.find((c) => c.value === state.font) : "";
@@ -66,9 +86,16 @@ const FormInscription = () => {
               type="textarea"
               name="text"
               placeholder="Введіть текст"
+              value={text}
+              onChange={handleTextChange}
             ></Field>
             <div>
               <Options
+                textWidth={textWidth}
+                textHeight={textHeight}
+                onWidthChange={handleWidthChange}
+                onHeightChange={handleHeightChange}
+             
                 getSelectValue={getSelectValue()}
                 onChangeSelectValue={onChangeSelectValue}
               />
