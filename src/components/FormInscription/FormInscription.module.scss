@@ -5,7 +5,7 @@
   @include tablet {
     display: flex;
     gap: 32px;
-    width: 768px;
+    flex: 2;
   }
   @include desktop {
     display: block;
@@ -30,6 +30,10 @@
   background: $white-text-color;
   border: 1px solid rgba(18, 20, 23, 0.2);
   border-radius: 14px;
+}
+
+.options {
+  flex: 1;
 }
 
 .title {

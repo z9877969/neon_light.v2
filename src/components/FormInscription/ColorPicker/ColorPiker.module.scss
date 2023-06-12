@@ -17,11 +17,11 @@
     margin-bottom: 24px;
   }
   .text {
-    @include font(400px, 12px, 1.17);
+    @include font(400, 12px, 1.17);
   }
 }
 .title {
-  @include font(500px, 14px, 1.29);
+  @include font(500, 14px, 1.29);
   color: $gray-text-color;
   padding-bottom: 8px;
 }

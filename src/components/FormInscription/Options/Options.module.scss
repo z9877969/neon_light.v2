@@ -4,6 +4,9 @@
   @include tablet_max {
     margin-bottom: 32px;
   }
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   margin-bottom: 24px;
 }
 
@@ -26,7 +29,7 @@
     padding: 0px;
     gap: 8px;
     .option {
-      @include font(500px, 16px, 1.25);
+      @include font(500, 16px, 1.25);
 
       width: 108px;
       height: 48px;
@@ -37,7 +40,7 @@
   }
 }
 .title {
-  @include font(500px, 14px, 1.29);
+  @include font(500, 14px, 1.29);
   color: $gray-text-color;
   padding-bottom: 8px;
 }
@@ -45,9 +48,7 @@
 .warrningText {
   @include font(400, 12px, 1.33);
   color: $secondary-text-color;
-  @include tablet {
-    width: 292px;
-  }
+
   @include desktop {
     width: 448px;
   }

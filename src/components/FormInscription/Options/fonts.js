@@ -27,6 +27,10 @@ const fonts = [
     label: "Source Code Pro",
     value: "source Code Pro",
   },
+  {
+    label: "Pacifico",
+    value: "pacifico",
+  },
 ];
 
 export default fonts;
