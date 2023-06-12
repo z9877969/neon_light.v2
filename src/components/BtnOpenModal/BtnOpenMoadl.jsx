@@ -1,8 +1,8 @@
 import s from "./BtnOpenModal.module.scss";
 
-const BtnOpenModal = ({ type, text }) => {
+const BtnOpenModal = ({ type, text, onClose }) => {
   return (
-    <button className={s.btnOpenModal} type={type}>
+    <button onClick={onClose} className={s.btnOpenModal} type={type}>
       {text}
     </button>
   );
