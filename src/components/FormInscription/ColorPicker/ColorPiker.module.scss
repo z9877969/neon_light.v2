@@ -2,14 +2,17 @@
 @import "../../../sass//utils/variables";
 
 .container {
+  @include tablet_max {
+    margin-bottom: 30px;
+  }
   @include tablet {
-    position: absolute;
-    top: 230px;
+    margin-top: -102px;
+    margin-bottom: 32px;
   }
   @include desktop {
-    position: static;
+    margin-top: 0;
   }
-  margin-bottom: 38px;
+
   .textWrapper {
     margin-bottom: 24px;
   }
@@ -25,13 +28,11 @@
 
 .warrningText {
   margin-top: 18px;
-  @include font(400, 12px, 1.33);
+  padding-bottom: 8px;
   color: $secondary-text-color;
+  @include font(400, 12px, 1.33);
   @include tablet {
-    width: 292px;
-  }
-  @include desktop {
-    width: 448px;
+    width: 440px;
   }
 }
 

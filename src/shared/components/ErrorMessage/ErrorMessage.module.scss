@@ -1,0 +1,22 @@
+@import "../../../sass/utils/variables";
+@import "../../../sass/utils/mixin";
+
+.errorMessage {
+  position: absolute;
+  bottom: -14px;
+  left: 10px;
+
+  font-family: $primary-font;
+  @include font(400, 10px, 12px);
+  color: $main-accent-color;
+  max-width: 270px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  @include tablet {
+    @include font(400, 12px, 14px);
+    max-width: 400px;
+    bottom: -16px;
+  }
+}

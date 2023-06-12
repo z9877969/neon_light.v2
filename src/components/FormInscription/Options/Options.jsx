@@ -1,8 +1,9 @@
 import { Field } from "formik";
 import fonts from "./fonts";
 import s from "./Options.module.scss";
+import Select from "react-select";
 
-const Options = ({ textWidth, textHeight, onWidthChange, onHeightChange }) => {
+const Options = ({ textWidth, textHeight, onWidthChange, onHeightChange,onChangeSelectValue, getSelectValue }) => {
   const handleWidthChange = (event) => {
     const newWidth = event.target.value;
     onWidthChange(newWidth);
@@ -18,13 +19,15 @@ const Options = ({ textWidth, textHeight, onWidthChange, onHeightChange }) => {
       <div className={s.optionSetting}>
         <div className={s.selectWrapper}>
           <p className={s.title}>Шрифт</p>
-          <Field className={s.select} as="select" name="fonts">
-            {fonts.map(({ name, value }) => (
-              <option key={name} value={value}>
-                {name}
-              </option>
-            ))}
-          </Field>
+          <Select
+            name="font"
+            onChange={onChangeSelectValue}
+            value={getSelectValue}
+            isSearchable={false}
+            className="select-container"
+            classNamePrefix="select"
+            options={fonts}
+          />
         </div>
         <div className={s.options}>
           <label>
@@ -51,10 +54,10 @@ const Options = ({ textWidth, textHeight, onWidthChange, onHeightChange }) => {
           </label>
         </div>
       </div>
-      <p className={s.warrningText}>
+      {/* <p className={s.warrningText}>
         Зверніть увагу, що вказані параметри ширини та висоти можуть
         відрізнятися від дійсних через процес виготовлення або вимірювання.
-      </p>
+      </p> */}
     </div>
   );
 };
