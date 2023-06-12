@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Field } from "formik";
 import s from "./ColorPiker.module.scss";
 
-export function ColorPicker({ options, setColor }) {
+export function ColorPicker({ options, setColor, color }) {
   const [activeOptionIdx, setActiveOptionIdx] = useState(0);
 
   const setActiveOptionsIndAndColor = (index, color) => {
@@ -32,10 +32,12 @@ export function ColorPicker({ options, setColor }) {
           />
         ))}
       </div>
-      <p className={s.warrningText}>
-        Зверніть увагу: колір продукту на вашому екрані може відрізнятися від
-        реального через індивідуальні налаштування екрану.
-      </p>
+      {color && (
+        <p className={s.warrningText}>
+          Зверніть увагу: колір продукту на вашому екрані може відрізнятися від
+          реального через індивідуальні налаштування екрану.
+        </p>
+      )}
     </div>
   );
 }

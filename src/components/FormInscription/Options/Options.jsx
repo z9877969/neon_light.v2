@@ -3,7 +3,14 @@ import fonts from "./fonts";
 import s from "./Options.module.scss";
 import Select from "react-select";
 
-const Options = ({ textWidth, textHeight, onWidthChange, onHeightChange,onChangeSelectValue, getSelectValue }) => {
+const Options = ({
+  textWidth,
+  textHeight,
+  onWidthChange,
+  onHeightChange,
+  onChangeSelectValue,
+  getSelectValue,
+}) => {
   const handleWidthChange = (event) => {
     const newWidth = event.target.value;
     onWidthChange(newWidth);
@@ -54,10 +61,12 @@ const Options = ({ textWidth, textHeight, onWidthChange, onHeightChange,onChange
           </label>
         </div>
       </div>
-      {/* <p className={s.warrningText}>
-        Зверніть увагу, що вказані параметри ширини та висоти можуть
-        відрізнятися від дійсних через процес виготовлення або вимірювання.
-      </p> */}
+      {textWidth && (
+        <p className={s.warrningText}>
+          Зверніть увагу, що вказані параметри ширини та висоти можуть
+          відрізнятися від дійсних через процес виготовлення або вимірювання.
+        </p>
+      )}
     </div>
   );
 };
