@@ -8,34 +8,65 @@ import background4 from "../../images/bg4@1x.jpg";
 import CustomSwitch from "../Switch/Switch";
 import styles from "./ScreenStyles";
 
-const ScreenComponent = ({ text }) => {
-  const [textWidthState] = useState(178);
-  const [textHeightState] = useState(32);
+const ScreenComponent = ({ text, textWidth, textHeight }) => {
+  const textWidthState = textWidth || "";
+  const textHeightState = textHeight || "";
   const [textBlur, setTextBlur] = useState(true);
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
   const [selectedBackground, setSelectedBackground] = useState(null);
 
+  const isMobile = useMediaQuery("(max-width: 375px)");
+  const isMobileAdaptive = useMediaQuery("(min-width: 375px )");
+  const isTablet = useMediaQuery("(min-width: 768px)");
+  const isDesktop = useMediaQuery("(min-width: 1440px)");
+
   useEffect(() => {
     const canvas = new fabric.Canvas(canvasRef.current);
 
     const addText = () => {
-      const textObject = new fabric.Text(text, {
-        left: 0,
-        top: 0,
-        fontSize: 250,
-        fill: "#FFF303",
-        selectable: false,
-        shadow: textBlur ? "rgba(255, 243, 3, 0.5) -25.5px 10px 50px" : null,
-        shadowBlur: textBlur ? 100 : 0,
-        shadowColor: textBlur ? "rgba(255, 243, 3, 0.5)" : null,
-      });
+       let fontSize = 0;
+  let lineHeight = 0;
 
-      const desiredWidth = textWidthState;
-      const desiredHeight = textHeightState;
+  if (isMobile || isMobileAdaptive) {
+    fontSize = 32;
+    lineHeight = 40;
+  } else if (isTablet) {
+    fontSize = 48;
+    lineHeight = 48;
+  }
 
-      const scaleX = desiredWidth / textObject.width;
-      const scaleY = desiredHeight / textObject.height;
+  const textObject = new fabric.Text(text, {
+    left: 0,
+    top: 0,
+    fontSize: fontSize,
+    lineHeight: lineHeight,
+    fill: "rgba(255, 255, 255, 0.5)",
+    selectable: false,
+    shadow: textBlur ? "rgba(255, 243, 3, 0.5) -25.5px 10px 50px" : null,
+    shadowBlur: textBlur ? 100 : 0,
+    shadowColor: textBlur ? "rgba(255, 243, 3, 0.5)" : null,
+  });
+
+      const desiredWidth = textWidthState !== "" ? textWidthState : 178;
+      const desiredHeight = textHeightState !== "" ? textHeightState : 32;
+
+const cmToPxRatio = () => {
+  const isMobile = window.matchMedia("(max-width: 767px)").matches;
+  const isTablet = window.matchMedia("(max-width: 1439px)").matches;
+  const isDesktop = window.matchMedia("(min-width: 1440px)").matches;
+
+  if (isMobile) {
+    return 1.4; 
+  } else if (isTablet) {
+    return 2.5; 
+  } else if (isDesktop) {
+    return 3; 
+  }
+};
+
+   const scaleX = Math.min((desiredWidth / textObject.width) * cmToPxRatio(), 600 / textObject.width);
+    const scaleY = Math.max((desiredHeight / textObject.height) * cmToPxRatio(), 18 / textObject.height);
 
       textObject.set({ scaleX, scaleY });
 
@@ -69,7 +100,16 @@ const ScreenComponent = ({ text }) => {
       window.removeEventListener("resize", setCanvasSize);
       canvas.dispose();
     };
-  }, [text, textWidthState, textHeightState, textBlur]);
+  }, [
+    text,
+    textWidthState,
+    textHeightState,
+    textBlur,
+    isMobile,
+    isTablet,
+    isDesktop,
+    isMobileAdaptive,
+  ]);
 
   const backgrounds = [
     { value: "background1", imageUrl: background1 },
@@ -103,10 +143,6 @@ const ScreenComponent = ({ text }) => {
     setTextBlur((prevBlur) => !prevBlur);
   };
 
-  const isMobile = useMediaQuery("(max-width: 375px)");
-  const isTablet = useMediaQuery("(min-width: 768px)");
-  const isDesktop = useMediaQuery("(min-width: 1440px)");
-
   return (
     <div
       style={styles.container(
@@ -118,8 +154,12 @@ const ScreenComponent = ({ text }) => {
     >
       <div style={styles.canvasWrapper}>
         <div style={styles.canvasContainer} ref={containerRef}>
-          <div style={styles.canvasHeight}>{textHeightState} см</div>
-          <div style={styles.canvasWidth}>{textWidthState} см</div>
+          <div style={styles.canvasHeight}>
+            {textHeightState !== "" ? `${textHeightState} см` : "см"}
+          </div>
+          <div style={styles.canvasWidth}>
+            {textWidthState !== "" ? `${textWidthState} см` : "см"}
+          </div>
           <canvas ref={canvasRef} />
         </div>
       </div>

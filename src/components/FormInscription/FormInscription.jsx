@@ -14,7 +14,14 @@ const initalValues = {
   height: "",
 };
 
-const FormInscription = ({ text, onTextChange }) => {
+const FormInscription = ({
+  text,
+  onTextChange,
+  textWidth,
+  textHeight,
+  onWidthChange,
+  onHeightChange,
+}) => {
   const [state, setState] = useState({
     text: "",
     fonts: "",
@@ -28,7 +35,15 @@ const FormInscription = ({ text, onTextChange }) => {
 
   const handleTextChange = (event) => {
     const newText = event.target.value;
-    onTextChange(newText); 
+    onTextChange(newText);
+  };
+
+  const handleWidthChange = (newWidth) => {
+    onWidthChange(newWidth);
+  };
+
+  const handleHeightChange = (newHeight) => {
+    onHeightChange(newHeight);
   };
 
   const handleColor = (color) => {
@@ -52,10 +67,15 @@ const FormInscription = ({ text, onTextChange }) => {
               name="text"
               placeholder="Введіть текст"
               value={text}
-               onChange={handleTextChange}
+              onChange={handleTextChange}
             ></Field>
             <div>
-              <Options />
+              <Options
+                textWidth={textWidth}
+                textHeight={textHeight}
+                onWidthChange={handleWidthChange}
+                onHeightChange={handleHeightChange}
+              />
               <TextPositionAndFormat />
             </div>
           </div>

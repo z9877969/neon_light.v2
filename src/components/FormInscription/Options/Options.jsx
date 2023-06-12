@@ -2,7 +2,17 @@ import { Field } from "formik";
 import fonts from "./fonts";
 import s from "./Options.module.scss";
 
-const Options = () => {
+const Options = ({ textWidth, textHeight, onWidthChange, onHeightChange }) => {
+  const handleWidthChange = (event) => {
+    const newWidth = event.target.value;
+    onWidthChange(newWidth);
+  };
+
+  const handleHeightChange = (event) => {
+    const newHeight = event.target.value;
+    onHeightChange(newHeight);
+  };
+
   return (
     <div className={s.optionContainer}>
       <div className={s.optionSetting}>
@@ -24,6 +34,8 @@ const Options = () => {
               type="text"
               name="width"
               placeholder="0"
+              value={textWidth}
+              onChange={handleWidthChange}
             />
           </label>
           <label>
@@ -33,6 +45,8 @@ const Options = () => {
               type="text"
               name="height"
               placeholder="0"
+              value={textHeight}
+              onChange={handleHeightChange}
             />
           </label>
         </div>
