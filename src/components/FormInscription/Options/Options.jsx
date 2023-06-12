@@ -3,8 +3,14 @@ import fonts from "./fonts";
 import s from "./Options.module.scss";
 import Select from "react-select";
 
-const Options = ({ textWidth, textHeight, onWidthChange, onHeightChange, onChangeSelectValue, getSelectValue, onFontChange, font }) => {
-  
+const Options = ({
+  textWidth,
+  textHeight,
+  onWidthChange,
+  onHeightChange,
+  onChangeSelectValue,
+  getSelectValue,
+}) => {
   const handleWidthChange = (event) => {
     const newWidth = event.target.value;
     onWidthChange(newWidth);
@@ -15,13 +21,6 @@ const Options = ({ textWidth, textHeight, onWidthChange, onHeightChange, onChang
     onHeightChange(newHeight);
   };
 
-  const handleFontChange = (event) => {
-    const newFont = event.target.value;
-    onFontChange(newFont);
-  };
-
-  const selectedOption = { value: getSelectValue, label: font };
-
   return (
     <div className={s.optionContainer}>
       <div className={s.optionSetting}>
@@ -30,8 +29,7 @@ const Options = ({ textWidth, textHeight, onWidthChange, onHeightChange, onChang
           <Select
             name="font"
             onChange={onChangeSelectValue}
-            defaultValue={selectedOption}
-            onFontChange={handleFontChange}
+            value={getSelectValue}
             isSearchable={false}
             className="select-container"
             classNamePrefix="select"
@@ -63,10 +61,12 @@ const Options = ({ textWidth, textHeight, onWidthChange, onHeightChange, onChang
           </label>
         </div>
       </div>
-      {/* <p className={s.warrningText}>
-        Зверніть увагу, що вказані параметри ширини та висоти можуть
-        відрізнятися від дійсних через процес виготовлення або вимірювання.
-      </p> */}
+      {textWidth && (
+        <p className={s.warrningText}>
+          Зверніть увагу, що вказані параметри ширини та висоти можуть
+          відрізнятися від дійсних через процес виготовлення або вимірювання.
+        </p>
+      )}
     </div>
   );
 };

@@ -1,3 +1,4 @@
+@import "../../../sass/utils/mixin";
 .select-container {
   width: 224px;
   height: 48px;
@@ -24,17 +25,15 @@
       background-color: transparent;
     }
 
-    &__placeholder {
-      color: #2b2b2b !important;
-    }
     &__value-container {
       padding-left: 18px;
+      color: #2b2b2b !important;
     }
 
     &__menu {
       margin: 0;
       background-color: $white-text-color !important;
-      border-radius: 14px !important;
+      border-radius: 14px;
     }
 
     &__option {
@@ -42,6 +41,39 @@
       border-radius: 10px;
       border: none;
       color: rgba(43, 43, 42, 0.4) !important;
+
+      &:first-child {
+        font-family: Comfortaa;
+        @include font(500, 16px, 1.25);
+      }
+      &:nth-child(2) {
+        font-family: Alumini Sans;
+        @include font(100, 16px, 1.19);
+      }
+      &:nth-child(3) {
+        font-family: Caveat;
+        @include font(400, 16px, 1.25);
+      }
+      &:nth-child(4) {
+        font-family: Exo2;
+        @include font(200, 16px, 1.19);
+      }
+      &:nth-child(5) {
+        font-family: Poiret One;
+        @include font(400, 16px, 1.19);
+      }
+      &:nth-child(6) {
+        font-family: Shantell Sans;
+        @include font(300, 16px, 1.31);
+      }
+      &:nth-child(7) {
+        font-family: Source Code Pro;
+        @include font(200, 16px, 1.25);
+      }
+      &:last-child {
+        font-family: Pacifico;
+        @include font(400, 16px, 1.75);
+      }
 
       &--is-focused {
         background-color: transparent !important;
