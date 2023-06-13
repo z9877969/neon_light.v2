@@ -1,16 +1,15 @@
+import { useState, useEffect } from "react";
 import Container from "./Container/Container";
-import FormInscription from "./FormInscription/FormInscription";
-import Tabs from "./Tabs/Tabs";
-import { useState } from "react";
-import OwnDesign from "./OwnDesign/OwnDesign";
 import ScreenComponent from "./Screen/Screen";
-
+import Tabs from "./Tabs/Tabs";
+import FormInscription from "./FormInscription/FormInscription";
+import OwnDesign from "./OwnDesign/OwnDesign";
 import ModalFeedback from "./ModalFeedback/ModalFeedback";
 import FormFeedback from "./FormFeedback/FormFeedback";
 import fonts from "./FormInscription/Options/fonts";
+import serviceCost from "../shared/lib/serviceCost";
+import makePriceCalculator from "../shared/lib/priceCalculator";
 import s from "./App.module.scss";
-// import serviceCost from "../shared/lib/serviceCost";
-// import makePriceCalculator from "../shared/lib/priceCalculator";
 
 const App = () => {
   const [formInscription, setFormInscription] = useState(true);
@@ -20,11 +19,43 @@ const App = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [font, setFont] = useState("comfortaa");
   const [color, setColor] = useState("");
+  const [price, setPrice] = useState("");
   // const [positionText, setPositionText] = useState("start");
   // const [styleText, setStyleText] = useState("none");
-  const [price, setPrice] = useState("");
 
-  // const calculatePrice = makePriceCalculator({ ...serviceCost });
+  useEffect(() => {
+    const {
+      independentExpenses,
+      symbolPrice,
+      sheetMaterialPricePerMeter,
+      ledStripPricePerMeter,
+      materialPricePerMeter,
+      costOfCuttingAndEngravingPricePerMeter,
+      profitability,
+    } = serviceCost;
+    if (text && textWidth && textHeight && color) {
+      const symbolQuantityText = text.split(" ").join("").length;
+      const lengthOfLedStripInMeters = ((textWidth + textHeight) * 2) / 10000;
+
+      const calculatePrice = makePriceCalculator({
+        independentExpenses,
+        symbolPrice,
+        sheetMaterialPricePerMeter,
+        ledStripPricePerMeter,
+        materialPricePerMeter,
+        costOfCuttingAndEngravingPricePerMeter,
+        profitability,
+      });
+
+      const totalPrice = calculatePrice(
+        textWidth / 100,
+        textHeight / 100,
+        symbolQuantityText,
+        lengthOfLedStripInMeters
+      );
+      setPrice(totalPrice);
+    }
+  }, [color, text, textHeight, textWidth]);
 
   const handleColor = (color) => {
     setColor(color);
@@ -84,7 +115,6 @@ const App = () => {
                 price={price}
                 color={color}
                 text={text}
-                font={font}
                 textWidth={textWidth}
                 textHeight={textHeight}
                 handleColor={handleColor}
@@ -93,6 +123,7 @@ const App = () => {
                 onTextChange={handleTextChange}
                 onWidthChange={handleWidthChange}
                 onHeightChange={handleHeightChange}
+                openModal={handleModalClose}
               />
             ) : (
               <OwnDesign onClose={handleModalClose} />

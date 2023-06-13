@@ -1,19 +1,29 @@
 import { Formik, Form } from "formik";
+// import * as yup from "yup";
+import clsx from "clsx";
+import { AiFillExclamationCircle } from "react-icons/ai";
 import Options from "./Options/Options";
 import TextPositionAndFormat from "./TextPositionAndFormat/TextPositionAndFormat";
 import ColorPicker from "./ColorPicker/ColorPicker";
-import colorPickerOptions from "./ColorPicker/colorPickerOptions";
-import BtnOpenModal from "../BtnOpenModal/BtnOpenMoadl";
-import s from "./FormInscription.module.scss";
 import InputField from "../../shared/components/InputField/InputField";
-import { AiFillExclamationCircle } from "react-icons/ai";
-import clsx from "clsx";
+import BtnOpenModal from "../BtnOpenModal/BtnOpenMoadl";
+import ErrorMessageField from "../../shared/components/ErrorMessage/ErrorMessage";
+import s from "./FormInscription.module.scss";
+
+// const schema = yup.object().shape({
+//   positionText: yup.string(),
+//   styleText: yup.string(),
+//   text: yup.string().required("*Обовязкове поле"),
+//   color: yup.string().required("*Обовязкове поле"),
+//   font: yup.string().required("*Обовязкове поле"),
+//   width: yup.number().max(200, "*максимум 200 см").required("*Обовязкове поле"),
+//   height: yup.number().min(6, "*мінімум 6 см").required("*Обовязкове поле"),
+// });
 
 const FormInscription = ({
   price,
   color,
   text,
-  font,
   textWidth,
   textHeight,
   getSelectValue,
@@ -22,13 +32,16 @@ const FormInscription = ({
   onTextChange,
   onWidthChange,
   onHeightChange,
+  openModal,
 }) => {
   const initalValues = {
-    text,
-    color,
-    font,
-    width: textWidth,
-    height: textHeight,
+    font: "comfortaa",
+    positionText: "start",
+    styleText: "none",
+    text: "",
+    color: "",
+    width: 0,
+    height: 0,
   };
 
   const handleTextChange = (event) => {
@@ -50,21 +63,29 @@ const FormInscription = ({
 
   const handleSubmit = (values, { resetForm }) => {
     resetForm();
+    openModal();
   };
 
   return (
     <>
-      <Formik initialValues={initalValues} onSubmit={handleSubmit}>
+      <Formik
+        initialValues={initalValues}
+        // validationSchema={schema}
+        onSubmit={handleSubmit}
+      >
         <Form autoComplete="off">
           <div className={s.textSettings}>
-            <InputField
-              className={s.textarea}
-              type="textarea"
-              name="text"
-              placeholder="Введіть текст"
-              value={text}
-              onChange={handleTextChange}
-            />
+            <div className={s.inputWrapper}>
+              <InputField
+                className={s.textarea}
+                type="textarea"
+                name="text"
+                placeholder="Введіть текст"
+                value={text}
+                onChange={handleTextChange}
+              />
+              <ErrorMessageField className={s.errorMessage} name="text" />
+            </div>
             <div className={s.options}>
               <Options
                 textWidth={textWidth}
@@ -82,7 +103,6 @@ const FormInscription = ({
               textWidth={textWidth}
               textHeight={textHeight}
               color={color}
-              options={colorPickerOptions}
               setColor={handleColor}
             />
 

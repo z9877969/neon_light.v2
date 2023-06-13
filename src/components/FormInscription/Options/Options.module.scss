@@ -17,8 +17,23 @@
   }
   margin-bottom: 18px;
   .selectWrapper {
+    position: relative;
     @include desktop_max {
       margin-bottom: 8px;
+    }
+    .errorMessage {
+      position: absolute;
+      bottom: 0;
+      left: 5px;
+      font-family: $primary-font;
+      @include font(400, 10px, 12px);
+      color: $main-accent-color;
+      bottom: -16px;
+
+      @include tablet {
+        @include font(400, 12px, 14px);
+        max-width: 400px;
+      }
     }
   }
 
@@ -55,5 +70,22 @@
 
   @include desktop {
     width: 448px;
+  }
+}
+.inputWrapper {
+  position: relative;
+}
+.errorMessage {
+  position: absolute;
+  bottom: 0;
+  left: 5px;
+  font-family: $primary-font;
+  @include font(400, 10px, 12px);
+  color: $main-accent-color;
+  bottom: -16px;
+
+  @include tablet {
+    @include font(400, 12px, 14px);
+    max-width: 400px;
   }
 }

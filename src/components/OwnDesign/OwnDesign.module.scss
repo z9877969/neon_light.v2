@@ -21,4 +21,7 @@
     margin-bottom: 24px;
     width: 400px;
   }
+  @include desktop {
+    width: 448px;
+  }
 }

@@ -1,14 +1,9 @@
 import { useState } from "react";
-import s from "./ColorPiker.module.scss";
 import clsx from "clsx";
+import s from "./ColorPiker.module.scss";
+import colorPickerOptions from "./colorPickerOptions";
 
-export function ColorPicker({
-  options,
-  setColor,
-  color,
-  textWidth,
-  textHeight,
-}) {
+export function ColorPicker({ setColor, color, textWidth, textHeight }) {
   const [activeOptionIdx, setActiveOptionIdx] = useState(0);
 
   const setActiveOptionsIndAndColor = (index, color) => {
@@ -31,7 +26,7 @@ export function ColorPicker({
         <p className={s.text}>Виберіть колір вашої неонової вивіски</p>
       </div>
       <div className={s.colorPicker}>
-        {options.map(({ color }, index) => (
+        {colorPickerOptions.map(({ color }, index) => (
           <button
             key={index}
             className={makeOptionClassName(index)}

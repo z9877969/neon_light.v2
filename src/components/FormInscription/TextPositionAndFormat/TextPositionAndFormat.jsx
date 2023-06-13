@@ -16,7 +16,7 @@ export function TextPositionAdnFormat() {
       <RadioGroup
         orientation="horizontal"
         aria-label="Alignment"
-        name="alignment"
+        name="positionText"
         value={alignment}
         onChange={(event) => setAlignment(event.target.value)}
         sx={{
@@ -79,7 +79,7 @@ export function TextPositionAdnFormat() {
         <RadioGroup
           orientation="horizontal"
           aria-label="Format"
-          name="format"
+          name="styleText"
           value={format}
           onChange={(event) => setFormat(event.target.value)}
           sx={{
