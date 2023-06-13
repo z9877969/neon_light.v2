@@ -31,3 +31,7 @@ button {
   padding: 0;
   cursor: pointer;
 }
+
+::-webkit-scrollbar {
+  width: 0;
+}

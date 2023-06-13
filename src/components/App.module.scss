@@ -1,0 +1,34 @@
+@import "../sass/utils/mixin";
+@import "../sass/utils/variables";
+.header {
+  background-color: $white-text-color;
+  @include tablet_max {
+    height: 40px;
+  }
+  @include tablet {
+    height: 66px;
+  }
+}
+.wrapper {
+  @include tablet_max {
+    margin-top: 16px;
+  }
+  @include tablet {
+    margin-top: 32px;
+  }
+  @include desktop {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 50px;
+    margin-top: 40px;
+  }
+}
+
+.componentsWrapper {
+  @include tablet_max {
+    margin-top: 40px;
+  }
+  @include desktop_max {
+    margin-top: 32px;
+  }
+}

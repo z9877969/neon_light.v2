@@ -1,7 +1,7 @@
-import { Field } from "formik";
 import fonts from "./fonts";
 import s from "./Options.module.scss";
 import Select from "react-select";
+import InputField from "../../../shared/components/InputField/InputField";
 
 const Options = ({
   textWidth,
@@ -11,6 +11,8 @@ const Options = ({
   onChangeSelectValue,
   getSelectValue,
 }) => {
+  const handleWarningText = textWidth || textHeight ? true : false;
+
   const handleWidthChange = (event) => {
     const newWidth = event.target.value;
     onWidthChange(newWidth);
@@ -39,7 +41,7 @@ const Options = ({
         <div className={s.options}>
           <label>
             <p className={s.title}>Ширина</p>
-            <Field
+            <InputField
               className={s.option}
               type="text"
               name="width"
@@ -50,7 +52,8 @@ const Options = ({
           </label>
           <label>
             <p className={s.title}>Висота</p>
-            <Field
+
+            <InputField
               className={s.option}
               type="text"
               name="height"
@@ -61,7 +64,7 @@ const Options = ({
           </label>
         </div>
       </div>
-      {textWidth && (
+      {handleWarningText && (
         <p className={s.warrningText}>
           Зверніть увагу, що вказані параметри ширини та висоти можуть
           відрізнятися від дійсних через процес виготовлення або вимірювання.

@@ -1,8 +1,14 @@
 import { useState } from "react";
-import { Field } from "formik";
 import s from "./ColorPiker.module.scss";
+import clsx from "clsx";
 
-export function ColorPicker({ options, setColor, color }) {
+export function ColorPicker({
+  options,
+  setColor,
+  color,
+  textWidth,
+  textHeight,
+}) {
   const [activeOptionIdx, setActiveOptionIdx] = useState(0);
 
   const setActiveOptionsIndAndColor = (index, color) => {
@@ -14,15 +20,19 @@ export function ColorPicker({ options, setColor, color }) {
     return index === activeOptionIdx ? s.activeOption : s.option;
   };
 
+  const handleWarningText = textWidth || textHeight ? true : false;
+
   return (
-    <div className={s.container}>
+    <div
+      className={clsx(s.container, handleWarningText && s.activeWarrningText)}
+    >
       <div className={s.textWrapper}>
         <p className={s.title}>Колір</p>
         <p className={s.text}>Виберіть колір вашої неонової вивіски</p>
       </div>
       <div className={s.colorPicker}>
         {options.map(({ color }, index) => (
-          <Field
+          <button
             key={index}
             className={makeOptionClassName(index)}
             style={{ backgroundColor: color }}

@@ -26,6 +26,16 @@
   padding-bottom: 8px;
 }
 
+.activeWarrningText {
+  @include tablet {
+    margin-top: -172px;
+    margin-bottom: 32px;
+  }
+  @include desktop {
+    margin-top: 0;
+  }
+}
+
 .warrningText {
   margin-top: 18px;
   padding-bottom: 8px;
@@ -58,4 +68,7 @@
 .activeOption {
   composes: option;
   transform: scale(1.2);
+  border: 1px solid rgba(18, 20, 23, 0.2);
+  box-shadow: 0px 4px 16px rgba(18, 20, 23, 0.1);
+  border-radius: 6px;
 }

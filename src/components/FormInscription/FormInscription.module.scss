@@ -41,21 +41,30 @@
   color: $gray-text-color;
   padding-bottom: 8px;
 }
-
-.warrningText {
-  @include font(400, 12px, 1.33);
-  color: $secondary-text-color;
+.warrningTextWrapper {
+  @include tablet_max {
+    margin-top: 18px;
+  }
   @include tablet {
-    width: 292px;
+    margin-top: 14px;
+  }
+  @include desktop_max {
+    margin-bottom: 64px;
   }
   @include desktop {
-    width: 448px;
+    margin-bottom: 100px;
+  }
+  display: flex;
+  gap: 6px;
+  max-width: 448px;
+  .warrningText {
+    @include font(400, 12px, 1.33);
+    color: $secondary-text-color;
+    width: 100%;
   }
 }
 
 .ordering {
-  margin-bottom: 34px;
-
   .coment {
     @include font(400, 12px, 1.33);
     color: $secondary-text-color;
@@ -73,6 +82,17 @@
     @include tablet {
       width: 448px;
     }
+  }
+}
+.withOutWarningText {
+  @include tablet_max {
+    margin-bottom: 34px;
+  }
+  @include tablet {
+    margin-bottom: 64px;
+  }
+  @include desktop {
+    margin-bottom: 100px;
   }
 }
 

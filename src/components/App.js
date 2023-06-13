@@ -8,6 +8,9 @@ import ScreenComponent from "./Screen/Screen";
 import ModalFeedback from "./ModalFeedback/ModalFeedback";
 import FormFeedback from "./FormFeedback/FormFeedback";
 import fonts from "./FormInscription/Options/fonts";
+import s from "./App.module.scss";
+// import serviceCost from "../shared/lib/serviceCost";
+// import makePriceCalculator from "../shared/lib/priceCalculator";
 
 const App = () => {
   const [formInscription, setFormInscription] = useState(true);
@@ -19,6 +22,9 @@ const App = () => {
   const [color, setColor] = useState("");
   // const [positionText, setPositionText] = useState("start");
   // const [styleText, setStyleText] = useState("none");
+  const [price, setPrice] = useState("");
+
+  // const calculatePrice = makePriceCalculator({ ...serviceCost });
 
   const handleColor = (color) => {
     setColor(color);
@@ -57,35 +63,49 @@ const App = () => {
   };
 
   return (
-    <Container>
-      <ScreenComponent
-        text={text}
-        textWidth={textWidth}
-        textHeight={textHeight}
-      />
+    <>
+      <div className={s.header}></div>
+      <Container>
+        <div className={s.wrapper}>
+          <ScreenComponent
+            text={text}
+            textWidth={textWidth}
+            textHeight={textHeight}
+          />
 
-      <Tabs onFormInscription={onFormInscription} onOwnDesign={onOwnDesign} />
-      {formInscription ? (
-        <FormInscription
-          color={color}
-          text={text}
-          font={font}
-          handleColor={handleColor}
-          getSelectValue={getSelectValue()}
-          onChangeSelectValue={onChangeSelectValue}
-          onTextChange={handleTextChange}
-          onWidthChange={handleWidthChange}
-          onHeightChange={handleHeightChange}
-        />
-      ) : (
-        <OwnDesign onClose={handleModalClose} />
-      )}
-      {isOpen && (
-        <ModalFeedback onClose={handleModalClose}>
-          <FormFeedback />
-        </ModalFeedback>
-      )}
-    </Container>
+          <div className={s.componentsWrapper}>
+            <Tabs
+              activeBtn={formInscription}
+              onFormInscription={onFormInscription}
+              onOwnDesign={onOwnDesign}
+            />
+            {formInscription ? (
+              <FormInscription
+                price={price}
+                color={color}
+                text={text}
+                font={font}
+                textWidth={textWidth}
+                textHeight={textHeight}
+                handleColor={handleColor}
+                getSelectValue={getSelectValue()}
+                onChangeSelectValue={onChangeSelectValue}
+                onTextChange={handleTextChange}
+                onWidthChange={handleWidthChange}
+                onHeightChange={handleHeightChange}
+              />
+            ) : (
+              <OwnDesign onClose={handleModalClose} />
+            )}
+          </div>
+        </div>
+        {isOpen && (
+          <ModalFeedback onClose={handleModalClose}>
+            <FormFeedback />
+          </ModalFeedback>
+        )}
+      </Container>
+    </>
   );
 };
 

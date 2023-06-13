@@ -7,7 +7,7 @@ import { validationSchema } from "./YupValidationSchema";
 import InputField from "../../shared/components/InputField/InputField";
 import ErrorMessageField from "../../shared/components/ErrorMessage/ErrorMessage";
 import CheckBoxGroup from "../../shared/components/CheckBoxGroup/CheckBoxGroup";
-
+import style from "../../shared/components/InputField/InputField.module.scss";
 const initialValues = {
   name: "",
   phone: "",
@@ -50,15 +50,27 @@ const FormFeedback = () => {
         >
           <Form>
             <div className={s.InputBox}>
-              <InputField name="name" placeholder="Ваше ім’я" />
+              <InputField
+                className={style.FormInput}
+                name="name"
+                placeholder="Ваше ім’я"
+              />
               <ErrorMessageField name="name" />
             </div>
             <div className={s.InputBox}>
-              <InputField name="phone" placeholder="Номер телефону" />
+              <InputField
+                className={style.FormInput}
+                name="phone"
+                placeholder="Номер телефону"
+              />
               <ErrorMessageField name="phone" />
             </div>
             <div className={s.InputBox}>
-              <InputField name="email" placeholder="Електронна пошта" />
+              <InputField
+                className={style.FormInput}
+                name="email"
+                placeholder="Електронна пошта"
+              />
               <ErrorMessageField name="email" />
             </div>
             <Field
