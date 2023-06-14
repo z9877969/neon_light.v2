@@ -3,13 +3,14 @@
 
 .ownDesign {
   @include tablet_max {
-    margin-top: 18px;
+    margin-top: 24px;
+    margin-bottom: 80px;
   }
   @include tablet {
     margin-top: 32px;
+    margin-bottom: 64px;
   }
 }
-
 .text {
   @include font(400, 14px, 1.29);
   color: $secondary-text-color;
@@ -19,5 +20,8 @@
   @include tablet {
     margin-bottom: 24px;
     width: 400px;
+  }
+  @include desktop {
+    width: 448px;
   }
 }
