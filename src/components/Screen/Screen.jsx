@@ -39,22 +39,36 @@ const ScreenComponent = ({
 
       if (isMobile || isMobileAdaptive) {
         fontSize = 32;
-        lineHeight = 40;
+        lineHeight = 1.2;
       } else if (isTablet) {
         fontSize = 48;
-        lineHeight = 48;
+        lineHeight = 1.8;
       }
 
       const textBlurValue = getTextBlur(color);
+      // const formattedText = text.replace(/(.{20})/g, "$1\n");
+      const words = text.split(" ");
+      const formattedWords = [];
+      let currentLineLength = 0;
+      for (let i = 0; i < words.length; i++) {
+        const word = words[i];
+        if (currentLineLength + word.length <= 20) {
+          formattedWords.push(word);
+          currentLineLength += word.length + 1; 
+        } else {
+          formattedWords.push("\n" + word);
+          currentLineLength = word.length;
+        }
+      }
+      const formattedText = formattedWords.join(" ");
 
-      const textObject = new fabric.Text(text, {
+      const textObject = new fabric.Text(formattedText, {
         left: 0,
         top: 0,
         fontSize: fontSize,
         lineHeight: lineHeight,
         fill: color,
         fontFamily: font,
-        alignment: alignment,
         format: format,
         fixedWidth: false,
         selectable: false,
@@ -65,7 +79,7 @@ const ScreenComponent = ({
         shadowOffsetY: textBlur ? 10 : 0,
         stroke: textBlur ? textBlurValue : null,
         strokeWidth: textBlur ? 0.3 : 0,
-        textAlign: "left",
+        textAlign: alignment,
         originX: "left",
       });
       const formatText = (text) => {
@@ -77,11 +91,11 @@ const ScreenComponent = ({
       };
 
       if (format === "AA") {
-        textObject.set({ text: text.toUpperCase() });
+        textObject.set({ text: formattedText.toUpperCase() });
       } else if (format === "aa") {
-        textObject.set({ text: text.toLowerCase() });
+        textObject.set({ text: formattedText.toLowerCase() });
       } else if (format === "Aa") {
-        textObject.set({ text: formatText(text) });
+        textObject.set({ text: formatText(formattedText) });
       }
 
       const desiredWidth = textWidthState !== "" ? textWidthState : 130;
@@ -185,6 +199,7 @@ const ScreenComponent = ({
     setTextBlur((prevBlur) => !prevBlur);
   };
 
+  console.log(alignment);
   const getAlignmentStyle = () => {
     if (alignment === "start") {
       return { textAlign: "left" };
@@ -204,9 +219,19 @@ const ScreenComponent = ({
         selectedBackground
       )}
     >
-      <div style={{...styles.canvasWrapper, fontFamily: "Roboto",}}>
+      <div
+        style={{
+          ...styles.canvasWrapper,
+          ...getAlignmentStyle(),
+          fontFamily: "Roboto",
+        }}
+      >
         <div
-          style={{ ...styles.canvasContainer, ...getAlignmentStyle(), fontFamily: "Roboto", }}
+          style={{
+            ...styles.canvasContainer,
+            ...getAlignmentStyle(),
+            fontFamily: "Roboto",
+          }}
           ref={containerRef}
         >
           <div style={styles.canvasHeight}>
