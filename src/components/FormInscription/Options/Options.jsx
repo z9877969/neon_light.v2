@@ -11,15 +11,7 @@ const Options = ({
   onChangeSelectValue,
   getSelectValue,
 }) => {
-  const handleWidthChange = (event) => {
-    const newWidth = event.target.value;
-    onWidthChange(newWidth);
-  };
 
-  const handleHeightChange = (event) => {
-    const newHeight = event.target.value;
-    onHeightChange(newHeight);
-  };
 
   return (
     <div className={s.optionContainer}>
@@ -45,7 +37,7 @@ const Options = ({
               name="width"
               placeholder="0"
               value={textWidth}
-              onChange={handleWidthChange}
+              onChange={onWidthChange}
             />
           </label>
           <label>
@@ -56,7 +48,7 @@ const Options = ({
               name="height"
               placeholder="0"
               value={textHeight}
-              onChange={handleHeightChange}
+              onChange={onHeightChange}
             />
           </label>
         </div>

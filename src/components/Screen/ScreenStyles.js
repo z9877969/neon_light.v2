@@ -8,6 +8,8 @@ const styles = {
         backgroundPosition: "center",
         borderRadius: "10px",
         position: "relative",
+
+
     }),
     radioGroup: (isTablet) => ({
         display: "flex",
@@ -28,7 +30,7 @@ const styles = {
         borderRadius: "6px",
     }),
     text: (isTablet) => ({
-        fontFamily: "Roboto",
+        // fontFamily: "Roboto",
         fontSize: "14px",
         fontWeight: 500,
         lineHeight: "18px",
@@ -41,6 +43,9 @@ const styles = {
     }),
     canvasContainer: {
         position: "relative",
+        // whiteSpace: "normal",
+        whiteSpace: 'pre-wrap',
+        wordBreak: 'break-word',
     },
     canvasHeight: {
         position: "absolute",
@@ -66,13 +71,17 @@ const styles = {
         textAlign: "center",
     },
     canvasWrapper: {
-        minHeight: "50vh",
+        height: "50%",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         fontSize: "calc(10px + 2vmin)",
         color: "white",
+        marginLeft: 86,
+        marginRight: 50,
+        wordWrap: "break-word",
+        fontFamily: "Roboto",
     },
     customSwitchMobile: {
         position: "absolute",
