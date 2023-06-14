@@ -14,16 +14,6 @@ const Options = ({
 }) => {
   const handleWarningText = textWidth || textHeight ? true : false;
 
-  const handleWidthChange = (event) => {
-    const newWidth = event.target.value;
-    onWidthChange(newWidth);
-  };
-
-  const handleHeightChange = (event) => {
-    const newHeight = event.target.value;
-    onHeightChange(newHeight);
-  };
-
   return (
     <div className={s.optionContainer}>
       <div className={s.optionSetting}>
@@ -50,7 +40,7 @@ const Options = ({
                 name="width"
                 placeholder="0"
                 value={textWidth}
-                onChange={handleWidthChange}
+                onChange={onWidthChange}
               />
               <ErrorMessageField className={s.errorMessage} name="width" />
             </label>
@@ -64,7 +54,7 @@ const Options = ({
                 name="height"
                 placeholder="0"
                 value={textHeight}
-                onChange={handleHeightChange}
+                onChange={onHeightChange}
               />
               <ErrorMessageField className={s.errorMessage} name="height" />
             </label>

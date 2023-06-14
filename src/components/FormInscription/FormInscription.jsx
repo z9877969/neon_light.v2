@@ -22,6 +22,7 @@ import s from "./FormInscription.module.scss";
 const FormInscription = ({
   price,
   color,
+  font,
   text,
   textWidth,
   textHeight,
@@ -32,6 +33,10 @@ const FormInscription = ({
   onWidthChange,
   onHeightChange,
   openModal,
+  onAlignmentChange,
+  onFormatChange,
+  alignment,
+  format,
 }) => {
   const initalValues = {
     font: "comfortaa",
@@ -41,19 +46,6 @@ const FormInscription = ({
     color: "",
     width: 0,
     height: 0,
-  };
-
-  const handleTextChange = (event) => {
-    const newText = event.target.value;
-    onTextChange(newText);
-  };
-
-  const handleWidthChange = (newWidth) => {
-    onWidthChange(newWidth);
-  };
-
-  const handleHeightChange = (newHeight) => {
-    onHeightChange(newHeight);
   };
 
   const numberWithSpaces = (x) => {
@@ -81,7 +73,7 @@ const FormInscription = ({
                 name="text"
                 placeholder="Введіть текст"
                 value={text}
-                onChange={handleTextChange}
+                onChange={onTextChange}
               />
               <ErrorMessageField className={s.errorMessage} name="text" />
             </div>
@@ -89,12 +81,18 @@ const FormInscription = ({
               <Options
                 textWidth={textWidth}
                 textHeight={textHeight}
-                onWidthChange={handleWidthChange}
-                onHeightChange={handleHeightChange}
+                onWidthChange={onWidthChange}
+                onHeightChange={onHeightChange}
+                font={font}
                 getSelectValue={getSelectValue}
                 onChangeSelectValue={onChangeSelectValue}
               />
-              <TextPositionAndFormat />
+              <TextPositionAndFormat
+                onAlignmentChange={onAlignmentChange}
+                onFormatChange={onFormatChange}
+                alignment={alignment}
+                format={format}
+              />
             </div>
           </div>
           <div>

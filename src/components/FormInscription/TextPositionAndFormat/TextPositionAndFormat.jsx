@@ -1,4 +1,4 @@
-import { useState } from "react";
+// import { useState } from "react";
 import Box from "@mui/joy/Box";
 import Radio from "@mui/joy/Radio";
 import RadioGroup from "@mui/joy/RadioGroup";
@@ -7,9 +7,13 @@ import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
 import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
 import s from "../FormInscription.module.scss";
 
-export function TextPositionAdnFormat() {
-  const [alignment, setAlignment] = useState("start");
-  const [format, setFormat] = useState("none");
+export function TextPositionAdnFormat({
+  onAlignmentChange,
+  onFormatChange,
+  alignment,
+  format,
+}) {
+  
 
   return (
     <div className={s.TextPositionAndFormat}>
@@ -18,7 +22,7 @@ export function TextPositionAdnFormat() {
         aria-label="Alignment"
         name="positionText"
         value={alignment}
-        onChange={(event) => setAlignment(event.target.value)}
+        onChange={(event) => onAlignmentChange(event.target.value)}
         sx={{
           gap: "8px",
           marginBottom: "8px",
@@ -81,7 +85,7 @@ export function TextPositionAdnFormat() {
           aria-label="Format"
           name="styleText"
           value={format}
-          onChange={(event) => setFormat(event.target.value)}
+          onChange={(event) => onFormatChange(event.target.value)}
           sx={{
             gap: "8px",
           }}

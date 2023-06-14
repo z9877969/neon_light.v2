@@ -20,8 +20,8 @@ const App = () => {
   const [font, setFont] = useState("comfortaa");
   const [color, setColor] = useState("#FEFEFE");
   const [price, setPrice] = useState("");
-  // const [positionText, setPositionText] = useState("start");
-  // const [styleText, setStyleText] = useState("none");
+  const [positionText, setPositionText] = useState("start");
+  const [styleText, setStyleText] = useState("none");
 
   useEffect(() => {
     const {
@@ -57,6 +57,18 @@ const App = () => {
     }
   }, [color, text, textHeight, textWidth]);
 
+  const handelePriceChange = (newPrice) => {
+    setPrice(newPrice);
+  };
+
+  const handeleAlignmentChange = (newAlignment) => {
+    setPositionText(newAlignment);
+  };
+
+  const handleFormatChange = (newFormat) => {
+    setStyleText(newFormat);
+  };
+
   const handleColor = (color) => {
     setColor(color);
   };
@@ -81,15 +93,18 @@ const App = () => {
     setFormInscription(true);
   };
 
-  const handleTextChange = (newText) => {
+  const handleTextChange = (event) => {
+    const newText = event.target.value;
     setText(newText);
   };
 
-  const handleWidthChange = (newWidth) => {
+  const handleWidthChange = (event) => {
+    const newWidth = event.target.value;
     setTextWidth(newWidth);
   };
 
-  const handleHeightChange = (newHeight) => {
+  const handleHeightChange = (event) => {
+    const newHeight = event.target.value;
     setTextHeight(newHeight);
   };
 
@@ -102,6 +117,11 @@ const App = () => {
             text={text}
             textWidth={textWidth}
             textHeight={textHeight}
+            font={font}
+            color={color}
+            alignment={positionText}
+            format={styleText}
+            price={price}
           />
 
           <div className={s.componentsWrapper}>
@@ -112,17 +132,21 @@ const App = () => {
             />
             {formInscription ? (
               <FormInscription
-                price={price}
+                alignment={positionText}
+                format={styleText}
                 color={color}
                 text={text}
-                textWidth={textWidth}
-                textHeight={textHeight}
+                font={font}
+                price={price}
                 handleColor={handleColor}
                 getSelectValue={getSelectValue()}
                 onChangeSelectValue={onChangeSelectValue}
                 onTextChange={handleTextChange}
                 onWidthChange={handleWidthChange}
                 onHeightChange={handleHeightChange}
+                onAlignmentChange={handeleAlignmentChange}
+                onFormatChange={handleFormatChange}
+                onPriceChange={handelePriceChange}
                 openModal={handleModalClose}
               />
             ) : (
