@@ -1,11 +1,10 @@
-import { Formik, Form } from "formik";
+import { Formik, Form, Field } from "formik";
 // import * as yup from "yup";
 import clsx from "clsx";
 import { AiFillExclamationCircle } from "react-icons/ai";
 import Options from "./Options/Options";
 import TextPositionAndFormat from "./TextPositionAndFormat/TextPositionAndFormat";
 import ColorPicker from "./ColorPicker/ColorPicker";
-import InputField from "../../shared/components/InputField/InputField";
 import BtnOpenModal from "../BtnOpenModal/BtnOpenMoadl";
 import ErrorMessageField from "../../shared/components/ErrorMessage/ErrorMessage";
 import s from "./FormInscription.module.scss";
@@ -76,9 +75,9 @@ const FormInscription = ({
         <Form autoComplete="off">
           <div className={s.textSettings}>
             <div className={s.inputWrapper}>
-              <InputField
-                className={s.textarea}
-                type="textarea"
+              <Field
+                className={s.textArea}
+                as="textarea"
                 name="text"
                 placeholder="Введіть текст"
                 value={text}

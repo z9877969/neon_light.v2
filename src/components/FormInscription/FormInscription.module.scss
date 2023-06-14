@@ -30,19 +30,26 @@
   }
 }
 
-.textarea {
+.textArea {
   @include tablet_max {
     margin-bottom: 18px;
   }
   @include desktop {
     margin-bottom: 24px;
   }
+  font-family: $primary-font;
+  @include font(400, 16px, 1.25);
   width: 100%;
   height: 134px;
-  padding: 14px 18px 100px 18px;
-  background: $white-text-color;
+  padding: 14px 18px;
+  color: rgba(18, 20, 23, 0.5);
   border: 1px solid rgba(18, 20, 23, 0.2);
   border-radius: 14px;
+  overflow-y: auto;
+  resize: none;
+  &:focus {
+    outline: none;
+  }
 }
 
 .options {
