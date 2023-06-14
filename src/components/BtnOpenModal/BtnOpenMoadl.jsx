@@ -9,3 +9,4 @@ const BtnOpenModal = ({ type, text, onClose }) => {
 };
 
 export default BtnOpenModal;
+

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Field } from "formik";
+// import { Field } from "formik";
 import s from "./ColorPiker.module.scss";
 
 export function ColorPicker({ options, setColor, color }) {
@@ -22,7 +22,7 @@ export function ColorPicker({ options, setColor, color }) {
       </div>
       <div className={s.colorPicker}>
         {options.map(({ color }, index) => (
-          <Field
+          <button
             key={index}
             className={makeOptionClassName(index)}
             style={{ backgroundColor: color }}

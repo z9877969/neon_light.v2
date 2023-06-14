@@ -7,8 +7,17 @@ import background3 from "../../images/bg3@1x.jpg";
 import background4 from "../../images/bg4@1x.jpg";
 import CustomSwitch from "../Switch/Switch";
 import styles from "./ScreenStyles";
+import { getTextBlur } from "./blurOption";
 
-const ScreenComponent = ({ text, textWidth, textHeight, font }) => {
+const ScreenComponent = ({
+  text,
+  textWidth,
+  textHeight,
+  font,
+  color,
+  alignment,
+  format,
+}) => {
   const textWidthState = textWidth || "";
   const textHeightState = textHeight || "";
   const [textBlur, setTextBlur] = useState(true);
@@ -25,49 +34,75 @@ const ScreenComponent = ({ text, textWidth, textHeight, font }) => {
     const canvas = new fabric.Canvas(canvasRef.current);
 
     const addText = () => {
-       let fontSize = 0;
-  let lineHeight = 0;
+      let fontSize = 0;
+      let lineHeight = 0;
 
-  if (isMobile || isMobileAdaptive) {
-    fontSize = 32;
-    lineHeight = 40;
-  } else if (isTablet) {
-    fontSize = 48;
-    lineHeight = 48;
-  }
+      if (isMobile || isMobileAdaptive) {
+        fontSize = 32;
+        lineHeight = 40;
+      } else if (isTablet) {
+        fontSize = 48;
+        lineHeight = 48;
+      }
 
-  const textObject = new fabric.Text(text, {
-    left: 0,
-    top: 0,
-    fontSize: fontSize,
-    lineHeight: lineHeight,
-    fill: "rgba(255, 255, 255, 0.5)",
-    selectable: false,
-    fontFamily: font,
-    shadow: textBlur ? "rgba(255, 243, 3, 0.5) -25.5px 10px 50px" : null,
-    shadowBlur: textBlur ? 100 : 0,
-    shadowColor: textBlur ? "rgba(255, 243, 3, 0.5)" : null,
-  });
+      const textBlurValue = getTextBlur(color);
 
-      const desiredWidth = textWidthState !== "" ? textWidthState : 178;
+      const textObject = new fabric.Text(text, {
+        left: 0,
+        top: 0,
+        fontSize: fontSize,
+        lineHeight: lineHeight,
+        fill: color,
+        fontFamily: font,
+        alignment: alignment,
+        format: format,
+        fixedWidth: false,
+        selectable: false,
+        shadow: textBlur ? `${textBlurValue} 0 0 10px` : null,
+        // shadowBlur: textBlurValue ? 30 : 0,
+        // shadowColor: textBlurValue || null,
+        shadowOffsetX: textBlur ? 5 : 0,
+        shadowOffsetY: textBlur ? 10 : 0,
+        stroke: textBlur ? textBlurValue : null,
+        strokeWidth: textBlur ? 0.3 : 0,
+        textAlign: "left",
+        originX: "left",
+      });
+      const formatText = (text) => {
+        const words = text.split(" ");
+        const formattedWords = words.map((word) => {
+          return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+        });
+        return formattedWords.join(" ");
+      };
+
+      if (format === "AA") {
+        textObject.set({ text: text.toUpperCase() });
+      } else if (format === "aa") {
+        textObject.set({ text: text.toLowerCase() });
+      } else if (format === "Aa") {
+        textObject.set({ text: formatText(text) });
+      }
+
+      const desiredWidth = textWidthState !== "" ? textWidthState : 130;
       const desiredHeight = textHeightState !== "" ? textHeightState : 32;
 
-const cmToPxRatio = () => {
-  const isMobile = window.matchMedia("(max-width: 767px)").matches;
-  const isTablet = window.matchMedia("(max-width: 1439px)").matches;
-  const isDesktop = window.matchMedia("(min-width: 1440px)").matches;
+      const cmToPxRatio = () => {
+        const isMobile = window.matchMedia("(max-width: 767px)").matches;
+        const isTablet = window.matchMedia("(max-width: 1439px)").matches;
+        const isDesktop = window.matchMedia("(min-width: 1440px)").matches;
 
-  if (isMobile) {
-    return 1.4; 
-  } else if (isTablet) {
-    return 2.5; 
-  } else if (isDesktop) {
-    return 3; 
-  }
-};
+        if (isMobile) {
+          return 1.4;
+        } else if (isTablet) {
+          return 2.5;
+        } else if (isDesktop) {
+          return 3;
+        }
+      };
 
-   const scaleX = Math.min((desiredWidth / textObject.width) * cmToPxRatio(), 600 / textObject.width);
-    const scaleY = Math.max((desiredHeight / textObject.height) * cmToPxRatio(), 18 / textObject.height);
+      const scaleX = (desiredWidth / textObject.width) * cmToPxRatio();
+      const scaleY = (desiredHeight / textObject.height) * cmToPxRatio();
 
       textObject.set({ scaleX, scaleY });
 
@@ -90,7 +125,8 @@ const cmToPxRatio = () => {
 
       canvas.setWidth(containerWidth);
       canvas.setHeight(containerHeight);
-      canvas.renderAll();
+
+      canvas.requestRenderAll();
     };
 
     setCanvasSize();
@@ -110,7 +146,10 @@ const cmToPxRatio = () => {
     isTablet,
     isDesktop,
     isMobileAdaptive,
-    font
+    font,
+    color,
+    alignment,
+    format,
   ]);
 
   const backgrounds = [
@@ -118,6 +157,7 @@ const cmToPxRatio = () => {
     { value: "background2", imageUrl: background2 },
     { value: "background3", imageUrl: background3 },
     { value: "background4", imageUrl: background4 },
+    // {value: "background5", backgroundColor:"#121417"},
   ];
 
   const handleRadioChange = (event) => {
@@ -145,6 +185,16 @@ const cmToPxRatio = () => {
     setTextBlur((prevBlur) => !prevBlur);
   };
 
+  const getAlignmentStyle = () => {
+    if (alignment === "start") {
+      return { textAlign: "left" };
+    } else if (alignment === "center") {
+      return { textAlign: "center" };
+    } else if (alignment === "end") {
+      return { textAlign: "right" };
+    }
+  };
+
   return (
     <div
       style={styles.container(
@@ -154,8 +204,11 @@ const cmToPxRatio = () => {
         selectedBackground
       )}
     >
-      <div style={styles.canvasWrapper}>
-        <div style={styles.canvasContainer} ref={containerRef}>
+      <div style={{...styles.canvasWrapper, fontFamily: "Roboto",}}>
+        <div
+          style={{ ...styles.canvasContainer, ...getAlignmentStyle(), fontFamily: "Roboto", }}
+          ref={containerRef}
+        >
           <div style={styles.canvasHeight}>
             {textHeightState !== "" ? `${textHeightState} см` : "см"}
           </div>

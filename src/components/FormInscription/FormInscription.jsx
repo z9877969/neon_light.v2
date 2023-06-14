@@ -18,8 +18,10 @@ const FormInscription = ({
   onTextChange,
   onWidthChange,
   onHeightChange,
-  onFontChange,
-  font,
+  onAlignmentChange,
+  onFormatChange,
+  alignment,
+ format,
 }) => {
   const initalValues = {
     text,
@@ -29,23 +31,7 @@ const FormInscription = ({
     height: textHeight,
   };
 
-  const handleTextChange = (event) => {
-    const newText = event.target.value;
-    onTextChange(newText);
-  };
-
-  const handleWidthChange = (newWidth) => {
-    onWidthChange(newWidth);
-  };
-
-  const handleHeightChange = (newHeight) => {
-    onHeightChange(newHeight);
-  };
-
-  const handleFontChange = (newFont) => {
-    onFontChange(newFont)
-  }
-
+  
   // const numberWithSpaces = (x) => {
   //   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   // };
@@ -65,20 +51,24 @@ const FormInscription = ({
               name="text"
               placeholder="Введіть текст"
               value={text}
-              onChange={handleTextChange}
+              onChange={onTextChange}
             ></Field>
             <div className={s.options}>
               <Options
                 textWidth={textWidth}
                 textHeight={textHeight}
-                onWidthChange={handleWidthChange}
-                onHeightChange={handleHeightChange}
-                onFontChange={handleFontChange}
+                onWidthChange={onWidthChange}
+                onHeightChange={onHeightChange}
                 font={font}
                 getSelectValue={getSelectValue}
                 onChangeSelectValue={onChangeSelectValue}
               />
-              <TextPositionAndFormat />
+              <TextPositionAndFormat
+              onAlignmentChange={onAlignmentChange}
+                onFormatChange={onFormatChange}
+                alignment={alignment}
+                format={format}
+              />
             </div>
           </div>
           <div>

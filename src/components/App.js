@@ -16,9 +16,25 @@ const App = () => {
   const [textHeight, setTextHeight] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [font, setFont] = useState("comfortaa");
-  const [color, setColor] = useState("");
+  const [color, setColor] = useState("rgba(255, 255, 255, 0.5)");
+  const [alignment, setAlignment] = useState("start");
+  const [format, setFormat] = useState(null);
+  const [price, setPrice] = useState(0);
+
   // const [positionText, setPositionText] = useState("start");
   // const [styleText, setStyleText] = useState("none");
+
+  const handelePriceChange = (newPrice) => {
+    setPrice(newPrice);
+  }
+
+  const handeleAlignmentChange = (newAlignment) => {
+    setAlignment(newAlignment);
+  };
+
+  const handleFormatChange = (newFormat) => {
+    setFormat(newFormat);
+  }
 
   const handleColor = (color) => {
     setColor(color);
@@ -44,15 +60,18 @@ const App = () => {
     setFormInscription(true);
   };
 
-  const handleTextChange = (newText) => {
+  const handleTextChange = (event) => {
+    const newText = event.target.value;
     setText(newText);
   };
 
-  const handleWidthChange = (newWidth) => {
+  const handleWidthChange = (event) => {
+    const newWidth = event.target.value;
     setTextWidth(newWidth);
   };
 
-  const handleHeightChange = (newHeight) => {
+  const handleHeightChange = (event) => {
+    const newHeight = event.target.value;
     setTextHeight(newHeight);
   };
 
@@ -62,20 +81,31 @@ const App = () => {
         text={text}
         textWidth={textWidth}
         textHeight={textHeight}
+        font={font}
+        color={color}
+        alignment={alignment}
+        format={format}
+        price={price}
       />
 
       <Tabs onFormInscription={onFormInscription} onOwnDesign={onOwnDesign} />
       {formInscription ? (
         <FormInscription
+          alignment={alignment}
+          format={format}
           color={color}
           text={text}
           font={font}
+          price={price}
           handleColor={handleColor}
           getSelectValue={getSelectValue()}
           onChangeSelectValue={onChangeSelectValue}
           onTextChange={handleTextChange}
           onWidthChange={handleWidthChange}
           onHeightChange={handleHeightChange}
+          onAlignmentChange={handeleAlignmentChange}
+          onFormatChange={handleFormatChange}
+          onPriceChange={handelePriceChange}
         />
       ) : (
         <OwnDesign onClose={handleModalClose} />
@@ -86,12 +116,7 @@ const App = () => {
         </ModalFeedback>
       )
       }
-      <ScreenComponent
-        text={text}
-        textWidth={textWidth}
-        textHeight={textHeight}
-        font={font}
-      />
+
     </Container>
   );
 };
