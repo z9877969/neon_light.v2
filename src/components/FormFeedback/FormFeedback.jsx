@@ -9,6 +9,7 @@ import { validationSchema } from "./YupValidationSchema";
 import InputField from "../../shared/components/InputField/InputField";
 import ErrorMessageField from "../../shared/components/ErrorMessage/ErrorMessage";
 import CheckBoxGroup from "../../shared/components/CheckBoxGroup/CheckBoxGroup";
+import { addOrder } from "../../services/orderAPI";
 const initialValues = {
   name: "",
   phone: "",
@@ -27,17 +28,25 @@ const FormFeedback = () => {
     setSelectedFile(file);
   };
 
-  const handleSubmit = (values, { resetForm }) => {
+  const handleSubmit = async (values, { resetForm }) => {
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("phone", values.phone);
     formData.append("email", values.email);
     formData.append("comment", values.comment);
     formData.append("file", selectedFile);
-    formData.append("communicateBy", values.communicateBy);
+    values.communicateBy.forEach((el) => {
+      formData.append("communicateBy[]", el);
+    });
 
-    resetForm();
-    setSelectedFile(null);
+    try {
+      await addOrder(formData);
+      console.log("Запит успішний!");
+      resetForm();
+      setSelectedFile(null);
+    } catch (error) {
+      console.error("Error adding order:", error);
+    }
   };
 
   return (
@@ -102,6 +111,7 @@ const FormFeedback = () => {
                 type="file"
                 id="file"
                 name="file"
+                accept=".png, .jpg, .jpeg, .svg"
                 className={s.FileInput}
                 onChange={handleFileChange}
               />
