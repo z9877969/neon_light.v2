@@ -81,7 +81,7 @@ const App = () => {
     setFont(newValue.value);
   };
 
-  const handleModalClose = () => {
+  const handleTogleModal = () => {
     setIsOpen(!isOpen);
   };
 
@@ -147,15 +147,15 @@ const App = () => {
                 onAlignmentChange={handeleAlignmentChange}
                 onFormatChange={handleFormatChange}
                 onPriceChange={handelePriceChange}
-                openModal={handleModalClose}
+                openModal={handleTogleModal}
               />
             ) : (
-              <OwnDesign onClose={handleModalClose} />
+              <OwnDesign openModal={handleTogleModal} />
             )}
           </div>
         </div>
         {isOpen && (
-          <ModalFeedback onClose={handleModalClose}>
+          <ModalFeedback onClose={handleTogleModal}>
             <FormFeedback />
           </ModalFeedback>
         )}
