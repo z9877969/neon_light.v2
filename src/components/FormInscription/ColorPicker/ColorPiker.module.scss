@@ -1,0 +1,74 @@
+@import "../../../sass//utils/mixin";
+@import "../../../sass//utils/variables";
+
+.container {
+  @include tablet_max {
+    margin-bottom: 30px;
+  }
+  @include tablet {
+    margin-top: -102px;
+    margin-bottom: 32px;
+  }
+  @include desktop {
+    margin-top: 0;
+  }
+
+  .textWrapper {
+    margin-bottom: 24px;
+  }
+  .text {
+    @include font(400, 12px, 1.17);
+  }
+}
+.title {
+  @include font(500, 14px, 1.29);
+  color: $gray-text-color;
+  padding-bottom: 8px;
+}
+
+.activeWarrningText {
+  @include tablet {
+    margin-top: -166px;
+    margin-bottom: 32px;
+  }
+  @include desktop {
+    margin-top: 0;
+  }
+}
+
+.warrningText {
+  margin-top: 18px;
+  padding-bottom: 8px;
+  color: $secondary-text-color;
+  @include font(400, 12px, 1.33);
+  @include tablet {
+    width: 440px;
+  }
+}
+
+.colorPicker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  @include tablet {
+    width: 420px;
+  }
+}
+
+.option {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 250ms linear;
+}
+
+.activeOption {
+  composes: option;
+  transform: scale(1.2);
+  border: 1px solid rgba(18, 20, 23, 0.2);
+  box-shadow: 0px 4px 16px rgba(18, 20, 23, 0.1);
+  border-radius: 6px;
+}
