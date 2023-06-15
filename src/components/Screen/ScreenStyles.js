@@ -44,8 +44,9 @@ const styles = {
     canvasContainer: {
         position: "relative",
         // whiteSpace: "normal",
-        whiteSpace: 'pre-wrap',
-        wordBreak: 'break-word',
+        // whiteSpace: 'pre-wrap',
+        // wordBreak: 'break-word',
+
     },
     canvasHeight: {
         position: "absolute",
@@ -82,6 +83,8 @@ const styles = {
         marginRight: 50,
         wordWrap: "break-word",
         fontFamily: "Roboto",
+        fontWeight: 400,
+
     },
     customSwitchMobile: {
         position: "absolute",

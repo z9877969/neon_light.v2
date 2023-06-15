@@ -41,23 +41,46 @@ const ScreenComponent = ({
         fontSize = 32;
         lineHeight = 1.2;
       } else if (isTablet) {
-        fontSize = 48;
-        lineHeight = 1.8;
+        fontSize = 46;
+        lineHeight = 1.3;
       }
 
       const textBlurValue = getTextBlur(color);
       // const formattedText = text.replace(/(.{20})/g, "$1\n");
+      // const words = text.split(" ");
+      // const formattedWords = [];
+      // let currentLineLength = 0;
+      // for (let i = 0; i < words.length; i++) {
+      //   const word = words[i];
+      //   if (currentLineLength + word.length <= 20) {
+      //     formattedWords.push(word);
+      //     currentLineLength += word.length + 1;
+      //   } else {
+      //     formattedWords.push("\n" + word);
+      //     currentLineLength = word.length;
+      //   }
+      // }
+      // const formattedText = formattedWords.join(" ");
+      const measureTextWidth = (text) => {
+        const tempCanvas = document.createElement("canvas");
+        const tempContext = tempCanvas.getContext("2d");
+        tempContext.font = `${fontSize}px ${font}`;
+        return tempContext.measureText(text).width;
+      };
+
+      const containerWidth = containerRef.current.offsetWidth;
       const words = text.split(" ");
       const formattedWords = [];
       let currentLineLength = 0;
       for (let i = 0; i < words.length; i++) {
         const word = words[i];
-        if (currentLineLength + word.length <= 20) {
+        const wordWidth = measureTextWidth(word);
+        if (currentLineLength + wordWidth <= containerWidth) {
           formattedWords.push(word);
-          currentLineLength += word.length + 1; 
+          currentLineLength += wordWidth + measureTextWidth(" ");
         } else {
           formattedWords.push("\n" + word);
-          currentLineLength = word.length;
+          currentLineLength = wordWidth;
         }
       }
       const formattedText = formattedWords.join(" ");
@@ -69,6 +92,7 @@ const ScreenComponent = ({
         lineHeight: lineHeight,
         fill: color,
         fontFamily: font,
+        fontWeight: 400,
         format: format,
         fixedWidth: false,
         selectable: false,
@@ -98,8 +122,11 @@ const ScreenComponent = ({
         textObject.set({ text: formatText(formattedText) });
       }
 
-      const desiredWidth = textWidthState !== "" ? textWidthState : 130;
-      const desiredHeight = textHeightState !== "" ? textHeightState : 32;
+      const textWidthToHeightRatio = 3;
+
+      const desiredHeight = textHeightState !== "" ? textHeightState : 40;
+      const desiredWidth =
+        textHeightState !== "" ? desiredHeight * textWidthToHeightRatio : 120;
 
       const cmToPxRatio = () => {
         const isMobile = window.matchMedia("(max-width: 767px)").matches;
@@ -223,12 +250,13 @@ const ScreenComponent = ({
         style={{
           ...styles.canvasWrapper,
           ...getAlignmentStyle(),
-          fontFamily: "Roboto",
+         
         }}
       >
         <div
           style={{
-            ...styles.canvasContainer,
+            ...styles.canvasWrapper,
+            // ...styles.canvasContainer,
             ...getAlignmentStyle(),
             fontFamily: "Roboto",
           }}

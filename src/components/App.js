@@ -16,10 +16,12 @@ const App = () => {
   const [textHeight, setTextHeight] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [font, setFont] = useState("comfortaa");
-  const [color, setColor] = useState("rgba(255, 255, 255, 0.5)");
+  const [color, setColor] = useState("#FFFFFF80");
   const [alignment, setAlignment] = useState("start");
   const [format, setFormat] = useState(null);
   const [price, setPrice] = useState(0);
+  const textWidthToHeightRatio = 3;
+
 
   // const [positionText, setPositionText] = useState("start");
   // const [styleText, setStyleText] = useState("none");
@@ -66,13 +68,23 @@ const App = () => {
   };
 
   const handleWidthChange = (event) => {
-    const newWidth = event.target.value;
+    let newWidth = event.target.value;
+    if (newWidth > 200) {
+      newWidth = 200;
+    }
+    const newHeight = Math.round(newWidth / textWidthToHeightRatio);
     setTextWidth(newWidth);
+    setTextHeight(newHeight);
   };
 
   const handleHeightChange = (event) => {
-    const newHeight = event.target.value;
+    let newHeight = event.target.value;
+    if (newHeight < 6) {
+      newHeight = 6;
+    }
+    const newWidth = Math.round(newHeight * textWidthToHeightRatio);
     setTextHeight(newHeight);
+    setTextWidth(newWidth);
   };
 
   return (
@@ -97,6 +109,8 @@ const App = () => {
           text={text}
           font={font}
           price={price}
+          textWidth={textWidth}
+          textHeight={textHeight}
           handleColor={handleColor}
           getSelectValue={getSelectValue()}
           onChangeSelectValue={onChangeSelectValue}
