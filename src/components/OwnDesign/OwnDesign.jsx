@@ -3,7 +3,7 @@ import s from "./OwnDesign.module.scss";
 
 const OwnDesign = ({ onClose }) => {
   return (
-    <section className="ownDesign">
+    <section className={s.ownDesign}>
       <p className={s.text}>
         Якщо у вас є макет (ескіз, приклад, фото), вам потрібно зображення,
         логотип або інший шрифт, залиште нам ваші побажання у заявці та, за

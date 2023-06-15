@@ -1,7 +1,8 @@
-import { Field } from "formik";
 import fonts from "./fonts";
 import s from "./Options.module.scss";
 import Select from "react-select";
+import InputField from "../../../shared/components/InputField/InputField";
+import ErrorMessageField from "../../../shared/components/ErrorMessage/ErrorMessage";
 
 const Options = ({
   textWidth,
@@ -11,7 +12,7 @@ const Options = ({
   onChangeSelectValue,
   getSelectValue,
 }) => {
-
+  const handleWarningText = textWidth || textHeight ? true : false;
 
   return (
     <div className={s.optionContainer}>
@@ -27,33 +28,40 @@ const Options = ({
             classNamePrefix="select"
             options={fonts}
           />
+          <ErrorMessageField className={s.errorMessage} name="font" />
         </div>
         <div className={s.options}>
-          <label>
-            <p className={s.title}>Ширина</p>
-            <Field
-              className={s.option}
-              type="text"
-              name="width"
-              placeholder="0"
-              value={textWidth}
-              onChange={onWidthChange}
-            />
-          </label>
-          <label>
-            <p className={s.title}>Висота</p>
-            <Field
-              className={s.option}
-              type="text"
-              name="height"
-              placeholder="0"
-              value={textHeight}
-              onChange={onHeightChange}
-            />
-          </label>
+          <div className={s.inputWrapper}>
+            <label htmlFor="width">
+              <p className={s.title}>Ширина</p>
+              <InputField
+                className={s.option}
+                type="number"
+                name="width"
+                placeholder="0"
+                value={textWidth}
+                onChange={onWidthChange}
+              />
+              <ErrorMessageField className={s.errorMessage} name="width" />
+            </label>
+          </div>
+          <div className={s.inputWrapper}>
+            <label htmlFor="height">
+              <p className={s.title}>Висота</p>
+              <InputField
+                className={s.option}
+                type="number"
+                name="height"
+                placeholder="0"
+                value={textHeight}
+                onChange={onHeightChange}
+              />
+              <ErrorMessageField className={s.errorMessage} name="height" />
+            </label>
+          </div>
         </div>
       </div>
-      {textWidth && (
+      {handleWarningText && (
         <p className={s.warrningText}>
           Зверніть увагу, що вказані параметри ширини та висоти можуть
           відрізнятися від дійсних через процес виготовлення або вимірювання.

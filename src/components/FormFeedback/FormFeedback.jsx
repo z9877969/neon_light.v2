@@ -3,11 +3,12 @@ import { Formik, Form, Field } from "formik";
 
 import { ReactComponent as IconPin } from "../../images/pin.svg";
 import s from "./FormFeedback.module.scss";
+import style from "../../shared/components/InputField/InputField.module.scss";
+import errorStyle from "../../shared/components/ErrorMessage/ErrorMessage.module.scss";
 import { validationSchema } from "./YupValidationSchema";
 import InputField from "../../shared/components/InputField/InputField";
 import ErrorMessageField from "../../shared/components/ErrorMessage/ErrorMessage";
 import CheckBoxGroup from "../../shared/components/CheckBoxGroup/CheckBoxGroup";
-
 const initialValues = {
   name: "",
   phone: "",
@@ -50,16 +51,37 @@ const FormFeedback = () => {
         >
           <Form>
             <div className={s.InputBox}>
-              <InputField name="name" placeholder="Ваше ім’я" />
-              <ErrorMessageField name="name" />
+              <InputField
+                className={style.FormInput}
+                name="name"
+                placeholder="Ваше ім’я"
+              />
+              <ErrorMessageField
+                className={errorStyle.errorMessage}
+                name="name"
+              />
             </div>
             <div className={s.InputBox}>
-              <InputField name="phone" placeholder="Номер телефону" />
-              <ErrorMessageField name="phone" />
+              <InputField
+                className={style.FormInput}
+                name="phone"
+                placeholder="Номер телефону"
+              />
+              <ErrorMessageField
+                className={errorStyle.errorMessage}
+                name="phone"
+              />
             </div>
             <div className={s.InputBox}>
-              <InputField name="email" placeholder="Електронна пошта" />
-              <ErrorMessageField name="email" />
+              <InputField
+                className={style.FormInput}
+                name="email"
+                placeholder="Електронна пошта"
+              />
+              <ErrorMessageField
+                className={errorStyle.errorMessage}
+                name="email"
+              />
             </div>
             <Field
               className={s.FormTextArea}
@@ -97,7 +119,10 @@ const FormFeedback = () => {
                   { label: "Telegram", value: "telegram" },
                 ]}
               />
-              <ErrorMessageField name="communicateBy" />
+              <ErrorMessageField
+                className={errorStyle.errorMessage}
+                name="communicateBy"
+              />
             </div>
             <button className={s.Button} type="submit">
               Надіслати

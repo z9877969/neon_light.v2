@@ -1,13 +1,15 @@
+import { useState, useEffect } from "react";
 import Container from "./Container/Container";
-import FormInscription from "./FormInscription/FormInscription";
-import Tabs from "./Tabs/Tabs";
-import { useState } from "react";
-import OwnDesign from "./OwnDesign/OwnDesign";
 import ScreenComponent from "./Screen/Screen";
-
+import Tabs from "./Tabs/Tabs";
+import FormInscription from "./FormInscription/FormInscription";
+import OwnDesign from "./OwnDesign/OwnDesign";
 import ModalFeedback from "./ModalFeedback/ModalFeedback";
 import FormFeedback from "./FormFeedback/FormFeedback";
 import fonts from "./FormInscription/Options/fonts";
+import serviceCost from "../shared/lib/serviceCost";
+import makePriceCalculator from "../shared/lib/priceCalculator";
+import s from "./App.module.scss";
 
 const App = () => {
   const [formInscription, setFormInscription] = useState(true);
@@ -16,27 +18,57 @@ const App = () => {
   const [textHeight, setTextHeight] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [font, setFont] = useState("comfortaa");
-  const [color, setColor] = useState("#FFFFFF80");
-  const [alignment, setAlignment] = useState("start");
-  const [format, setFormat] = useState(null);
-  const [price, setPrice] = useState(0);
+  const [color, setColor] = useState("#FEFEFE");
+  const [price, setPrice] = useState("");
+  const [positionText, setPositionText] = useState("start");
+  const [styleText, setStyleText] = useState("none");
   const textWidthToHeightRatio = 3;
 
+  useEffect(() => {
+    const {
+      independentExpenses,
+      symbolPrice,
+      sheetMaterialPricePerMeter,
+      ledStripPricePerMeter,
+      materialPricePerMeter,
+      costOfCuttingAndEngravingPricePerMeter,
+      profitability,
+    } = serviceCost;
+    if (text && textWidth && textHeight && color) {
+      const symbolQuantityText = text.split(" ").join("").length;
+      const lengthOfLedStripInMeters = ((textWidth + textHeight) * 2) / 10000;
 
-  // const [positionText, setPositionText] = useState("start");
-  // const [styleText, setStyleText] = useState("none");
+      const calculatePrice = makePriceCalculator({
+        independentExpenses,
+        symbolPrice,
+        sheetMaterialPricePerMeter,
+        ledStripPricePerMeter,
+        materialPricePerMeter,
+        costOfCuttingAndEngravingPricePerMeter,
+        profitability,
+      });
+
+      const totalPrice = calculatePrice(
+        textWidth / 100,
+        textHeight / 100,
+        symbolQuantityText,
+        lengthOfLedStripInMeters
+      );
+      setPrice(totalPrice);
+    }
+  }, [color, text, textHeight, textWidth]);
 
   const handelePriceChange = (newPrice) => {
     setPrice(newPrice);
-  }
+  };
 
   const handeleAlignmentChange = (newAlignment) => {
-    setAlignment(newAlignment);
+    setPositionText(newAlignment);
   };
 
   const handleFormatChange = (newFormat) => {
-    setFormat(newFormat);
-  }
+    setStyleText(newFormat);
+  };
 
   const handleColor = (color) => {
     setColor(color);
@@ -88,50 +120,60 @@ const App = () => {
   };
 
   return (
-    <Container>
-      <ScreenComponent
-        text={text}
-        textWidth={textWidth}
-        textHeight={textHeight}
-        font={font}
-        color={color}
-        alignment={alignment}
-        format={format}
-        price={price}
-      />
+    <>
+      <div className={s.header}></div>
+      <Container>
+        <div className={s.wrapper}>
+          <ScreenComponent
+            text={text}
+            textWidth={textWidth}
+            textHeight={textHeight}
+            font={font}
+            color={color}
+            alignment={positionText}
+            format={styleText}
+            price={price}
+          />
 
-      <Tabs onFormInscription={onFormInscription} onOwnDesign={onOwnDesign} />
-      {formInscription ? (
-        <FormInscription
-          alignment={alignment}
-          format={format}
-          color={color}
-          text={text}
-          font={font}
-          price={price}
-          textWidth={textWidth}
-          textHeight={textHeight}
-          handleColor={handleColor}
-          getSelectValue={getSelectValue()}
-          onChangeSelectValue={onChangeSelectValue}
-          onTextChange={handleTextChange}
-          onWidthChange={handleWidthChange}
-          onHeightChange={handleHeightChange}
-          onAlignmentChange={handeleAlignmentChange}
-          onFormatChange={handleFormatChange}
-          onPriceChange={handelePriceChange}
-        />
-      ) : (
-        <OwnDesign onClose={handleModalClose} />
-      )}
-      {isOpen && (
-        <ModalFeedback onClose={handleModalClose}>
-          <FormFeedback />
-        </ModalFeedback>
-      )
-      }
-
-    </Container>
+          <div className={s.componentsWrapper}>
+            <Tabs
+              activeBtn={formInscription}
+              onFormInscription={onFormInscription}
+              onOwnDesign={onOwnDesign}
+            />
+            {formInscription ? (
+              <FormInscription
+                alignment={positionText}
+                format={styleText}
+                color={color}
+                text={text}
+                font={font}
+                price={price}
+                handleColor={handleColor}
+                textWidth={textWidth}
+                textHeight={textHeight}
+                getSelectValue={getSelectValue()}
+                onChangeSelectValue={onChangeSelectValue}
+                onTextChange={handleTextChange}
+                onWidthChange={handleWidthChange}
+                onHeightChange={handleHeightChange}
+                onAlignmentChange={handeleAlignmentChange}
+                onFormatChange={handleFormatChange}
+                onPriceChange={handelePriceChange}
+                openModal={handleModalClose}
+              />
+            ) : (
+              <OwnDesign onClose={handleModalClose} />
+            )}
+          </div>
+        </div>
+        {isOpen && (
+          <ModalFeedback onClose={handleModalClose}>
+            <FormFeedback />
+          </ModalFeedback>
+        )}
+      </Container>
+    </>
   );
 };
 

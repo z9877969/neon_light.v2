@@ -39,28 +39,13 @@ const ScreenComponent = ({
 
       if (isMobile || isMobileAdaptive) {
         fontSize = 32;
-        lineHeight = 1.2;
+        lineHeight = 0.88;
       } else if (isTablet) {
         fontSize = 46;
-        lineHeight = 1.3;
+        lineHeight = 1;
       }
 
       const textBlurValue = getTextBlur(color);
-      // const formattedText = text.replace(/(.{20})/g, "$1\n");
-      // const words = text.split(" ");
-      // const formattedWords = [];
-      // let currentLineLength = 0;
-      // for (let i = 0; i < words.length; i++) {
-      //   const word = words[i];
-      //   if (currentLineLength + word.length <= 20) {
-      //     formattedWords.push(word);
-      //     currentLineLength += word.length + 1;
-      //   } else {
-      //     formattedWords.push("\n" + word);
-      //     currentLineLength = word.length;
-      //   }
-      // }
-      // const formattedText = formattedWords.join(" ");
       const measureTextWidth = (text) => {
         const tempCanvas = document.createElement("canvas");
         const tempContext = tempCanvas.getContext("2d");
@@ -86,8 +71,9 @@ const ScreenComponent = ({
       const formattedText = formattedWords.join(" ");
 
       const textObject = new fabric.Text(formattedText, {
-        left: 0,
-        top: 0,
+        left: 20,
+        top: 20,
+        right: 20,
         fontSize: fontSize,
         lineHeight: lineHeight,
         fill: color,
@@ -134,16 +120,16 @@ const ScreenComponent = ({
         const isDesktop = window.matchMedia("(min-width: 1440px)").matches;
 
         if (isMobile) {
-          return 1.4;
+          return 1.2;
         } else if (isTablet) {
-          return 2.5;
+          return 2;
         } else if (isDesktop) {
-          return 3;
+          return 2.5;
         }
       };
 
       const scaleX = (desiredWidth / textObject.width) * cmToPxRatio();
-      const scaleY = (desiredHeight / textObject.height) * cmToPxRatio();
+      const scaleY = (desiredHeight / textObject.height) * cmToPxRatio() ;
 
       textObject.set({ scaleX, scaleY });
 
@@ -151,9 +137,9 @@ const ScreenComponent = ({
       const textHeight = textObject.getScaledHeight();
 
       containerRef.current.style.width = `${textWidth}px`;
-      containerRef.current.style.height = `${textHeight}px`;
+      containerRef.current.style.height = `${textHeight + 10}px`;
 
-      canvas.setDimensions({ width: textWidth, height: textHeight });
+      canvas.setDimensions({ width: textWidth + 50, height: textHeight + 60 });
 
       canvas.add(textObject);
     };
@@ -255,10 +241,11 @@ const ScreenComponent = ({
       >
         <div
           style={{
-            ...styles.canvasWrapper,
-            // ...styles.canvasContainer,
+            ...styles.canvasContainer,
             ...getAlignmentStyle(),
-            fontFamily: "Roboto",
+            
+            // paddingLeft: "15px",
+    // boxSizing: "border-box",
           }}
           ref={containerRef}
         >
@@ -268,7 +255,12 @@ const ScreenComponent = ({
           <div style={styles.canvasWidth}>
             {textWidthState !== "" ? `${textWidthState} см` : "см"}
           </div>
-          <canvas ref={canvasRef} />
+          <canvas style= {{
+          
+            
+            left: -15,
+    // boxSizing: "border-box",
+          }} ref={canvasRef} />
         </div>
       </div>
       <div
