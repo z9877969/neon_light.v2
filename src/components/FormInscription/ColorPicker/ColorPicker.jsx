@@ -42,6 +42,7 @@ export function ColorPicker({ setColor, color, textWidth, textHeight }) {
           Зверніть увагу: колір продукту на вашому екрані може відрізнятися від
           реального через індивідуальні налаштування екрану.
         </p>
+        //
       )}
     </div>
   );
