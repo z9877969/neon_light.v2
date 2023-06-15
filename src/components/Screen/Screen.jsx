@@ -39,22 +39,46 @@ const ScreenComponent = ({
 
       if (isMobile || isMobileAdaptive) {
         fontSize = 32;
-        lineHeight = 40;
+        lineHeight = 0.88;
       } else if (isTablet) {
-        fontSize = 48;
-        lineHeight = 48;
+        fontSize = 46;
+        lineHeight = 1;
       }
 
       const textBlurValue = getTextBlur(color);
+      const measureTextWidth = (text) => {
+        const tempCanvas = document.createElement("canvas");
+        const tempContext = tempCanvas.getContext("2d");
+        tempContext.font = `${fontSize}px ${font}`;
+        return tempContext.measureText(text).width;
+      };
 
-      const textObject = new fabric.Text(text, {
-        left: 0,
-        top: 0,
+      const containerWidth = containerRef.current.offsetWidth;
+      const words = text.split(" ");
+      const formattedWords = [];
+      let currentLineLength = 0;
+      for (let i = 0; i < words.length; i++) {
+        const word = words[i];
+        const wordWidth = measureTextWidth(word);
+        if (currentLineLength + wordWidth <= containerWidth) {
+          formattedWords.push(word);
+          currentLineLength += wordWidth + measureTextWidth(" ");
+        } else {
+          formattedWords.push("\n" + word);
+          currentLineLength = wordWidth;
+        }
+      }
+      const formattedText = formattedWords.join(" ");
+
+      const textObject = new fabric.Text(formattedText, {
+        left: 20,
+        top: 20,
+        right: 20,
         fontSize: fontSize,
         lineHeight: lineHeight,
         fill: color,
         fontFamily: font,
-        alignment: alignment,
+        fontWeight: 400,
         format: format,
         fixedWidth: false,
         selectable: false,
@@ -65,7 +89,7 @@ const ScreenComponent = ({
         shadowOffsetY: textBlur ? 10 : 0,
         stroke: textBlur ? textBlurValue : null,
         strokeWidth: textBlur ? 0.3 : 0,
-        textAlign: "left",
+        textAlign: alignment,
         originX: "left",
       });
       const formatText = (text) => {
@@ -77,15 +101,18 @@ const ScreenComponent = ({
       };
 
       if (format === "AA") {
-        textObject.set({ text: text.toUpperCase() });
+        textObject.set({ text: formattedText.toUpperCase() });
       } else if (format === "aa") {
-        textObject.set({ text: text.toLowerCase() });
+        textObject.set({ text: formattedText.toLowerCase() });
       } else if (format === "Aa") {
-        textObject.set({ text: formatText(text) });
+        textObject.set({ text: formatText(formattedText) });
       }
 
-      const desiredWidth = textWidthState !== "" ? textWidthState : 130;
-      const desiredHeight = textHeightState !== "" ? textHeightState : 32;
+      const textWidthToHeightRatio = 3;
+
+      const desiredHeight = textHeightState !== "" ? textHeightState : 40;
+      const desiredWidth =
+        textHeightState !== "" ? desiredHeight * textWidthToHeightRatio : 120;
 
       const cmToPxRatio = () => {
         const isMobile = window.matchMedia("(max-width: 767px)").matches;
@@ -93,16 +120,16 @@ const ScreenComponent = ({
         const isDesktop = window.matchMedia("(min-width: 1440px)").matches;
 
         if (isMobile) {
-          return 1.4;
+          return 1.2;
         } else if (isTablet) {
-          return 2.5;
+          return 2;
         } else if (isDesktop) {
-          return 3;
+          return 2.5;
         }
       };
 
       const scaleX = (desiredWidth / textObject.width) * cmToPxRatio();
-      const scaleY = (desiredHeight / textObject.height) * cmToPxRatio();
+      const scaleY = (desiredHeight / textObject.height) * cmToPxRatio() ;
 
       textObject.set({ scaleX, scaleY });
 
@@ -110,9 +137,9 @@ const ScreenComponent = ({
       const textHeight = textObject.getScaledHeight();
 
       containerRef.current.style.width = `${textWidth}px`;
-      containerRef.current.style.height = `${textHeight}px`;
+      containerRef.current.style.height = `${textHeight + 10}px`;
 
-      canvas.setDimensions({ width: textWidth, height: textHeight });
+      canvas.setDimensions({ width: textWidth + 50, height: textHeight + 60 });
 
       canvas.add(textObject);
     };
@@ -185,6 +212,7 @@ const ScreenComponent = ({
     setTextBlur((prevBlur) => !prevBlur);
   };
 
+  console.log(alignment);
   const getAlignmentStyle = () => {
     if (alignment === "start") {
       return { textAlign: "left" };
@@ -204,9 +232,21 @@ const ScreenComponent = ({
         selectedBackground
       )}
     >
-      <div style={{...styles.canvasWrapper, fontFamily: "Roboto",}}>
+      <div
+        style={{
+          ...styles.canvasWrapper,
+          ...getAlignmentStyle(),
+         
+        }}
+      >
         <div
-          style={{ ...styles.canvasContainer, ...getAlignmentStyle(), fontFamily: "Roboto", }}
+          style={{
+            ...styles.canvasContainer,
+            ...getAlignmentStyle(),
+            
+            // paddingLeft: "15px",
+    // boxSizing: "border-box",
+          }}
           ref={containerRef}
         >
           <div style={styles.canvasHeight}>
@@ -215,7 +255,12 @@ const ScreenComponent = ({
           <div style={styles.canvasWidth}>
             {textWidthState !== "" ? `${textWidthState} см` : "см"}
           </div>
-          <canvas ref={canvasRef} />
+          <canvas style= {{
+          
+            
+            left: -15,
+    // boxSizing: "border-box",
+          }} ref={canvasRef} />
         </div>
       </div>
       <div
