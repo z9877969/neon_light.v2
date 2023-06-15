@@ -234,7 +234,7 @@ const ScreenComponent = ({
     >
       <div
         style={{
-          ...styles.canvasWrapper,
+          ...styles.canvasWrapper(isTablet),
           ...getAlignmentStyle(),
          
         }}
@@ -244,23 +244,16 @@ const ScreenComponent = ({
             ...styles.canvasContainer,
             ...getAlignmentStyle(),
             
-            // paddingLeft: "15px",
-    // boxSizing: "border-box",
           }}
           ref={containerRef}
         >
-          <div style={styles.canvasHeight}>
+          <div style={styles.canvasHeight(isTablet)}>
             {textHeightState !== "" ? `${textHeightState} см` : "см"}
           </div>
           <div style={styles.canvasWidth}>
             {textWidthState !== "" ? `${textWidthState} см` : "см"}
           </div>
-          <canvas style= {{
-          
-            
-            left: -15,
-    // boxSizing: "border-box",
-          }} ref={canvasRef} />
+          <canvas style= {{fontFamily: "comfortaa"}} ref={canvasRef} />
         </div>
       </div>
       <div

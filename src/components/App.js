@@ -20,7 +20,7 @@ const App = () => {
   const [font, setFont] = useState("comfortaa");
   const [color, setColor] = useState("#FEFEFE");
   const [price, setPrice] = useState("");
-  const [positionText, setPositionText] = useState("start");
+  const [positionText, setPositionText] = useState("left");
   const [styleText, setStyleText] = useState("none");
   const textWidthToHeightRatio = 3;
 
@@ -111,7 +111,7 @@ const App = () => {
 
   const handleHeightChange = (event) => {
     let newHeight = event.target.value;
-    if (newHeight < 6) {
+    if (newHeight >= 67) {
       newHeight = 6;
     }
     const newWidth = Math.round(newHeight * textWidthToHeightRatio);

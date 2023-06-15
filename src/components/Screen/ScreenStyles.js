@@ -49,18 +49,18 @@ const styles = {
         // wordBreak: 'break-word',
 
     },
-    canvasHeight: {
+    canvasHeight: (isTablet) => ({
         position: "absolute",
         color: "rgba(255, 255, 255, 0.5)",
-        top: "45px",
-        bottom: "5px",
-        left: "-60px",
+        top: isTablet ? "45px" : "24px",
+        bottom: isTablet ? "5px" : "-5px",
+        left: isTablet ? "-35px" : "-30px",
         fontSize: "14px",
         borderRight: "1px solid #fff",
         display: "flex",
         alignItems: "center",
         paddingRight: "10px",
-    },
+    }),
     canvasWidth: {
         position: "absolute",
         color: "rgba(255, 255, 255, 0.5)",
@@ -72,7 +72,7 @@ const styles = {
         paddingTop: "10px",
         textAlign: "center",
     },
-    canvasWrapper: {
+    canvasWrapper: (isTablet) => ({
         position: "relative",
         display: "flex",
         flexDirection: "column",
@@ -80,14 +80,14 @@ const styles = {
         justifyContent: "center",
         fontSize: "calc(10px + 2vmin)",
         color: "white",
-        marginLeft: 110,
-        marginRight: 50,
-        height: "85%",
+        // marginLeft: 110,
+        // marginRight: 50,
+        height: isTablet ? "85%" : "75%",
         wordWrap: "break-word",
         // fontFamily: "Roboto",
         fontWeight: 400,
 
-    },
+    }),
     customSwitchMobile: {
         position: "absolute",
         top: "18px",
