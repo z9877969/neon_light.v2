@@ -108,8 +108,6 @@ const App = () => {
     setTextHeight(newHeight);
   };
 
-  console.log(textHeight);
-
   return (
     <>
       <div className={s.header}></div>
