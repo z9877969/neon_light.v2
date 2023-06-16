@@ -14,7 +14,7 @@ export function ColorPicker({ setColor, color, textWidth, textHeight }) {
   const makeOptionClassName = (index) => {
     return index === activeOptionIdx ? s.activeOption : s.option;
   };
-
+  const handleWarrningTextColorpiscker = color === "#FEFEFE" ? false : true;
   const handleWarningText = textWidth || textHeight ? true : false;
 
   return (
@@ -37,7 +37,7 @@ export function ColorPicker({ setColor, color, textWidth, textHeight }) {
           />
         ))}
       </div>
-      {color && (
+      {handleWarrningTextColorpiscker && (
         <p className={s.warrningText}>
           Зверніть увагу: колір продукту на вашому екрані може відрізнятися від
           реального через індивідуальні налаштування екрану.

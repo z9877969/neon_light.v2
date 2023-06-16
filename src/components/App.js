@@ -7,8 +7,7 @@ import OwnDesign from "./OwnDesign/OwnDesign";
 import ModalFeedback from "./ModalFeedback/ModalFeedback";
 import FormFeedback from "./FormFeedback/FormFeedback";
 import fonts from "./FormInscription/Options/fonts";
-import serviceCost from "../shared/lib/serviceCost";
-import makePriceCalculator from "../shared/lib/priceCalculator";
+import calculatePrice from "../shared/lib/priceCalculator";
 import s from "./App.module.scss";
 
 const App = () => {
@@ -22,31 +21,17 @@ const App = () => {
   const [price, setPrice] = useState("");
   const [positionText, setPositionText] = useState("start");
   const [styleText, setStyleText] = useState("none");
-  const textWidthToHeightRatio = 3;
+  const [textDirty, setTextDirty] = useState(false);
+  const [widthDirty, setWidthDirty] = useState(false);
+  const [heightDirty, setHeightDirty] = useState(false);
+  const [textError, setTextError] = useState("*Обовязкове поле");
+  const [widthError, setWidthError] = useState("*Обовязкове поле");
+  const [heightError, setHeightError] = useState("*Обовязкове поле");
 
   useEffect(() => {
-    const {
-      independentExpenses,
-      symbolPrice,
-      sheetMaterialPricePerMeter,
-      ledStripPricePerMeter,
-      materialPricePerMeter,
-      costOfCuttingAndEngravingPricePerMeter,
-      profitability,
-    } = serviceCost;
-    if (text && textWidth && textHeight && color) {
+    if (text && textWidth && textHeight) {
       const symbolQuantityText = text.split(" ").join("").length;
       const lengthOfLedStripInMeters = ((textWidth + textHeight) * 2) / 10000;
-
-      const calculatePrice = makePriceCalculator({
-        independentExpenses,
-        symbolPrice,
-        sheetMaterialPricePerMeter,
-        ledStripPricePerMeter,
-        materialPricePerMeter,
-        costOfCuttingAndEngravingPricePerMeter,
-        profitability,
-      });
 
       const totalPrice = calculatePrice(
         textWidth / 100,
@@ -56,7 +41,7 @@ const App = () => {
       );
       setPrice(totalPrice);
     }
-  }, [color, text, textHeight, textWidth]);
+  }, [text, textHeight, textWidth]);
 
   const handelePriceChange = (newPrice) => {
     setPrice(newPrice);
@@ -94,29 +79,54 @@ const App = () => {
     setFormInscription(true);
   };
 
-  const handleTextChange = (event) => {
-    const newText = event.target.value;
-    setText(newText);
+  const blurHandler = (e) => {
+    switch (e.target.name) {
+      case "text":
+        setTextDirty(true);
+        break;
+      case "width":
+        setWidthDirty(true);
+        break;
+      case "height":
+        setHeightDirty(true);
+        break;
+      default:
+        return;
+    }
   };
 
-  const handleWidthChange = (event) => {
-    let newWidth = event.target.value;
-    if (newWidth > 200) {
-      newWidth = 200;
+  const handleTextChange = (e) => {
+    setText(e.target.value);
+    if (!text) {
+      setTextError("*Обовязкове поле");
+    } else {
+      setTextError("");
     }
-    const newHeight = Math.round(newWidth / textWidthToHeightRatio);
-    setTextWidth(newWidth);
-    setTextHeight(newHeight);
   };
 
-  const handleHeightChange = (event) => {
-    let newHeight = event.target.value;
-    if (newHeight < 6) {
-      newHeight = 6;
+  const handleWidthChange = (e) => {
+    setTextWidth(e.target.value);
+    if (+e.target.value > 200) {
+      setWidthError("*Максимально 200");
     }
-    const newWidth = Math.round(newHeight * textWidthToHeightRatio);
-    setTextHeight(newHeight);
-    setTextWidth(newWidth);
+    if (!e.target.value) {
+      setWidthError("*Обовязкове поле");
+    } else {
+      setWidthError("");
+    }
+  };
+
+  const handleHeightChange = (e) => {
+    setTextHeight(e.target.value);
+
+    if (+e.target.value < 8) {
+      setHeightError("*Мінімально 8");
+    }
+    if (!e.target.value) {
+      setHeightError("*Обовязкове поле");
+    } else {
+      setHeightError("");
+    }
   };
 
   return (
@@ -134,7 +144,6 @@ const App = () => {
             format={styleText}
             price={price}
           />
-
           <div className={s.componentsWrapper}>
             <Tabs
               activeBtn={formInscription}
@@ -149,9 +158,16 @@ const App = () => {
                 text={text}
                 font={font}
                 price={price}
-                handleColor={handleColor}
+                textDirty={textDirty}
+                widthDirty={widthDirty}
+                heightDirty={heightDirty}
+                textError={textError}
+                widthError={widthError}
+                heightError={heightError}
                 textWidth={textWidth}
                 textHeight={textHeight}
+                blurHandler={blurHandler}
+                handleColor={handleColor}
                 getSelectValue={getSelectValue()}
                 onChangeSelectValue={onChangeSelectValue}
                 onTextChange={handleTextChange}

@@ -16,7 +16,7 @@
   width: 100%;
   .errorMessage {
     position: absolute;
-    top: 140px;
+    top: 137px;
     left: 5px;
     font-family: $primary-font;
     @include font(400, 10px, 12px);
@@ -114,6 +114,14 @@
   @include desktop {
     margin-bottom: 100px;
   }
+}
+.btnOpenModal {
+  @include font(600, 14px, 1.43);
+  padding: 12px 28px;
+  border-radius: 12px;
+  border: none;
+  background: #5fcecb;
+  color: $white-text-color;
 }
 
 .TextPositionAndFormat {
