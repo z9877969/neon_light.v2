@@ -17,6 +17,7 @@ const ScreenComponent = ({
   color,
   alignment,
   format,
+  price,
 }) => {
   const textWidthState = textWidth || "";
   const textHeightState = textHeight || "";
@@ -30,6 +31,8 @@ const ScreenComponent = ({
   const isTablet = useMediaQuery("(min-width: 768px)");
   const isDesktop = useMediaQuery("(min-width: 1440px)");
 
+  const roundPrice = (price) => Math.round(price);
+
   useEffect(() => {
     const canvas = new fabric.Canvas(canvasRef.current);
 
@@ -42,6 +45,8 @@ const ScreenComponent = ({
         lineHeight = 0.88;
       } else if (isTablet) {
         fontSize = 46;
+        lineHeight = 1;
+      } else {
         lineHeight = 1;
       }
 
@@ -83,8 +88,6 @@ const ScreenComponent = ({
         fixedWidth: false,
         selectable: false,
         shadow: textBlur ? `${textBlurValue} 0 0 10px` : null,
-        // shadowBlur: textBlurValue ? 30 : 0,
-        // shadowColor: textBlurValue || null,
         shadowOffsetX: textBlur ? 5 : 0,
         shadowOffsetY: textBlur ? 10 : 0,
         stroke: textBlur ? textBlurValue : null,
@@ -92,6 +95,7 @@ const ScreenComponent = ({
         textAlign: alignment,
         originX: "left",
       });
+
       const formatText = (text) => {
         const words = text.split(" ");
         const formattedWords = words.map((word) => {
@@ -108,11 +112,8 @@ const ScreenComponent = ({
         textObject.set({ text: formatText(formattedText) });
       }
 
-      const textWidthToHeightRatio = 3;
-
       const desiredHeight = textHeightState !== "" ? textHeightState : 40;
-      const desiredWidth =
-        textHeightState !== "" ? desiredHeight * textWidthToHeightRatio : 120;
+      const desiredWidth = textWidthState !== "" ? textWidthState : 120;
 
       const cmToPxRatio = () => {
         const isMobile = window.matchMedia("(max-width: 767px)").matches;
@@ -129,7 +130,7 @@ const ScreenComponent = ({
       };
 
       const scaleX = (desiredWidth / textObject.width) * cmToPxRatio();
-      const scaleY = (desiredHeight / textObject.height) * cmToPxRatio() ;
+      const scaleY = (desiredHeight / textObject.height) * cmToPxRatio();
 
       textObject.set({ scaleX, scaleY });
 
@@ -142,6 +143,7 @@ const ScreenComponent = ({
       canvas.setDimensions({ width: textWidth + 50, height: textHeight + 60 });
 
       canvas.add(textObject);
+      
     };
 
     addText();
@@ -184,7 +186,6 @@ const ScreenComponent = ({
     { value: "background2", imageUrl: background2 },
     { value: "background3", imageUrl: background3 },
     { value: "background4", imageUrl: background4 },
-    // {value: "background5", backgroundColor:"#121417"},
   ];
 
   const handleRadioChange = (event) => {
@@ -215,11 +216,11 @@ const ScreenComponent = ({
   console.log(alignment);
   const getAlignmentStyle = () => {
     if (alignment === "start") {
-      return { textAlign: "left" };
+      return { textAlign: "start" };
     } else if (alignment === "center") {
       return { textAlign: "center" };
     } else if (alignment === "end") {
-      return { textAlign: "right" };
+      return { textAlign: "end" };
     }
   };
 
@@ -232,18 +233,26 @@ const ScreenComponent = ({
         selectedBackground
       )}
     >
+      <div>
+        <Typography
+          variant="body1"
+          style={{
+            ...styles.price(isTablet),
+            color: price === 0.0 ? "#FFFFFF33" : "#5FCECB",
+          }}
+        >
+          {roundPrice(price)} грн
+        </Typography>
+      </div>
       <div
         style={{
           ...styles.canvasWrapper(isTablet),
-          ...getAlignmentStyle(),
-         
         }}
       >
         <div
           style={{
             ...styles.canvasContainer,
             ...getAlignmentStyle(),
-            
           }}
           ref={containerRef}
         >
@@ -253,7 +262,7 @@ const ScreenComponent = ({
           <div style={styles.canvasWidth}>
             {textWidthState !== "" ? `${textWidthState} см` : "см"}
           </div>
-          <canvas style= {{fontFamily: "comfortaa"}} ref={canvasRef} />
+          <canvas style={{ fontFamily: "comfortaa" }} ref={canvasRef} />
         </div>
       </div>
       <div

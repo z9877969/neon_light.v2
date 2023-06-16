@@ -20,8 +20,9 @@ const App = () => {
   const [font, setFont] = useState("comfortaa");
   const [color, setColor] = useState("#FEFEFE");
   const [price, setPrice] = useState("");
-  const [positionText, setPositionText] = useState("left");
+  const [positionText, setPositionText] = useState("start");
   const [styleText, setStyleText] = useState("none");
+
   const textWidthToHeightRatio = 3;
 
   useEffect(() => {

@@ -98,6 +98,18 @@ const styles = {
         top: "24px",
         right: "24px",
     },
+    price: (isTablet) => ({
+        position: "absolute",
+        top: isTablet ? 24 : 18,
+        left: isTablet ? 24 : 14,
+
+        fontFamily: "Roboto",
+        fontWeight: 500,
+        fontSize: "16px",
+        border: "1px solid rgba(255, 255, 255, 0.2)",
+        borderRadius: "6px",
+        padding: 12,
+    }),
 };
 
 export default styles;
