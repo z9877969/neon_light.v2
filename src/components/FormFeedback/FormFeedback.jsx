@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
+import { toast } from "react-toastify";
 
 import { ReactComponent as IconPin } from "../../images/pin.svg";
 import s from "./FormFeedback.module.scss";
@@ -41,11 +42,11 @@ const FormFeedback = () => {
 
     try {
       await addOrder(formData);
-      console.log("Запит успішний!");
+      toast.success("Ваші дані були успішно надіслані!");
       resetForm();
       setSelectedFile(null);
     } catch (error) {
-      console.error("Error adding order:", error);
+      toast.error(`Сталась помилка. ${error.response.data.message}`);
     }
   };
 
@@ -111,7 +112,7 @@ const FormFeedback = () => {
                 type="file"
                 id="file"
                 name="file"
-                accept=".png, .jpg, .jpeg, .svg"
+                accept=".png, .jpg, .jpeg, .gif"
                 className={s.FileInput}
                 onChange={handleFileChange}
               />
