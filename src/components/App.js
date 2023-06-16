@@ -24,6 +24,7 @@ const App = () => {
   const [price, setPrice] = useState("");
   const [positionText, setPositionText] = useState("start");
   const [styleText, setStyleText] = useState("none");
+  const textWidthToHeightRatio = 3;
 
   useEffect(() => {
     const {
@@ -101,13 +102,23 @@ const App = () => {
   };
 
   const handleWidthChange = (event) => {
-    const newWidth = event.target.value;
+    let newWidth = event.target.value;
+    if (newWidth > 200) {
+      newWidth = 200;
+    }
+    const newHeight = Math.round(newWidth / textWidthToHeightRatio);
     setTextWidth(newWidth);
+    setTextHeight(newHeight);
   };
 
   const handleHeightChange = (event) => {
-    const newHeight = event.target.value;
+    let newHeight = event.target.value;
+    if (newHeight < 6) {
+      newHeight = 6;
+    }
+    const newWidth = Math.round(newHeight * textWidthToHeightRatio);
     setTextHeight(newHeight);
+    setTextWidth(newWidth);
   };
 
   return (
@@ -141,6 +152,8 @@ const App = () => {
                 font={font}
                 price={price}
                 handleColor={handleColor}
+                textWidth={textWidth}
+                textHeight={textHeight}
                 getSelectValue={getSelectValue()}
                 onChangeSelectValue={onChangeSelectValue}
                 onTextChange={handleTextChange}
