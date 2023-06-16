@@ -1,42 +1,42 @@
-import CHAR_LINES_MAP from "./charLinesMap.json";
+const LETTER_HEIGHT_TO_LED_LENGTH_MAP = {
+  8: 30,
+  10: 38,
+  12: 45,
+  15: 53,
+  18: 60,
+  20: 72,
+  22: 84,
+  25: 91,
+  28: 100,
+  30: 107,
+  35: 122,
+  40: 137,
+  45: 158,
+  50: 183,
+};
 
-const PX_IN_CM = 0.026458;
+function getNeonStripLength(wordLength, fontSizeCM) {
+  if (fontSizeCM < 8 || fontSizeCM > 50) {
+    throw new Error(
+      `The font size should be between 8 and 50, not ${fontSizeCM}`
+    );
+  }
 
-function getCharSize(char, fontSizeCM, fontFamily = "Arial") {
-  const virtualElement = document.createElement("span");
-  virtualElement.style.fontFamily = fontFamily;
-  virtualElement.style.fontSize = `${fontSizeCM}cm`;
-  virtualElement.textContent = char;
-  document.body.appendChild(virtualElement);
-  const width = virtualElement.offsetWidth;
-  document.body.removeChild(virtualElement);
-  return { width: width * PX_IN_CM, height: fontSizeCM };
-}
+  if (!LETTER_HEIGHT_TO_LED_LENGTH_MAP[fontSizeCM]) {
+    const heightVariants = Object.keys(LETTER_HEIGHT_TO_LED_LENGTH_MAP);
 
-function getNeonStripLength(word, fontSizeCM, fontFamily) {
-  const stripLength = word.split("").reduce((sum, char) => {
-    const { width, height } = getCharSize(char, fontSizeCM, fontFamily);
-
-    for (let [params, charList] of Object.entries(CHAR_LINES_MAP)) {
-      let vertical = 0;
-      let horizontal = 0;
-      let diagonal = 0;
-
-      if (charList.includes(char)) {
-        [vertical, horizontal, diagonal] = params.split(" ");
-
-        const len =
-          vertical * height +
-          horizontal * width +
-          diagonal * Math.sqrt(height ** 2 + width ** 2);
-
-        return sum + len;
+    for (
+      let i = fontSizeCM;
+      i <= heightVariants[heightVariants.length - 1];
+      ++i
+    ) {
+      if (LETTER_HEIGHT_TO_LED_LENGTH_MAP[i]) {
+        fontSizeCM = i;
+        break;
       }
     }
-    return sum + width + height;
-  }, 0);
-
-  return stripLength.toFixed(2);
+  }
+  return wordLength * LETTER_HEIGHT_TO_LED_LENGTH_MAP[fontSizeCM];
 }
 
 export default getNeonStripLength;
