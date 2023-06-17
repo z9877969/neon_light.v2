@@ -24,6 +24,7 @@ const App = () => {
   const [price, setPrice] = useState("");
   const [positionText, setPositionText] = useState("start");
   const [styleText, setStyleText] = useState("none");
+
   const textWidthToHeightRatio = 3;
 
   useEffect(() => {
@@ -113,7 +114,7 @@ const App = () => {
 
   const handleHeightChange = (event) => {
     let newHeight = event.target.value;
-    if (newHeight < 6) {
+    if (newHeight >= 67) {
       newHeight = 6;
     }
     const newWidth = Math.round(newHeight * textWidthToHeightRatio);

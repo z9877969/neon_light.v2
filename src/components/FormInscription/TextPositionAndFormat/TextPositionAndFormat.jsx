@@ -1,4 +1,3 @@
-// import { useState } from "react";
 import Box from "@mui/joy/Box";
 import Radio from "@mui/joy/Radio";
 import RadioGroup from "@mui/joy/RadioGroup";
@@ -28,7 +27,7 @@ export function TextPositionAdnFormat({
           marginBottom: "8px",
         }}
       >
-        {["start", "center", "end"].map((item) => (
+        {["start", "center", "right"].map((item) => (
           <Box
             key={item}
             sx={{
@@ -51,7 +50,7 @@ export function TextPositionAdnFormat({
               label={
                 {
                   start: <FormatAlignLeftIcon className={s.svgIcon} />,
-                  end: <FormatAlignRightIcon className={s.svgIcon} />,
+                  right: <FormatAlignRightIcon className={s.svgIcon} />,
                   center: <FormatAlignCenterIcon className={s.svgIcon} />,
                 }[item]
               }
