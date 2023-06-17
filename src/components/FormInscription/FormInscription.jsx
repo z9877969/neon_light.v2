@@ -56,7 +56,7 @@ const FormInscription = ({
       <form onSubmit={handleSubmit} autoComplete="off">
         <div className={s.textSettings}>
           <div className={s.inputWrapper}>
-            <textArea
+            <textarea
               onBlur={(e) => blurHandler(e)}
               className={s.textArea}
               name="text"

@@ -24,7 +24,7 @@ const App = () => {
   const [textDirty, setTextDirty] = useState(false);
   const [widthDirty, setWidthDirty] = useState(false);
   const [heightDirty, setHeightDirty] = useState(false);
-  const [textError, setTextError] = useState("*Обовязкове поле");
+  const [textError, setTextError] = useState("");
   const [widthError, setWidthError] = useState("*Обовязкове поле");
   const [heightError, setHeightError] = useState("*Обовязкове поле");
 

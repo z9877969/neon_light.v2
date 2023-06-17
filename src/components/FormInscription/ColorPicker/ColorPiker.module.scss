@@ -66,6 +66,9 @@
   @include tablet {
     z-index: 10;
   }
+  @include desktop {
+    z-index: 0;
+  }
 }
 
 .activeOption {
@@ -76,5 +79,8 @@
   border-radius: 6px;
   @include tablet {
     z-index: 10;
+  }
+  @include desktop {
+    z-index: 0;
   }
 }
