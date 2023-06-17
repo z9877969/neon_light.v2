@@ -1,7 +1,7 @@
 import BtnOpenModal from "../BtnOpenModal/BtnOpenMoadl";
 import s from "./OwnDesign.module.scss";
 
-const OwnDesign = ({ onClose }) => {
+const OwnDesign = ({ openModal }) => {
   return (
     <section className={s.ownDesign}>
       <p className={s.text}>
@@ -9,7 +9,7 @@ const OwnDesign = ({ onClose }) => {
         логотип або інший шрифт, залиште нам ваші побажання у заявці та, за
         потреби, додайте файл. Ми зв'яжемося з вами протягом 1 робочого дня.
       </p>
-      <BtnOpenModal onClose={onClose} type="button" text="Отримати заказ" />
+      <BtnOpenModal openModal={openModal} type="button" text="Отримати заказ" />
     </section>
   );
 };

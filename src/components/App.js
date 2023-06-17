@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Container from "./Container/Container";
 import ScreenComponent from "./Screen/Screen";
 import Tabs from "./Tabs/Tabs";
@@ -82,7 +84,7 @@ const App = () => {
     setFont(newValue.value);
   };
 
-  const handleModalClose = () => {
+  const handleTogleModal = () => {
     setIsOpen(!isOpen);
   };
 
@@ -160,19 +162,20 @@ const App = () => {
                 onAlignmentChange={handeleAlignmentChange}
                 onFormatChange={handleFormatChange}
                 onPriceChange={handelePriceChange}
-                openModal={handleModalClose}
+                openModal={handleTogleModal}
               />
             ) : (
-              <OwnDesign onClose={handleModalClose} />
+              <OwnDesign openModal={handleTogleModal} />
             )}
           </div>
         </div>
         {isOpen && (
-          <ModalFeedback onClose={handleModalClose}>
+          <ModalFeedback onClose={handleTogleModal}>
             <FormFeedback />
           </ModalFeedback>
         )}
       </Container>
+      <ToastContainer />
     </>
   );
 };
