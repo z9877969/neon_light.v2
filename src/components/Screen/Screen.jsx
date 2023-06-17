@@ -22,9 +22,10 @@ const ScreenComponent = ({
   const textWidthState = textWidth || "";
   const textHeightState = textHeight || "";
   const [textBlur, setTextBlur] = useState(true);
+  const [selectedBackground, setSelectedBackground] = useState(null);
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
-  const [selectedBackground, setSelectedBackground] = useState(null);
+  
 
   const isMobile = useMediaQuery("(max-width: 375px)");
   const isMobileAdaptive = useMediaQuery("(min-width: 375px )");
@@ -37,6 +38,7 @@ const ScreenComponent = ({
     const canvas = new fabric.Canvas(canvasRef.current);
 
     const addText = () => {
+      if (!text) return;
       let fontSize = 0;
       let lineHeight = 0;
 
@@ -113,7 +115,7 @@ const ScreenComponent = ({
       }
 
       const desiredHeight = textHeightState !== "" ? textHeightState : 40;
-      const desiredWidth = textWidthState !== "" ? textWidthState : 120;
+      const desiredWidth = textWidthState !== "" ? textWidthState : 160;
 
       const cmToPxRatio = () => {
         const isMobile = window.matchMedia("(max-width: 767px)").matches;
@@ -121,7 +123,7 @@ const ScreenComponent = ({
         const isDesktop = window.matchMedia("(min-width: 1440px)").matches;
 
         if (isMobile) {
-          return 1.2;
+          return 1.1;
         } else if (isTablet) {
           return 2;
         } else if (isDesktop) {
@@ -138,7 +140,7 @@ const ScreenComponent = ({
       const textHeight = textObject.getScaledHeight();
 
       containerRef.current.style.width = `${textWidth}px`;
-      containerRef.current.style.height = `${textHeight + 10}px`;
+      containerRef.current.style.height = `${textHeight + 20}px`;
 
       canvas.setDimensions({ width: textWidth + 50, height: textHeight + 60 });
 
@@ -158,6 +160,16 @@ const ScreenComponent = ({
     };
 
     setCanvasSize();
+   
+    const updateCanvas = () => {
+      
+      setCanvasSize();
+       canvas.clear();
+    addText();
+    
+  };
+
+  updateCanvas();
 
     window.addEventListener("resize", setCanvasSize);
 
@@ -316,3 +328,4 @@ const ScreenComponent = ({
 };
 
 export default ScreenComponent;
+
