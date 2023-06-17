@@ -143,7 +143,6 @@ const ScreenComponent = ({
       canvas.setDimensions({ width: textWidth + 50, height: textHeight + 60 });
 
       canvas.add(textObject);
-      
     };
 
     addText();
@@ -213,7 +212,6 @@ const ScreenComponent = ({
     setTextBlur((prevBlur) => !prevBlur);
   };
 
-  console.log(alignment);
   const getAlignmentStyle = () => {
     if (alignment === "start") {
       return { textAlign: "start" };
