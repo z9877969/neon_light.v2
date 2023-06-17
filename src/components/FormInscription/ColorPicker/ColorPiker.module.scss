@@ -63,6 +63,12 @@
   border-radius: 4px;
   cursor: pointer;
   transition: transform 250ms linear;
+  @include tablet {
+    z-index: 10;
+  }
+  @include desktop {
+    z-index: 0;
+  }
 }
 
 .activeOption {
@@ -71,4 +77,10 @@
   border: 1px solid rgba(18, 20, 23, 0.2);
   box-shadow: 0px 4px 16px rgba(18, 20, 23, 0.1);
   border-radius: 6px;
+  @include tablet {
+    z-index: 10;
+  }
+  @include desktop {
+    z-index: 0;
+  }
 }

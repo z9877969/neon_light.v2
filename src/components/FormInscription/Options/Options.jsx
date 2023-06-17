@@ -1,10 +1,12 @@
 import fonts from "./fonts";
 import s from "./Options.module.scss";
 import Select from "react-select";
-import InputField from "../../../shared/components/InputField/InputField";
-import ErrorMessageField from "../../../shared/components/ErrorMessage/ErrorMessage";
-
 const Options = ({
+  widthDirty,
+  widthError,
+  heightDirty,
+  heightError,
+  blurHandler,
   textWidth,
   textHeight,
   onWidthChange,
@@ -28,36 +30,41 @@ const Options = ({
             classNamePrefix="select"
             options={fonts}
           />
-          <ErrorMessageField className={s.errorMessage} name="font" />
         </div>
         <div className={s.options}>
           <div className={s.inputWrapper}>
             <label htmlFor="width">
               <p className={s.title}>Ширина</p>
-              <InputField
+              <input
+                onBlur={(e) => blurHandler(e)}
                 className={s.option}
                 type="number"
                 name="width"
                 placeholder="0"
                 value={textWidth}
-                onChange={onWidthChange}
+                onChange={(e) => onWidthChange(e)}
               />
-              <ErrorMessageField className={s.errorMessage} name="width" />
             </label>
+            {widthDirty && widthError && (
+              <span className={s.errorMessage}>{widthError}</span>
+            )}
           </div>
           <div className={s.inputWrapper}>
             <label htmlFor="height">
               <p className={s.title}>Висота</p>
-              <InputField
+              <input
+                onBlur={(e) => blurHandler(e)}
                 className={s.option}
                 type="number"
                 name="height"
                 placeholder="0"
                 value={textHeight}
-                onChange={onHeightChange}
+                onChange={(e) => onHeightChange(e)}
               />
-              <ErrorMessageField className={s.errorMessage} name="height" />
             </label>
+            {heightDirty && heightError && (
+              <span className={s.errorMessage}>{heightError}</span>
+            )}
           </div>
         </div>
       </div>
