@@ -2,24 +2,26 @@ export const getTextBlur = (color) => {
     switch (color) {
         case "#FEFEFE":
             return "#FEFEFE";
-        case "#FEF1E2":
-            return "#FEF1E2";
+        case "#fff6e4":
+            return "#fff6e4";
+        case "#FDE870":
+            return "#FDE870";
         case "#FFF303":
             return "#FFF303";
         case "#FEC258":
-            return "#FEC258";
-        case "#FF909E":
-            return "#FF909E";
-        case "#BA67AB":
-            return "#BA67AB";
+            return "#fea300";
+        case "#F800B5":
+            return "#F800B5";
+        case "#9700FD":
+            return "#9700fd";
         case "#C33424":
-            return "#C33424";
-        case "#AAD995":
-            return "#AAD995";
-        case "#00FF00":
-            return "#00FF00";
-        case "#7C9BC9":
-            return "#7C9BC9";
+            return "#ff3c00";
+        case "#09FF3D":
+            return "#09FF3D";
+        case "#00E5FC":
+            return "#00E5FC";
+        case "#1E02FE":
+            return "#1e03fe";
         default:
             return null;
     }

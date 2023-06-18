@@ -93,7 +93,7 @@ const ScreenComponent = ({
         shadowOffsetX: textBlur ? 5 : 0,
         shadowOffsetY: textBlur ? 10 : 0,
         stroke: textBlur ? textBlurValue : null,
-        strokeWidth: textBlur ? 0.3 : 0,
+        strokeWidth: textBlur ? 0.2 : 0,
         textAlign: alignment,
         originX: "left",
       });
@@ -248,7 +248,7 @@ const ScreenComponent = ({
           variant="body1"
           style={{
             ...styles.price(isTablet),
-            color: price === 0.0 ? "#FFFFFF33" : "#5FCECB",
+            color: price !== 0 ? "#5FCECB" :  "#FFFFFF33",
           }}
         >
           {roundPrice(price)} грн
