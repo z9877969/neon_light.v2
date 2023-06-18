@@ -12,8 +12,6 @@ export function TextPositionAdnFormat({
   alignment,
   format,
 }) {
-  
-
   return (
     <div className={s.TextPositionAndFormat}>
       <RadioGroup
@@ -89,7 +87,7 @@ export function TextPositionAdnFormat({
             gap: "8px",
           }}
         >
-          {["none", "AA", "aa", "Aa"].map((item) => (
+          {["none", "uppercase", "lowercase", "capitalize"].map((item) => (
             <Box
               key={item}
               sx={{
@@ -119,9 +117,9 @@ export function TextPositionAdnFormat({
                 label={
                   {
                     none: <p className={s.svgIcon}>-</p>,
-                    AA: <p className={s.svgIcon}>AA</p>,
-                    aa: <p className={s.svgIcon}>aa</p>,
-                    Aa: <p className={s.svgIcon}>Aa</p>,
+                    uppercase: <p className={s.svgIcon}>AA</p>,
+                    lowercase: <p className={s.svgIcon}>aa</p>,
+                    capitalize: <p className={s.svgIcon}>Aa</p>,
                   }[item]
                 }
                 variant={format === item ? "solid" : "plain"}
