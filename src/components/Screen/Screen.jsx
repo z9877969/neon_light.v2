@@ -108,7 +108,7 @@ const ScreenComponent = ({
 
       if (format === "uppercase") {
         textObject.set({ text: formattedText.toUpperCase() });
-      } else if (format === "aa") {
+      } else if (format === "lowercase") {
         textObject.set({ text: formattedText.toLowerCase() });
       } else if (format === "capitalize") {
         textObject.set({ text: formatText(formattedText) });
