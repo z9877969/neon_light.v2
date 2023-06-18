@@ -20,7 +20,17 @@ const initialValues = {
   communicateBy: ["email"],
 };
 
-const FormFeedback = () => {
+const FormFeedback = ({
+  formInscription,
+  positionText,
+  styleText,
+  color,
+  font,
+  price,
+  width,
+  height,
+  text,
+}) => {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileChange = (event) => {
@@ -39,6 +49,17 @@ const FormFeedback = () => {
     values.communicateBy.forEach((el) => {
       formData.append("communicateBy[]", el);
     });
+
+    if (formInscription) {
+      formData.append("order[positionText]", positionText);
+      formData.append("order[styleText]", styleText);
+      formData.append("order[color]", color);
+      formData.append("order[font]", font);
+      formData.append("order[price]", price);
+      formData.append("order[width]", width);
+      formData.append("order[height]", height);
+      formData.append("order[text]", text);
+    }
 
     try {
       await addOrder(formData);
