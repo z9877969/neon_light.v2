@@ -30,7 +30,6 @@ const styles = {
         borderRadius: "6px",
     }),
     text: (isTablet) => ({
-        // fontFamily: "Roboto",
         fontSize: "14px",
         fontWeight: 500,
         lineHeight: "18px",
@@ -44,22 +43,21 @@ const styles = {
     canvasContainer: {
         position: "relative",
 
-        // whiteSpace: "normal",
-        // whiteSpace: 'pre-wrap',
-        // wordBreak: 'break-word',
-
     },
     canvasHeight: (isTablet) => ({
         position: "absolute",
         color: "rgba(255, 255, 255, 0.5)",
-        top: isTablet ? "45px" : "24px",
+        top: isTablet ? "45px" : "33px",
         bottom: isTablet ? "5px" : "-5px",
-        left: isTablet ? "-35px" : "-30px",
+        left: isTablet ? "-45px" : "-25px",
         fontSize: "14px",
         borderRight: "1px solid #fff",
         display: "flex",
         alignItems: "center",
         paddingRight: "10px",
+        width: isTablet ? "35px" : "17px",
+        boxSizing: "content-box",
+        textAlign: "right",
     }),
     canvasWidth: {
         position: "absolute",
@@ -80,11 +78,8 @@ const styles = {
         justifyContent: "center",
         fontSize: "calc(10px + 2vmin)",
         color: "white",
-        // marginLeft: 110,
-        // marginRight: 50,
         height: isTablet ? "85%" : "75%",
         wordWrap: "break-word",
-        // fontFamily: "Roboto",
         fontWeight: 400,
 
     }),
