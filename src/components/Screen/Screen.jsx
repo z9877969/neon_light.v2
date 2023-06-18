@@ -248,7 +248,7 @@ const ScreenComponent = ({
           variant="body1"
           style={{
             ...styles.price(isTablet),
-            color: price !== 0 ? "#5FCECB" :  "#FFFFFF33",
+            color: price !== "" ? "#5FCECB" :  "#FFFFFF33",
           }}
         >
           {roundPrice(price)} грн
