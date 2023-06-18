@@ -106,11 +106,11 @@ const ScreenComponent = ({
         return formattedWords.join(" ");
       };
 
-      if (format === "AA") {
+      if (format === "uppercase") {
         textObject.set({ text: formattedText.toUpperCase() });
       } else if (format === "aa") {
         textObject.set({ text: formattedText.toLowerCase() });
-      } else if (format === "Aa") {
+      } else if (format === "capitalize") {
         textObject.set({ text: formatText(formattedText) });
       }
 
