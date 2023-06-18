@@ -30,6 +30,8 @@ const App = () => {
   const [widthError, setWidthError] = useState("*Обовязкове поле");
   const [heightError, setHeightError] = useState("*Обовязкове поле");
 
+  const textWidthToHeightRatio = 3;
+
   useEffect(() => {
     if (text && textWidth && textHeight) {
       const symbolQuantityText = text.split(" ").join("").length;
@@ -106,29 +108,43 @@ const App = () => {
     }
   };
 
-  const handleWidthChange = (e) => {
-    setTextWidth(e.target.value);
-    if (+e.target.value > 200) {
-      setWidthError("*Максимально 200");
+
+
+  const handleWidthChange = (event) => {
+    let newWidth = event.target.value;
+    let widthError = "";
+
+    if (!newWidth) {
+      widthError = "*Обовязкове поле";
+    } else if (newWidth > 200) {
+      widthError = "*Максимально 200";
+      newWidth = 200;
     }
-    if (!e.target.value) {
-      setWidthError("*Обовязкове поле");
-    } else {
-      setWidthError("");
-    }
+
+    const newHeight = Math.round(newWidth / textWidthToHeightRatio);
+    setTextWidth(newWidth);
+    setTextHeight(newHeight);
+    setWidthError(widthError);
   };
 
-  const handleHeightChange = (e) => {
-    setTextHeight(e.target.value);
+  const handleHeightChange = (event) => {
+    let newHeight = event.target.value;
+    let heightError = "";
 
-    if (+e.target.value < 8) {
-      setHeightError("*Мінімально 8");
+    if (!newHeight) {
+      heightError = "*Обовязкове поле";
+    } else if (newHeight < 8) {
+      heightError = "*Мінімально 8";
+      newHeight = 8;
+    } else if (newHeight > 66) {
+      heightError = "*Максимально 66";
+      newHeight = 66;
     }
-    if (!e.target.value) {
-      setHeightError("*Обовязкове поле");
-    } else {
-      setHeightError("");
-    }
+
+    const newWidth = Math.round(newHeight * textWidthToHeightRatio);
+    setTextHeight(newHeight);
+    setTextWidth(newWidth);
+    setHeightError(heightError);
   };
 
   return (
