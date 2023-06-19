@@ -32,14 +32,38 @@ const FormFeedback = ({
   text,
 }) => {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [fileError, setFileError] = useState("");
 
   const handleFileChange = (event) => {
     const file = event.currentTarget.files[0];
+
+    if (file) {
+      const supportedFormats = [
+        "image/png",
+        "image/jpeg",
+        "image/jpg",
+        "image/gif",
+      ];
+      const maxSize = 5 * 1024 * 1024;
+
+      if (!supportedFormats.includes(file.type)) {
+        setFileError("*Тільки файли з розширеннями png, jpg, jpeg, gif!");
+      } else if (file.size > maxSize) {
+        setFileError("*Розмір файлу повинен бути не більше 5 МБ!");
+      } else {
+        setFileError("");
+      }
+    } else {
+      setFileError("");
+    }
 
     setSelectedFile(file);
   };
 
   const handleSubmit = async (values, { resetForm }) => {
+    if (fileError) {
+      return;
+    }
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("phone", values.phone);
@@ -137,6 +161,9 @@ const FormFeedback = ({
                 className={s.FileInput}
                 onChange={handleFileChange}
               />
+              {fileError && (
+                <div className={errorStyle.errorMessage}>{fileError}</div>
+              )}
             </label>
             <p className={s.TextContact}>
               Ви можете зв'язатися з нами за допомогою електронної пошти,
