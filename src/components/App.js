@@ -45,9 +45,12 @@ const App = () => {
     }
     if (!textHeight) {
       setHeightError("Обовязкове поле");
+    } else if (+textHeight < 8) {
+      setHeightError("Мінімально 8 см");
     } else {
       setHeightError("");
     }
+
     if (text && textWidth && textHeight) {
       const symbolQuantityText = text.split(" ").join("").length;
       const lengthOfLedStripInMeters = ((textWidth + textHeight) * 2) / 10000;
