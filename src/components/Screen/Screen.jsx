@@ -272,7 +272,9 @@ const ScreenComponent = ({
           <div style={styles.canvasWidth}>
             {textWidthState !== "" ? `${textWidthState} см` : "см"}
           </div>
-          <canvas style={{ fontFamily: "comfortaa" }} ref={canvasRef} />
+          <canvas
+            // style={{ fontFamily: "comfortaa" }}
+            ref={canvasRef} />
         </div>
       </div>
       <div

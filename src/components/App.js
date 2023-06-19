@@ -27,8 +27,8 @@ const App = () => {
   const [widthDirty, setWidthDirty] = useState(false);
   const [heightDirty, setHeightDirty] = useState(false);
   const [textError, setTextError] = useState("");
-  const [widthError, setWidthError] = useState("Обовязкове поле");
-  const [heightError, setHeightError] = useState("Обовязкове поле");
+  const [widthError, setWidthError] = useState("*Обовязкове поле");
+  const [heightError, setHeightError] = useState("*Обовязкове поле");
 
   const textWidthToHeightRatio = 3;
 
@@ -102,20 +102,22 @@ const App = () => {
   const handleTextChange = (e) => {
     setText(e.target.value);
     if (!text) {
-      setTextError("Обовязкове поле");
+      setTextError("*Обовязкове поле");
     } else {
       setTextError("");
     }
   };
+
+
 
   const handleWidthChange = (event) => {
     let newWidth = event.target.value;
     let widthError = "";
 
     if (!newWidth) {
-      widthError = "Обовязкове поле";
+      widthError = "*Обовязкове поле";
     } else if (newWidth > 200) {
-      widthError = "Максимально 200";
+      widthError = "*Максимально 200";
       newWidth = 200;
     }
 
@@ -127,22 +129,22 @@ const App = () => {
 
   const handleHeightChange = (event) => {
     let newHeight = event.target.value;
+    let heightError = "";
 
     if (!newHeight) {
-      setHeightError("Обовязкове поле");
-    } else if (+newHeight < 8) {
+      heightError = "*Обовязкове поле";
+    } else if (newHeight < 8) {
+      heightError = "*Мінімально 8";
       newHeight = 8;
-      setHeightError("");
-    } else if (+newHeight > 66) {
-      setHeightError("");
+    } else if (newHeight > 66) {
+      heightError = "*Максимально 66";
       newHeight = 66;
-    } else {
-      setHeightError("");
     }
 
     const newWidth = Math.round(newHeight * textWidthToHeightRatio);
     setTextHeight(newHeight);
     setTextWidth(newWidth);
+    setHeightError(heightError);
   };
 
   return (
@@ -201,17 +203,7 @@ const App = () => {
         </div>
         {isOpen && (
           <ModalFeedback onClose={handleTogleModal}>
-            <FormFeedback
-              formInscription={formInscription}
-              positionText={positionText}
-              styleText={styleText}
-              color={color}
-              text={text}
-              font={font}
-              price={price}
-              width={textWidth}
-              height={textHeight}
-            />
+            <FormFeedback />
           </ModalFeedback>
         )}
       </Container>
@@ -221,3 +213,4 @@ const App = () => {
 };
 
 export default App;
+
