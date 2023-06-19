@@ -1,14 +1,15 @@
 const colorPickerOptions = [
   { color: "#FEFEFE" },
-  { color: "#FEF1E2" },
+  { color: "#fff6e4" },
+  { color: "#FDE870" },
   { color: "#FFF303" },
   { color: "#FEC258" },
-  { color: "#FF909E" },
-  { color: "#BA67AB" },
+  { color: "#F800B5" },
+  { color: "#9700FD" },
   { color: "#C33424" },
-  { color: "#AAD995" },
-  { color: "#00FF00" },
-  { color: "#7C9BC9" },
+  { color: "#09FF3D" },
+  { color: "#00E5FC" },
+  { color: "#1E02FE" },
 ];
 
 export default colorPickerOptions;

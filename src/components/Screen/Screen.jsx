@@ -93,7 +93,7 @@ const ScreenComponent = ({
         shadowOffsetX: textBlur ? 5 : 0,
         shadowOffsetY: textBlur ? 10 : 0,
         stroke: textBlur ? textBlurValue : null,
-        strokeWidth: textBlur ? 0.3 : 0,
+        strokeWidth: textBlur ? 0.2 : 0,
         textAlign: alignment,
         originX: "left",
       });
@@ -106,11 +106,11 @@ const ScreenComponent = ({
         return formattedWords.join(" ");
       };
 
-      if (format === "AA") {
+      if (format === "uppercase") {
         textObject.set({ text: formattedText.toUpperCase() });
-      } else if (format === "aa") {
+      } else if (format === "lowercase") {
         textObject.set({ text: formattedText.toLowerCase() });
-      } else if (format === "Aa") {
+      } else if (format === "capitalize") {
         textObject.set({ text: formatText(formattedText) });
       }
 
@@ -248,7 +248,7 @@ const ScreenComponent = ({
           variant="body1"
           style={{
             ...styles.price(isTablet),
-            color: price === 0.0 ? "#FFFFFF33" : "#5FCECB",
+            color: price !== "" ? "#5FCECB" :  "#FFFFFF33",
           }}
         >
           {roundPrice(price)} грн
