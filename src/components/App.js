@@ -30,9 +30,28 @@ const App = () => {
   const [widthError, setWidthError] = useState("*Обовязкове поле");
   const [heightError, setHeightError] = useState("*Обовязкове поле");
 
-  const textWidthToHeightRatio = 3;
+  const textWidthToHeightRatio = 4;
+
+  // useEffect(() => {
+  //   setFont("comfortaa")
+  // }, [])
 
   useEffect(() => {
+    if (!text) {
+      setTextError("Обовязкове поле");
+    } else {
+      setTextError("");
+    }
+    if (!textWidth) {
+      setWidthError("Обовязкове поле");
+    } else {
+      setWidthError("");
+    }
+    if (!textHeight) {
+      setHeightError("Обовязкове поле");
+    } else {
+      setHeightError("");
+    }
     if (text && textWidth && textHeight) {
       const symbolQuantityText = text.split(" ").join("").length;
       const lengthOfLedStripInMeters = ((textWidth + textHeight) * 2) / 10000;
@@ -101,51 +120,37 @@ const App = () => {
 
   const handleTextChange = (e) => {
     setText(e.target.value);
-    if (!text) {
-      setTextError("*Обовязкове поле");
-    } else {
-      setTextError("");
-    }
   };
 
 
 
   const handleWidthChange = (event) => {
     let newWidth = event.target.value;
-    let widthError = "";
 
-    if (!newWidth) {
-      widthError = "*Обовязкове поле";
-    } else if (newWidth > 200) {
-      widthError = "*Максимально 200";
+    if (newWidth > 200) {
       newWidth = 200;
     }
 
     const newHeight = Math.round(newWidth / textWidthToHeightRatio);
     setTextWidth(newWidth);
     setTextHeight(newHeight);
-    setWidthError(widthError);
   };
 
   const handleHeightChange = (event) => {
-    let newHeight = event.target.value;
+    let newHeight = (event.target.value);
     let heightError = "";
 
-    if (!newHeight) {
-      heightError = "*Обовязкове поле";
-    } else if (newHeight < 8) {
-      heightError = "*Мінімально 8";
-      newHeight = 8;
-    } else if (newHeight > 66) {
-      heightError = "*Максимально 66";
-      newHeight = 66;
+    if (newHeight > 51) {
+      newHeight = 50;
     }
+
 
     const newWidth = Math.round(newHeight * textWidthToHeightRatio);
     setTextHeight(newHeight);
     setTextWidth(newWidth);
     setHeightError(heightError);
   };
+
 
   return (
     <>

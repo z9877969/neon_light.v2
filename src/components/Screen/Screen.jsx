@@ -35,6 +35,7 @@ const ScreenComponent = ({
   const roundPrice = (price) => Math.round(price);
 
   useEffect(() => {
+    
     const canvas = new fabric.Canvas(canvasRef.current);
 
     const addText = () => {
@@ -77,6 +78,8 @@ const ScreenComponent = ({
       }
       const formattedText = formattedWords.join(" ");
 
+      //  fabric.Text.prototype.fontFamily = "Comfortaa"; //перший варіант
+
       const textObject = new fabric.Text(formattedText, {
         left: 20,
         top: 20,
@@ -98,6 +101,20 @@ const ScreenComponent = ({
         originX: "left",
       });
 
+
+      console.log('textObject:', textObject)
+       console.log('Шрифт:',fabric.Text.prototype.fontFamily)
+     
+    //   if ( fabric.Text.prototype.fontFamily === "Times New Roman") {
+    //   textObject.set({ fontFamily: "Comfortaa" });
+    // } //другий варіант
+      
+      //  textObject.set("fontFamily", "Comfortaa");
+      // canvas.renderAll(); //третій варіант 
+      
+      
+     
+      
       const formatText = (text) => {
         const words = text.split(" ");
         const formattedWords = words.map((word) => {
@@ -105,6 +122,8 @@ const ScreenComponent = ({
         });
         return formattedWords.join(" ");
       };
+
+     
 
       if (format === "uppercase") {
         textObject.set({ text: formattedText.toUpperCase() });
@@ -145,6 +164,8 @@ const ScreenComponent = ({
       canvas.setDimensions({ width: textWidth + 50, height: textHeight + 60 });
 
       canvas.add(textObject);
+
+      
     };
 
     addText();
@@ -263,6 +284,8 @@ const ScreenComponent = ({
           style={{
             ...styles.canvasContainer,
             ...getAlignmentStyle(),
+            // fontFamily: "Comfortaa",
+            
           }}
           ref={containerRef}
         >
@@ -273,7 +296,7 @@ const ScreenComponent = ({
             {textWidthState !== "" ? `${textWidthState} см` : "см"}
           </div>
           <canvas
-            // style={{ fontFamily: "comfortaa" }}
+            // style={{ fontFamily: "Comfortaa" }}
             ref={canvasRef} />
         </div>
       </div>
