@@ -69,7 +69,11 @@ const FormFeedback = ({
     formData.append("phone", values.phone);
     formData.append("email", values.email);
     formData.append("comment", values.comment);
-    formData.append("file", selectedFile);
+
+    if (selectedFile) {
+      formData.append("file", selectedFile);
+    }
+
     values.communicateBy.forEach((el) => {
       formData.append("communicateBy[]", el);
     });
@@ -83,6 +87,11 @@ const FormFeedback = ({
       formData.append("order[width]", width);
       formData.append("order[height]", height);
       formData.append("order[text]", text);
+    } else {
+      if (!selectedFile) {
+        setFileError("*Додайте зображення власного макету!");
+        return;
+      }
     }
 
     try {
