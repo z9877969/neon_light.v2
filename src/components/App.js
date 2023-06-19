@@ -33,6 +33,21 @@ const App = () => {
   const textWidthToHeightRatio = 3;
 
   useEffect(() => {
+    if (!text) {
+      setTextError("Обовязкове поле");
+    } else {
+      setTextError("");
+    }
+    if (!textWidth) {
+      setWidthError("Обовязкове поле");
+    } else {
+      setWidthError("");
+    }
+    if (!textHeight) {
+      setHeightError("Обовязкове поле");
+    } else {
+      setHeightError("");
+    }
     if (text && textWidth && textHeight) {
       const symbolQuantityText = text.split(" ").join("").length;
       const lengthOfLedStripInMeters = ((textWidth + textHeight) * 2) / 10000;
@@ -101,43 +116,27 @@ const App = () => {
 
   const handleTextChange = (e) => {
     setText(e.target.value);
-    if (!text) {
-      setTextError("Обовязкове поле");
-    } else {
-      setTextError("");
-    }
   };
 
   const handleWidthChange = (event) => {
     let newWidth = event.target.value;
-    let widthError = "";
 
-    if (!newWidth) {
-      widthError = "Обовязкове поле";
-    } else if (newWidth > 200) {
-      widthError = "Максимально 200";
+    if (newWidth > 200) {
       newWidth = 200;
     }
 
     const newHeight = Math.round(newWidth / textWidthToHeightRatio);
     setTextWidth(newWidth);
     setTextHeight(newHeight);
-    setWidthError(widthError);
   };
 
   const handleHeightChange = (event) => {
     let newHeight = event.target.value;
 
-    if (!newHeight) {
-      setHeightError("Обовязкове поле");
-    } else if (+newHeight < 8) {
+    if (+newHeight < 8) {
       newHeight = 8;
-      setHeightError("");
     } else if (+newHeight > 66) {
-      setHeightError("");
       newHeight = 66;
-    } else {
-      setHeightError("");
     }
 
     const newWidth = Math.round(newHeight * textWidthToHeightRatio);
