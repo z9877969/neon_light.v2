@@ -10,6 +10,7 @@ import ModalFeedback from "./ModalFeedback/ModalFeedback";
 import FormFeedback from "./FormFeedback/FormFeedback";
 import fonts from "./FormInscription/Options/fonts";
 import calculatePrice from "../shared/lib/priceCalculator";
+import getNeonStripLength from "../shared/lib/getNeonStripLength";
 import s from "./App.module.scss";
 
 const App = () => {
@@ -57,13 +58,16 @@ const App = () => {
 
     if (text && textWidth && textHeight) {
       const symbolQuantityText = text.split(" ").join("").length;
-      const lengthOfLedStripInMeters = ((textWidth + textHeight) * 2) / 10000;
+      const lengthOfLedStripInMeters = getNeonStripLength(
+        symbolQuantityText,
+        +textHeight
+      );
 
       const totalPrice = calculatePrice(
         textWidth / 100,
         textHeight / 100,
         symbolQuantityText,
-        lengthOfLedStripInMeters
+        lengthOfLedStripInMeters / 100
       );
       setPrice(totalPrice);
     }
@@ -139,7 +143,6 @@ const App = () => {
 
   const handleHeightChange = (event) => {
     let newHeight = event.target.value;
-    let heightError = "";
 
     if (newHeight > 51) {
       newHeight = 50;
@@ -148,7 +151,6 @@ const App = () => {
     const newWidth = Math.round(newHeight * textWidthToHeightRatio);
     setTextHeight(newHeight);
     setTextWidth(newWidth);
-    setHeightError(heightError);
   };
 
   return (
