@@ -55,7 +55,7 @@ const styles = {
         display: "flex",
         alignItems: "center",
         paddingRight: "10px",
-        width: isTablet ? "35px" : "17px",
+        width: isTablet ? "37px" : "17px",
         boxSizing: "content-box",
         textAlign: "right",
     }),

@@ -27,10 +27,14 @@ const App = () => {
   const [widthDirty, setWidthDirty] = useState(false);
   const [heightDirty, setHeightDirty] = useState(false);
   const [textError, setTextError] = useState("");
-  const [widthError, setWidthError] = useState("Обовязкове поле");
-  const [heightError, setHeightError] = useState("Обовязкове поле");
+  const [widthError, setWidthError] = useState("*Обовязкове поле");
+  const [heightError, setHeightError] = useState("*Обовязкове поле");
 
-  const textWidthToHeightRatio = 3;
+  const textWidthToHeightRatio = 4;
+
+  // useEffect(() => {
+  //   setFont("comfortaa")
+  // }, [])
 
   useEffect(() => {
     if (!text) {
@@ -118,6 +122,8 @@ const App = () => {
     setText(e.target.value);
   };
 
+
+
   const handleWidthChange = (event) => {
     let newWidth = event.target.value;
 
@@ -131,18 +137,20 @@ const App = () => {
   };
 
   const handleHeightChange = (event) => {
-    let newHeight = event.target.value;
+    let newHeight = (event.target.value);
+    let heightError = "";
 
-    if (+newHeight < 8) {
-      newHeight = 8;
-    } else if (+newHeight > 66) {
-      newHeight = 66;
+    if (newHeight > 51) {
+      newHeight = 50;
     }
+
 
     const newWidth = Math.round(newHeight * textWidthToHeightRatio);
     setTextHeight(newHeight);
     setTextWidth(newWidth);
+    setHeightError(heightError);
   };
+
 
   return (
     <>
@@ -200,17 +208,7 @@ const App = () => {
         </div>
         {isOpen && (
           <ModalFeedback onClose={handleTogleModal}>
-            <FormFeedback
-              formInscription={formInscription}
-              positionText={positionText}
-              styleText={styleText}
-              color={color}
-              text={text}
-              font={font}
-              price={price}
-              width={textWidth}
-              height={textHeight}
-            />
+            <FormFeedback />
           </ModalFeedback>
         )}
       </Container>
@@ -220,3 +218,4 @@ const App = () => {
 };
 
 export default App;
+

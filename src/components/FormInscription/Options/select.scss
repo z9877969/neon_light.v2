@@ -44,7 +44,7 @@
 
       &:first-child {
         font-family: Comfortaa;
-        @include font(500, 16px, 1.25);
+        @include font(400, 16px, 1.25);
       }
       &:nth-child(2) {
         font-family: Alumini Sans;
