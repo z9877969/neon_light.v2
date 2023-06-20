@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 import { ReactComponent as IconClose } from "../../images/cross.svg";
@@ -8,12 +8,14 @@ import s from "./ModalFeedback.module.scss";
 const modalEl = document.querySelector("#modal-root");
 
 const ModalFeedback = ({ onClose, children }) => {
+  const [isModalOpen, setModalOpen] = useState(false);
   const modalRef = useRef(null);
 
   useEffect(() => {
     const handleKeydown = (event) => {
       if (event.code === "Escape") {
-        onClose();
+        setModalOpen(false);
+        setTimeout(onClose, 300);
       }
     };
 
@@ -25,7 +27,7 @@ const ModalFeedback = ({ onClose, children }) => {
     body.style.paddingRight = `${scrollBarWidth}px`;
 
     window.addEventListener("keydown", handleKeydown);
-    modalRef.current.focus();
+    setModalOpen(true);
     return () => {
       window.removeEventListener("keydown", handleKeydown);
       body.style.overflow = "";
@@ -35,19 +37,31 @@ const ModalFeedback = ({ onClose, children }) => {
 
   const handleBackdropClick = (event) => {
     if (event.target === event.currentTarget) {
-      onClose();
+      setModalOpen(false);
+      setTimeout(onClose, 300);
     }
   };
 
+  const handleClose = () => {
+    setModalOpen(false);
+    setTimeout(onClose, 300);
+  };
+
+  useEffect(() => {
+    if (isModalOpen && modalRef.current) {
+      modalRef.current.focus();
+    }
+  }, [isModalOpen]);
+
   return createPortal(
     <div
-      className={s.Backdrop}
+      className={`${s.Backdrop} ${isModalOpen ? s.Open : ""}`}
       onClick={handleBackdropClick}
       tabIndex={-1}
       ref={modalRef}
     >
-      <div className={s.Modal}>
-        <button type="button" className={s.CloseButton} onClick={onClose}>
+      <div className={`${s.Modal} ${isModalOpen ? s.Open : ""}`} tabIndex={0}>
+        <button type="button" className={s.CloseButton} onClick={handleClose}>
           <IconClose className={s.CloseIcon} />
         </button>
         {children}
