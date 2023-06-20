@@ -1,22 +1,14 @@
 import React from "react";
 import { Field } from "formik";
+import s from "./InputField.module.scss";
 
-const InputField = ({
-  name,
-  type,
-  placeholder,
-  className,
-  value,
-  onChange,
-}) => {
+const InputField = ({ name, placeholder }) => {
   return (
     <Field
-      className={className}
-      type={type}
+      className={s.FormInput}
+      type="text"
       name={name}
       placeholder={placeholder}
-      // value={value}
-      // onChange={onChange}
     />
   );
 };

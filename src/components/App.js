@@ -209,7 +209,17 @@ const App = () => {
         </div>
         {isOpen && (
           <ModalFeedback onClose={handleTogleModal}>
-            <FormFeedback />
+            <FormFeedback
+              formInscription={formInscription}
+              positionText={positionText}
+              styleText={styleText}
+              color={color}
+              text={text}
+              font={font}
+              price={price}
+              width={textWidth}
+              height={textHeight}
+            />
           </ModalFeedback>
         )}
       </Container>

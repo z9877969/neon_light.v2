@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 
 import { ReactComponent as IconPin } from "../../images/pin.svg";
 import s from "./FormFeedback.module.scss";
-import style from "../../shared/components/InputField/InputField.module.scss";
 import errorStyle from "../../shared/components/ErrorMessage/ErrorMessage.module.scss";
 import { validationSchema } from "./YupValidationSchema";
 import InputField from "../../shared/components/InputField/InputField";
@@ -16,7 +15,7 @@ const initialValues = {
   phone: "",
   email: "",
   comment: "",
-  file: null,
+  file: "",
   communicateBy: ["email"],
 };
 
@@ -115,37 +114,16 @@ const FormFeedback = ({
         >
           <Form>
             <div className={s.InputBox}>
-              <InputField
-                className={style.FormInput}
-                name="name"
-                placeholder="Ваше ім’я"
-              />
-              <ErrorMessageField
-                className={errorStyle.errorMessage}
-                name="name"
-              />
+              <InputField name="name" placeholder="Ваше ім’я" />
+              <ErrorMessageField name="name" />
             </div>
             <div className={s.InputBox}>
-              <InputField
-                className={style.FormInput}
-                name="phone"
-                placeholder="Номер телефону"
-              />
-              <ErrorMessageField
-                className={errorStyle.errorMessage}
-                name="phone"
-              />
+              <InputField name="phone" placeholder="Номер телефону" />
+              <ErrorMessageField name="phone" />
             </div>
             <div className={s.InputBox}>
-              <InputField
-                className={style.FormInput}
-                name="email"
-                placeholder="Електронна пошта"
-              />
-              <ErrorMessageField
-                className={errorStyle.errorMessage}
-                name="email"
-              />
+              <InputField name="email" placeholder="Електронна пошта" />
+              <ErrorMessageField name="email" />
             </div>
             <Field
               className={s.FormTextArea}
@@ -182,15 +160,12 @@ const FormFeedback = ({
               <CheckBoxGroup
                 name="communicateBy"
                 options={[
-                  { label: "Email", value: "email", checked: true },
+                  { label: "Email", value: "email", defaultChecked: true },
                   { label: "Viber", value: "viber" },
                   { label: "Telegram", value: "telegram" },
                 ]}
               />
-              <ErrorMessageField
-                className={errorStyle.errorMessage}
-                name="communicateBy"
-              />
+              <ErrorMessageField name="communicateBy" />
             </div>
             <button className={s.Button} type="submit">
               Надіслати
