@@ -125,8 +125,6 @@ const App = () => {
     setText(e.target.value);
   };
 
-
-
   const handleWidthChange = (event) => {
     let newWidth = event.target.value;
 
@@ -140,20 +138,18 @@ const App = () => {
   };
 
   const handleHeightChange = (event) => {
-    let newHeight = (event.target.value);
+    let newHeight = event.target.value;
     let heightError = "";
 
     if (newHeight > 51) {
       newHeight = 50;
     }
 
-
     const newWidth = Math.round(newHeight * textWidthToHeightRatio);
     setTextHeight(newHeight);
     setTextWidth(newWidth);
     setHeightError(heightError);
   };
-
 
   return (
     <>
@@ -211,7 +207,17 @@ const App = () => {
         </div>
         {isOpen && (
           <ModalFeedback onClose={handleTogleModal}>
-            <FormFeedback />
+            <FormFeedback
+              formInscription={formInscription}
+              positionText={positionText}
+              styleText={styleText}
+              color={color}
+              text={text}
+              font={font}
+              price={price}
+              width={textWidth}
+              height={textHeight}
+            />
           </ModalFeedback>
         )}
       </Container>
@@ -221,4 +227,3 @@ const App = () => {
 };
 
 export default App;
-
