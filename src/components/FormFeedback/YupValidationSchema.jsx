@@ -7,10 +7,7 @@ export const validationSchema = Yup.object().shape({
     .max(40, `*Ваше ім'я занадто довге!`)
     .required("*Введіть ваше ім'я!"),
   phone: Yup.string()
-    .matches(
-      /^\+\d{1,3}\(\d{1,4}\)\d{3}[\s.-]\d{2}[\s.-]\d{2}$/,
-      `*Введіть дійсний номер телефону в форматі +38(0XX)XXX-XX-XX`
-    )
+    .matches(/^\+380\d{9}$/, `*Введіть номер телефону починаючи з +380`)
     .required("*Введіть номер телефону!"),
   email: Yup.string()
     .matches(
