@@ -26,10 +26,13 @@
 }
 
 .componentsWrapper {
-  @include tablet_max {
-    margin-top: 40px;
-  }
   @include desktop_max {
-    margin-top: 32px;
+    margin-top: 20px;
   }
+}
+.warrningText {
+  @include font(400, 12px, 1.33);
+  margin-top: 10px;
+  width: 100%;
+  color: $secondary-text-color;
 }

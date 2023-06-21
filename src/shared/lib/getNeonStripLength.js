@@ -16,12 +16,6 @@ const LETTER_HEIGHT_TO_LED_LENGTH_MAP = {
 };
 
 function getNeonStripLength(wordLength, fontSizeCM) {
-  if (fontSizeCM < 8 || fontSizeCM > 50) {
-    throw new Error(
-      `The font size should be between 8 and 50, not ${fontSizeCM}`
-    );
-  }
-
   if (!LETTER_HEIGHT_TO_LED_LENGTH_MAP[fontSizeCM]) {
     const heightVariants = Object.keys(LETTER_HEIGHT_TO_LED_LENGTH_MAP);
 

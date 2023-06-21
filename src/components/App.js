@@ -10,6 +10,7 @@ import ModalFeedback from "./ModalFeedback/ModalFeedback";
 import FormFeedback from "./FormFeedback/FormFeedback";
 import fonts from "./FormInscription/Options/fonts";
 import calculatePrice from "../shared/lib/priceCalculator";
+import getNeonStripLength from "../shared/lib/getNeonStripLength";
 import s from "./App.module.scss";
 
 const App = () => {
@@ -39,6 +40,7 @@ const App = () => {
   useEffect(() => {
     if (!text) {
       setTextError("Обовязкове поле");
+      setPrice(null);
     } else {
       setTextError("");
     }
@@ -49,18 +51,25 @@ const App = () => {
     }
     if (!textHeight) {
       setHeightError("Обовязкове поле");
+    } else if (+textHeight < 8) {
+      setHeightDirty(true);
+      setHeightError("Мінімально 8 см");
     } else {
       setHeightError("");
     }
+
     if (text && textWidth && textHeight) {
       const symbolQuantityText = text.split(" ").join("").length;
-      const lengthOfLedStripInMeters = ((textWidth + textHeight) * 2) / 10000;
+      const lengthOfLedStripInMeters = getNeonStripLength(
+        symbolQuantityText,
+        +textHeight
+      );
 
       const totalPrice = calculatePrice(
         textWidth / 100,
         textHeight / 100,
         symbolQuantityText,
-        lengthOfLedStripInMeters
+        lengthOfLedStripInMeters / 100
       );
       setPrice(totalPrice);
     }
@@ -122,8 +131,6 @@ const App = () => {
     setText(e.target.value);
   };
 
-
-
   const handleWidthChange = (event) => {
     let newWidth = event.target.value;
 
@@ -137,36 +144,38 @@ const App = () => {
   };
 
   const handleHeightChange = (event) => {
-    let newHeight = (event.target.value);
-    let heightError = "";
+    let newHeight = event.target.value;
 
     if (newHeight > 51) {
       newHeight = 50;
     }
 
-
     const newWidth = Math.round(newHeight * textWidthToHeightRatio);
     setTextHeight(newHeight);
     setTextWidth(newWidth);
-    setHeightError(heightError);
   };
-
 
   return (
     <>
       <div className={s.header}></div>
       <Container>
         <div className={s.wrapper}>
-          <ScreenComponent
-            text={text}
-            textWidth={textWidth}
-            textHeight={textHeight}
-            font={font}
-            color={color}
-            alignment={positionText}
-            format={styleText}
-            price={price}
-          />
+          <div>
+            <ScreenComponent
+              text={text}
+              textWidth={textWidth}
+              textHeight={textHeight}
+              font={font}
+              color={color}
+              alignment={positionText}
+              format={styleText}
+              price={price}
+            />
+            <p className={s.warrningText}>
+              Зображення може спотворюватися для двох та більше рядків. Ми
+              погоджуємо макет перед запуском.
+            </p>
+          </div>
           <div className={s.componentsWrapper}>
             <Tabs
               activeBtn={formInscription}
@@ -208,7 +217,17 @@ const App = () => {
         </div>
         {isOpen && (
           <ModalFeedback onClose={handleTogleModal}>
-            <FormFeedback />
+            <FormFeedback
+              formInscription={formInscription}
+              positionText={positionText}
+              styleText={styleText}
+              color={color}
+              text={text}
+              font={font}
+              price={price}
+              width={textWidth}
+              height={textHeight}
+            />
           </ModalFeedback>
         )}
       </Container>
@@ -218,4 +237,3 @@ const App = () => {
 };
 
 export default App;
-

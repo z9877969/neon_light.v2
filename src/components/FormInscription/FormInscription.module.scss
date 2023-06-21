@@ -57,7 +57,7 @@
 }
 
 .title {
-  @include font(500px, 14px, 1.29);
+  @include font(500, 14px, 1.29);
   color: $gray-text-color;
   padding-bottom: 8px;
 }

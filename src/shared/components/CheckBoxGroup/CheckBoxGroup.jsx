@@ -1,11 +1,12 @@
 import React from "react";
-import { Field } from "formik";
+import { Field, useField } from "formik";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { FaViber, FaTelegramPlane } from "react-icons/fa";
-
 import s from "./CheckBoxGroup.module.scss";
 
 const CheckBoxGroup = ({ name, options }) => {
+  const [, meta] = useField(name);
+
   const getIcon = (value) => {
     switch (value) {
       case "email":
@@ -32,7 +33,7 @@ const CheckBoxGroup = ({ name, options }) => {
             id={option.value}
             name={name}
             value={option.value}
-            defaultChecked={option.checked}
+            checked={meta.value.includes(option.value)}
             className={s.CheckBoxInput}
           />
           <span className={s.CheckBoxCustomInput}>{getIcon(option.value)}</span>

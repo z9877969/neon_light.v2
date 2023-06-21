@@ -1,6 +1,7 @@
+import Select from "react-select";
 import fonts from "./fonts";
 import s from "./Options.module.scss";
-import Select from "react-select";
+
 const Options = ({
   widthDirty,
   widthError,
