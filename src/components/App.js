@@ -52,6 +52,7 @@ const App = () => {
     if (!textHeight) {
       setHeightError("Обовязкове поле");
     } else if (+textHeight < 8) {
+      setHeightDirty(true);
       setHeightError("Мінімально 8 см");
     } else {
       setHeightError("");
