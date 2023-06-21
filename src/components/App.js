@@ -40,6 +40,7 @@ const App = () => {
   useEffect(() => {
     if (!text) {
       setTextError("Обовязкове поле");
+      setPrice(null);
     } else {
       setTextError("");
     }
@@ -51,6 +52,7 @@ const App = () => {
     if (!textHeight) {
       setHeightError("Обовязкове поле");
     } else if (+textHeight < 8) {
+      setHeightDirty(true);
       setHeightError("Мінімально 8 см");
     } else {
       setHeightError("");
@@ -158,16 +160,22 @@ const App = () => {
       <div className={s.header}></div>
       <Container>
         <div className={s.wrapper}>
-          <ScreenComponent
-            text={text}
-            textWidth={textWidth}
-            textHeight={textHeight}
-            font={font}
-            color={color}
-            alignment={positionText}
-            format={styleText}
-            price={price}
-          />
+          <div>
+            <ScreenComponent
+              text={text}
+              textWidth={textWidth}
+              textHeight={textHeight}
+              font={font}
+              color={color}
+              alignment={positionText}
+              format={styleText}
+              price={price}
+            />
+            <p className={s.warrningText}>
+              Зображення може спотворюватися для двох та більше рядків. Ми
+              погоджуємо макет перед запуском.
+            </p>
+          </div>
           <div className={s.componentsWrapper}>
             <Tabs
               activeBtn={formInscription}
