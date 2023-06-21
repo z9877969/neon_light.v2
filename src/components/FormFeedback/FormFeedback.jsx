@@ -86,11 +86,6 @@ const FormFeedback = ({
       formData.append("order[width]", width);
       formData.append("order[height]", height);
       formData.append("order[text]", text);
-    } else {
-      if (!selectedFile) {
-        setFileError("*Додайте зображення власного макету!");
-        return;
-      }
     }
 
     try {
