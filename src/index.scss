@@ -1,9 +1,9 @@
 @import-normalize;
-@import "./sass/utils/fonts-style";
 @import "./sass/utils/base";
 @import "./sass/utils/mixin";
 @import "./sass/utils/variables";
 @import "./components/FormInscription/Options/select.scss";
+@import "./sass/utils/fonts-style";
 
 * {
   box-sizing: border-box;
