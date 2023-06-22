@@ -15,7 +15,7 @@ import handleRadioChange from "./utils/RadioChange/handleRadioChange";
 import getAlignmentStyle from "./utils/AlignmentStyle/getAlignmentStyle";
 import handleTextBlurChange from "./utils/TextBlurChange/handleTextBlurChange";
 import  addText  from "./utils/canvasUtils/addText";
-import  setCanvasSize from "./utils/canvasUtils/setCanvasSize";
+// import  setCanvasSize from "./utils/canvasUtils/setCanvasSize";
 import updateCanvas from "./utils/canvasUtils/updateCanvas";
 
 
@@ -62,7 +62,18 @@ const ScreenComponent = ({
     containerRef,
     fabric,);
 
-    setCanvasSize(canvas, canvasRef);
+    const setCanvasSize = () => {
+      const containerWidth = canvasRef.current.offsetWidth;
+      const containerHeight = canvasRef.current.offsetHeight;
+
+      canvas.setWidth(containerWidth);
+      canvas.setHeight(containerHeight);
+
+      canvas.requestRenderAll();
+    };
+
+    setCanvasSize();
+
 
   updateCanvas( canvas,
     setCanvasSize,

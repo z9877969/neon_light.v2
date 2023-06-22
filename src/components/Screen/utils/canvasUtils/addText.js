@@ -33,6 +33,8 @@ const addText = (
     }
 
     const textBlurValue = getTextBlur(color);
+    const textColor = textBlur ? textBlurValue : color;
+
     const measureTextWidth = (text) => {
         const tempCanvas = document.createElement("canvas");
         const tempContext = tempCanvas.getContext("2d");
@@ -63,7 +65,7 @@ const addText = (
         right: 20,
         fontSize: fontSize,
         lineHeight: lineHeight,
-        fill: color,
+        fill: textColor,
         fontFamily: font,
         fontWeight: 500,
         format: format,
