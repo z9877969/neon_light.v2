@@ -1,11 +1,12 @@
 const fonts = [
-  {
-    label: "Comfortaa",
-    value: "comfortaa",
-  },
+
   {
     label: "Alumini Sans",
     value: "alumini sans",
+  },
+  {
+    label: "Comfortaa",
+    value: "comfortaa",
   },
   {
     label: "Caveat",

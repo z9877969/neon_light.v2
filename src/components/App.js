@@ -19,7 +19,7 @@ const App = () => {
   const [textWidth, setTextWidth] = useState("");
   const [textHeight, setTextHeight] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [font, setFont] = useState("comfortaa");
+  const [font, setFont] = useState("alumini sans");
   const [color, setColor] = useState("#FEFEFE");
   const [price, setPrice] = useState("");
   const [positionText, setPositionText] = useState("start");

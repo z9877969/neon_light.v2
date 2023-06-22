@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { fabric } from "fabric";
-import { getTextBlur } from "../components/Screen/blurOption";
+import { getTextBlur } from "../components/Screen/utils/blurOption";
 
 const useFabric = ({
   text,

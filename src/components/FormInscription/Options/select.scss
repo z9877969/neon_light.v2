@@ -43,12 +43,12 @@
       color: rgba(43, 43, 42, 0.4) !important;
 
       &:first-child {
-        font-family: Comfortaa;
-        @include font(400, 16px, 1.25);
-      }
-      &:nth-child(2) {
         font-family: Alumini Sans;
         @include font(100, 16px, 1.19);
+      }
+      &:nth-child(2) {
+        font-family: Comfortaa;
+        @include font(500, 16px, 1.25);
       }
       &:nth-child(3) {
         font-family: Caveat;
