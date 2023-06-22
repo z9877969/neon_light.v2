@@ -122,6 +122,10 @@
   border: none;
   background: #5fcecb;
   color: $white-text-color;
+  &:hover,
+  &:focus {
+    background-color: #41b9cb;
+  }
 }
 
 .TextPositionAndFormat {
