@@ -60,7 +60,7 @@ const FormFeedback = ({
   };
 
   const handleSubmit = async (values, { resetForm }) => {
-    if (fileError) {
+    if (fileError && !formInscription && !values.comment) {
       return;
     }
     const formData = new FormData();
@@ -86,6 +86,13 @@ const FormFeedback = ({
       formData.append("order[width]", width);
       formData.append("order[height]", height);
       formData.append("order[text]", text);
+    } else {
+      if (!selectedFile && !values.comment.trim()) {
+        setFileError("*Додайте зображення або напишіть коментар!");
+        return;
+      } else {
+        setFileError("");
+      }
     }
 
     try {
