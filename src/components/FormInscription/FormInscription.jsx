@@ -112,6 +112,7 @@ const FormInscription = ({
               </b>
 
               <button
+                aria-label="Price"
                 disabled={!validForm}
                 type="submit"
                 className={s.btnOpenModal}

@@ -1,5 +1,6 @@
 @import "../sass/utils/mixin";
 @import "../sass/utils/variables";
+
 .header {
   background-color: $white-text-color;
   @include tablet_max {

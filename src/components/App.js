@@ -33,10 +33,6 @@ const App = () => {
 
   const textWidthToHeightRatio = 4;
 
-  // useEffect(() => {
-  //   setFont("comfortaa")
-  // }, [])
-
   useEffect(() => {
     if (!text) {
       setTextError("Обовязкове поле");

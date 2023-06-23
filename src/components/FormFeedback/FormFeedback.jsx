@@ -169,7 +169,7 @@ const FormFeedback = ({
               />
               <ErrorMessageField name="communicateBy" />
             </div>
-            <button className={s.Button} type="submit">
+            <button aria-label="Send" className={s.Button} type="submit">
               Надіслати
             </button>
           </Form>
