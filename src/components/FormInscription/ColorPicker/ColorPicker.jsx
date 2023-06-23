@@ -34,6 +34,7 @@ export function ColorPicker({ setColor, color, textWidth, textHeight }) {
             onClick={() => setActiveOptionsIndAndColor(index, color)}
             type="button"
             name="color"
+            aria-label="Color"
           />
         ))}
       </div>

@@ -8,6 +8,7 @@ const Tabs = ({ onOwnDesign, onFormInscription, activeBtn }) => {
         onClick={onOwnDesign}
         className={clsx(s.tabsButton, activeBtn && s.active)}
         type="button"
+        aria-label="Create Inscription"
       >
         <b>Створити напис</b>
       </button>
@@ -15,6 +16,7 @@ const Tabs = ({ onOwnDesign, onFormInscription, activeBtn }) => {
         onClick={onFormInscription}
         className={clsx(s.tabsButton, !activeBtn && s.active)}
         type="button"
+        aria-label="Own Design"
       >
         <b>У мене свій дизайн</b>
       </button>

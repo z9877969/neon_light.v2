@@ -61,7 +61,12 @@ const ModalFeedback = ({ onClose, children }) => {
       ref={modalRef}
     >
       <div className={`${s.Modal} ${isModalOpen ? s.Open : ""}`} tabIndex={0}>
-        <button type="button" className={s.CloseButton} onClick={handleClose}>
+        <button
+          aria-label="Close"
+          type="button"
+          className={s.CloseButton}
+          onClick={handleClose}
+        >
           <IconClose className={s.CloseIcon} />
         </button>
         {children}
