@@ -2,7 +2,7 @@ $width-display-font-size: 16px;
 $height-display-font-size: 16px;
 $line-height: 1.2;
 $line-width: 1px;
-$test-font-size: 40px;
+$base-font-size: 48px;
 
 @mixin around-text-space(
   $_font-size,
@@ -84,14 +84,14 @@ $test-font-size: 40px;
     background-color: #fff;
   }
 }
-@include around-text-space($test-font-size, 12px, $width-display-font-size);
+@include around-text-space($base-font-size, 12px, $width-display-font-size);
 
 .textWrapper {
   display: inline-block;
 }
 .text {
   display: flex;
-  font-size: $test-font-size;
+  font-size: $base-font-size;
 }
 .widthDisplayWrapper {
   display: flex;
@@ -102,8 +102,4 @@ $test-font-size: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-.widthValue {
-}
-.widthUnit {
 }
