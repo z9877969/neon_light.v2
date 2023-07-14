@@ -23,7 +23,7 @@ const App = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [font, setFont] = useState("alumini sans");
   const [color, setColor] = useState("#FEFEFE");
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState(0);
   const [positionText, setPositionText] = useState("start");
   const [styleText, setStyleText] = useState("none");
   const [textDirty, setTextDirty] = useState(false);
@@ -38,7 +38,7 @@ const App = () => {
   useEffect(() => {
     if (!text) {
       setTextError("Обовязкове поле");
-      setPrice(null);
+      setPrice(0);
     } else {
       setTextError("");
     }
@@ -72,10 +72,6 @@ const App = () => {
       setPrice(Math.round(totalPrice));
     }
   }, [text, textHeight, textWidth]);
-
-  // useEffect(() => {
-
-  // }, [text])
 
   const handelePriceChange = (newPrice) => {
     setPrice(newPrice);

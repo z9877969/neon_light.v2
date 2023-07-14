@@ -36,3 +36,19 @@
     @content;
   }
 }
+
+@mixin add-bg-image-styles($_item-selector, $_images_count) {
+  @for $i from 1 through $_images_count {
+    #{$_item-selector}-bg#{$i} {
+      background-image: url("../../images/bg#{$i}@1x-min.jpg");
+      @media screen and (min--moz-device-pixel-ratio: 2),
+        screen and (-o-min-device-pixel-ratio: 2/1),
+        screen and (-webkit-min-device-pixel-ratio: 2),
+        screen and (min-device-pixel-ratio: 2),
+        screen and (min-resolution: 192dpi),
+        screen and (min-resolution: 2dppx) {
+        background-image: url("../../images/bg#{$i}@2x.jpg");
+      }
+    }
+  }
+}

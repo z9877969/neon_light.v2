@@ -1,18 +1,15 @@
-import { Radio, RadioGroup, Typography, useMediaQuery } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import CustomSwitch from "../Switch/Switch";
+import BgChanger from "../BgChanger/BgChanger";
 import ScreenText from "../ScreenText/ScreenText";
+import ScreenTopPanel from "../ScreenTopPanel/ScreenTopPanel";
 import { backgrounds } from "../../images";
-// import addText from "./utils/canvasUtils/addText";
-// import { fabric } from "fabric";
-import getAlignmentStyle from "./utils/AlignmentStyle/getAlignmentStyle";
-import handleRadioChange from "./utils/RadioChange/handleRadioChange";
+import clsx from "clsx";
+// import getAlignmentStyle from "./utils/AlignmentStyle/getAlignmentStyle";
+// import handleRadioChange from "./utils/RadioChange/handleRadioChange";
 import handleTextBlurChange from "./utils/TextBlurChange/handleTextBlurChange";
-import styles from "./ScreenComponentStyles";
+import s from "./ScreenComponent.module.scss";
 import { useMedia } from "../../hooks/useMedia";
-
-// import updateCanvas from "./utils/canvasUtils/updateCanvas";
 
 const ScreenComponent = ({
   text,
@@ -26,19 +23,10 @@ const ScreenComponent = ({
 }) => {
   const [textBlur, setTextBlur] = useState(true);
   const [selectedBackground, setSelectedBackground] = useState(null);
-  // const canvasRef = useRef(null);
-  // const containerRef = useRef(null);
 
   const { isMobile, isMobileAdaptive, isTablet, isDesktop } = useMedia();
 
-  useEffect(() => {
-    // window.addEventListener("resize", setCanvasSize);
-
-    return () => {
-      // window.removeEventListener("resize", setCanvasSize);
-      // canvas.dispose();
-    };
-  }, [
+  useEffect(() => {}, [
     text,
     textWidth,
     textHeight,
@@ -55,101 +43,34 @@ const ScreenComponent = ({
 
   return (
     <div
-      style={styles.container(
-        {isMobile,
-        isTablet,
-        isDesktop,
-        selectedBackground}
+      className={clsx(
+        s.container,
+        Boolean(selectedBackground)
+          ? s[`bgImage-${selectedBackground}`]
+          : s.bgColor
       )}
     >
-      <Typography
-        variant="body1"
-        style={{
-          ...styles.price(isTablet),
-          color: price !== "" ? "#5FCECB" : "#FFFFFF33",
-        }}
-      >
-        {price} грн
-      </Typography>
-
+      <ScreenTopPanel
+        price={price}
+        textBlur={textBlur}
+        handleTextBlurChange={handleTextBlurChange}
+        setTextBlur={setTextBlur}
+      />
       {text.length > 0 && (
         <ScreenText
           text={text}
-          styles={styles}
-          getAlignmentStyle={getAlignmentStyle}
-          alignment={alignment}
-          isTablet={isTablet}
           textHeight={textHeight}
           textWidth={textWidth}
+          // getAlignmentStyle={getAlignmentStyle}
+          // alignment={alignment}
+          // isTablet={isTablet}
         />
       )}
-      <div
-        style={isMobile ? styles.customSwitchMobile : styles.customSwitchTablet}
-      >
-        <CustomSwitch
-          unchecked={textBlur.toString()}
-          onChange={() => handleTextBlurChange(setTextBlur)}
-        />
-      </div>
-
-      <RadioGroup
-        value={selectedBackground}
-        onChange={(event) =>
-          handleRadioChange(event, setSelectedBackground, backgrounds)
-        }
-        style={styles.radioGroup(isTablet)}
-      >
-        {backgrounds.map((background) => (
-          <div
-            key={background.value}
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <Radio
-              value={background.value}
-              checked={selectedBackground === background.value}
-              onChange={(event) =>
-                handleRadioChange(event, setSelectedBackground, backgrounds)
-              }
-              style={{ display: "none" }}
-            />
-            <div
-              onClick={() =>
-                handleRadioChange(
-                  {
-                    target: {
-                      value:
-                        devicePixelRatio > 2
-                          ? background.imageUrl2x
-                          : background.imageUrl,
-                    },
-                  },
-                  setSelectedBackground,
-                  backgrounds
-                )
-              }
-              style={{
-                ...styles.icon(isTablet),
-                backgroundImage: `url(${
-                  devicePixelRatio > 2
-                    ? background.imageUrl2x
-                    : background.imageUrl
-                })`,
-                border:
-                  selectedBackground === background.value
-                    ? "2px solid #5FCECB"
-                    : "none",
-              }}
-            />
-          </div>
-        ))}
-      </RadioGroup>
-      <Typography variant="body1" style={styles.text(isTablet)}>
-        Фони
-      </Typography>
+      <BgChanger
+        backgrounds={backgrounds}
+        selectedBackground={selectedBackground}
+        setSelectedBackground={setSelectedBackground}
+      />
     </div>
   );
 };
