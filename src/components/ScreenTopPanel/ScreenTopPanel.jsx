@@ -3,12 +3,7 @@ import { Typography } from "@mui/material";
 import clsx from "clsx";
 import s from "./ScreenTopPanel.module.scss";
 
-const ScreenTopPanel = ({
-  price,
-  textBlur,
-  handleTextBlurChange,
-  setTextBlur,
-}) => {
+const ScreenTopPanel = ({ price, isTextLight, toggleTextLight }) => {
   return (
     <div className={s.container}>
       <Typography
@@ -17,10 +12,7 @@ const ScreenTopPanel = ({
       >
         {price} грн
       </Typography>
-      <Switch
-        unchecked={textBlur.toString()}
-        onChange={() => handleTextBlurChange(setTextBlur)}
-      />
+      <Switch checked={isTextLight} onChange={toggleTextLight} />
     </div>
   );
 };

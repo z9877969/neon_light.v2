@@ -1,26 +1,24 @@
+import clsx from "clsx";
 import s from "./ScreenText.module.scss";
 
-const ScreenText = ({ text, textHeight, textWidth }) => {
+const ScreenText = ({ text, textHeight, textWidth, isTextLight }) => {
   return (
-    <div className={s.wrapper}>
-      <div className={s.container}>
-        <div className={s.heightDisplayWrapper}>
-          <span className={s.heightDisplay}>{`${textHeight} см`}</span>
+    <div className={s.container}>
+      <div className={s.textBar}>
+        <div className={s.markerHeightWrapper}>
+          <span className={s.markerHeight}>{`${textHeight} см`}</span>
         </div>
-
-        <div className={s.textBar}>
-          <div className={s.linesContainer}>
-            <div className={s.textWrapper}>
-              <span className={s.text}>{text}</span>
-            </div>
-          </div>
-          <div className={s.widthDisplayWrapper}>
-            <p className={s.widthDisplay}>
+        <div className={s.linesContainer}>
+          <span className={clsx(s.text, isTextLight && s.onLightText)}>
+            {text}
+          </span>
+        </div>
+        <div className={s.markerWidthWrapper}>
+            <p className={s.markerWidth}>
               <span className={s.widthValue}>{`${textWidth}`}</span>
               <span className={s.widthUnit}>см</span>
             </p>
           </div>
-        </div>
       </div>
     </div>
   );
