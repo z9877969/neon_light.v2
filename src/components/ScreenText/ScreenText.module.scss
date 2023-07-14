@@ -1,0 +1,110 @@
+$width-display-font-size: 16px;
+$height-display-font-size: 16px;
+$line-height: 1.2;
+$line-width: 1px;
+$test-font-size: 40px;
+
+@mixin around-text-space(
+  $_font-size,
+  $_space-out-of-line,
+  $_width-display-font-size
+) {
+  $space-size: calc(($line-height - 1) / 2 * $_font-size);
+  .heightDisplayWrapper {
+    margin-right: calc($space-size * 2 + $line-width + $_space-out-of-line);
+  }
+  .linesContainer {
+    margin-bottom: calc($space-size * 2 + $line-width + $_space-out-of-line);
+  }
+  .linesContainer::before {
+    height: calc(100% - calc($space-size * 2));
+    transform: translateY(calc($space-size * 2));
+    margin-right: calc($space-size * 2);
+  }
+  .textWrapper {
+    padding-bottom: $space-size;
+  }
+  .linesContainer::after {
+    width: calc(100% - calc($space-size * 2));
+    transform: translateX($space-size * 2);
+  }
+  .heightDisplayWrapper {
+    padding-top: calc($space-size * 2);
+    padding-bottom: calc(
+      $space-size * 2 + $line-width + $_space-out-of-line +
+        $_width-display-font-size * 2 * $line-height
+    );
+  }
+  .widthDisplayWrapper {
+    padding-left: calc($space-size * 2);
+  }
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: #fff;
+  height: 75%;
+  overflow-wrap: break-word;
+  font-weight: 400;
+  line-height: $line-height;
+
+  @media screen and (min-width: 768px) {
+    height: 85%;
+  }
+}
+.container {
+  display: flex;
+}
+.textBar {
+  display: flex;
+  flex-direction: column;
+}
+.heightDisplayWrapper {
+  display: flex;
+  align-items: center;
+}
+.heightDisplay {
+  font-size: $height-display-font-size;
+}
+.linesContainer {
+  height: auto;
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 1px;
+    background-color: #fff;
+  }
+  &::after {
+    content: "";
+    display: block;
+    height: 1px;
+    background-color: #fff;
+  }
+}
+@include around-text-space($test-font-size, 12px, $width-display-font-size);
+
+.textWrapper {
+  display: inline-block;
+}
+.text {
+  display: flex;
+  font-size: $test-font-size;
+  //   padding-bottom: $text-moving-size;
+}
+.widthDisplayWrapper {
+  display: flex;
+  justify-content: center;
+}
+.widthDisplay {
+  font-size: $width-display-font-size;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.widthValue {
+}
+.widthUnit {
+}

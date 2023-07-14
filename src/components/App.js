@@ -1,23 +1,25 @@
-import { useState, useEffect } from "react";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import { useEffect, useState } from "react";
+
 import Container from "./Container/Container";
-import ScreenComponent from "./Screen/Screen";
-import Tabs from "./Tabs/Tabs";
-import FormInscription from "./FormInscription/FormInscription";
-import OwnDesign from "./OwnDesign/OwnDesign";
-import ModalFeedback from "./ModalFeedback/ModalFeedback";
 import FormFeedback from "./FormFeedback/FormFeedback";
-import fonts from "./FormInscription/Options/fonts";
+import FormInscription from "./FormInscription/FormInscription";
+import ModalFeedback from "./ModalFeedback/ModalFeedback";
+import OwnDesign from "./OwnDesign/OwnDesign";
+import { ScreenComponent } from "./Screen";
+import Tabs from "./Tabs/Tabs";
+import { ToastContainer } from "react-toastify";
 import calculatePrice from "../shared/lib/priceCalculator";
+import fonts from "./FormInscription/Options/fonts";
 import getNeonStripLength from "../shared/lib/getNeonStripLength";
 import s from "./App.module.scss";
 
 const App = () => {
   const [formInscription, setFormInscription] = useState(true);
-  const [text, setText] = useState("Введіть текст");
-  const [textWidth, setTextWidth] = useState("");
-  const [textHeight, setTextHeight] = useState("");
+  const [text, setText] = useState("");
+  const [textWidth, setTextWidth] = useState(0);
+  const [textHeight, setTextHeight] = useState(6);
   const [isOpen, setIsOpen] = useState(false);
   const [font, setFont] = useState("alumini sans");
   const [color, setColor] = useState("#FEFEFE");
@@ -67,9 +69,13 @@ const App = () => {
         symbolQuantityText,
         lengthOfLedStripInMeters / 100
       );
-      setPrice(totalPrice);
+      setPrice(Math.round(totalPrice));
     }
   }, [text, textHeight, textWidth]);
+
+  // useEffect(() => {
+
+  // }, [text])
 
   const handelePriceChange = (newPrice) => {
     setPrice(newPrice);
