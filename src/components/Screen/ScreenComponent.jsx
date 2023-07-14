@@ -7,7 +7,6 @@ import { backgrounds } from "../../images";
 import clsx from "clsx";
 // import getAlignmentStyle from "./utils/AlignmentStyle/getAlignmentStyle";
 // import handleRadioChange from "./utils/RadioChange/handleRadioChange";
-import handleTextBlurChange from "./utils/TextBlurChange/handleTextBlurChange";
 import s from "./ScreenComponent.module.scss";
 import { useMedia } from "../../hooks/useMedia";
 
@@ -21,16 +20,20 @@ const ScreenComponent = ({
   format,
   price,
 }) => {
-  const [textBlur, setTextBlur] = useState(true);
+  const [isTextLight, setIsTextLight] = useState(false);
   const [selectedBackground, setSelectedBackground] = useState(null);
 
   const { isMobile, isMobileAdaptive, isTablet, isDesktop } = useMedia();
+
+  const toggleTextLight = () => {
+    setIsTextLight((p) => !p);
+  };
 
   useEffect(() => {}, [
     text,
     textWidth,
     textHeight,
-    textBlur,
+    isTextLight,
     isMobile,
     isTablet,
     isDesktop,
@@ -52,15 +55,15 @@ const ScreenComponent = ({
     >
       <ScreenTopPanel
         price={price}
-        textBlur={textBlur}
-        handleTextBlurChange={handleTextBlurChange}
-        setTextBlur={setTextBlur}
+        isTextLight={isTextLight}
+        toggleTextLight={toggleTextLight}
       />
       {text.length > 0 && (
         <ScreenText
           text={text}
           textHeight={textHeight}
           textWidth={textWidth}
+          isTextLight={isTextLight}
           // getAlignmentStyle={getAlignmentStyle}
           // alignment={alignment}
           // isTablet={isTablet}

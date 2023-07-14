@@ -1,46 +1,54 @@
-$width-display-font-size: 16px;
-$height-display-font-size: 16px;
+$display-width-font-size: 14px;
+$display-height-font-size: 14px;
+$base-font-size: 48px;
+$base-marker-font-size: 14px;
+$base-marker-space: 8px;
 $line-height: 1.2;
 $line-width: 1px;
-$base-font-size: 48px;
+$onlight-color: #f8c51e;
+$test-font-size: 120px;
 
-@mixin around-text-space(
-  $_font-size,
-  $_space-out-of-line,
-  $_width-display-font-size
-) {
+@mixin around-text-space($_font-size) {
   $space-size: calc(($line-height - 1) / 2 * $_font-size);
-  .heightDisplayWrapper {
-    margin-right: calc($space-size * 2 + $line-width + $_space-out-of-line);
+  $_space-out-of-line: calc($_font-size / 2);
+  $_space-out-of-size: $space-size;
+  $_marker-font-size: calc(
+    $base-marker-font-size / $base-font-size * $_font-size
+  );
+  $_marker-space: calc(
+    $base-marker-space / $base-marker-font-size * $_marker-font-size
+  );
+  .markerHeightWrapper {
+    top: calc((100% - $_space-out-of-line) / 2);
+  }
+  .markerHeight,
+  .markerWidth {
+    font-size: $_marker-font-size;
+  }
+  .markerHeight {
+    margin-right: $_marker-space;
   }
   .linesContainer {
-    margin-bottom: calc($space-size * 2 + $line-width + $_space-out-of-line);
+    padding-bottom: $_space-out-of-line;
   }
   .linesContainer::before {
-    height: calc(100% - calc($space-size * 2));
-    transform: translateY(calc($space-size * 2));
-    margin-right: calc($space-size * 2);
+    height: 100%;
+    margin-right: $_space-out-of-line;
   }
-  .textWrapper {
-    padding-bottom: $space-size;
+  .text {
+    font-size: $_font-size;
   }
-  .linesContainer::after {
-    width: calc(100% - calc($space-size * 2));
-    transform: translateX($space-size * 2);
+  .markerWidthWrapper {
+    padding-left: $_space-out-of-line;
   }
-  .heightDisplayWrapper {
-    padding-top: calc($space-size * 2);
-    padding-bottom: calc(
-      $space-size * 2 + $line-width + $_space-out-of-line +
-        $_width-display-font-size * 2 * $line-height
-    );
-  }
-  .widthDisplayWrapper {
-    padding-left: calc($space-size * 2);
+  .markerWidth {
+    margin: 0 auto;
+    margin-top: $_marker-space;
+    width: max-content;
   }
 }
 
-.wrapper {
+.container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,50 +63,52 @@ $base-font-size: 48px;
     height: 85%;
   }
 }
-.container {
-  display: flex;
-}
 .textBar {
+  position: relative;
   display: flex;
-  flex-direction: column;
 }
-.heightDisplayWrapper {
+.markerHeightWrapper {
+  position: absolute;
+  right: 100%;
+  transform: translateY(calc(-50%));
   display: flex;
   align-items: center;
 }
-.heightDisplay {
-  font-size: $height-display-font-size;
+.markerHeight {
+  width: max-content;
 }
 .linesContainer {
-  height: auto;
+  display: flex;
   &::before {
     content: "";
     display: inline-block;
     width: 1px;
     background-color: #fff;
   }
-  &::after {
+}
+@include around-text-space($test-font-size);
+
+.text {
+  display: inline-flex;
+
+  &.onLightText {
+    // on light styles
+  }
+}
+
+.markerWidthWrapper {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  &::before {
     content: "";
     display: block;
+    width: 100%;
     height: 1px;
     background-color: #fff;
   }
 }
-@include around-text-space($base-font-size, 12px, $width-display-font-size);
-
-.textWrapper {
-  display: inline-block;
-}
-.text {
-  display: flex;
-  font-size: $base-font-size;
-}
-.widthDisplayWrapper {
-  display: flex;
-  justify-content: center;
-}
-.widthDisplay {
-  font-size: $width-display-font-size;
+.markerWidth {
   display: flex;
   flex-direction: column;
   align-items: center;
