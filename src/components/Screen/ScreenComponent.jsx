@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 
 import BgChanger from "../BgChanger/BgChanger";
 import ScreenText from "../ScreenText/ScreenText";
@@ -8,7 +8,7 @@ import clsx from "clsx";
 // import getAlignmentStyle from "./utils/AlignmentStyle/getAlignmentStyle";
 // import handleRadioChange from "./utils/RadioChange/handleRadioChange";
 import s from "./ScreenComponent.module.scss";
-import { useMedia } from "../../hooks/useMedia";
+import { useInnerScreenSize } from "../../hooks/useInnerScreenSize";
 
 const ScreenComponent = ({
   text,
@@ -23,29 +23,17 @@ const ScreenComponent = ({
   const [isTextLight, setIsTextLight] = useState(false);
   const [selectedBackground, setSelectedBackground] = useState(null);
 
-  const { isMobile, isMobileAdaptive, isTablet, isDesktop } = useMedia();
+  const { innerScreenSize, screenRef } = useInnerScreenSize();
+  const topPanelRef = useRef(null);
+  // const { textSize } = useTextSize();
 
   const toggleTextLight = () => {
     setIsTextLight((p) => !p);
   };
 
-  useEffect(() => {}, [
-    text,
-    textWidth,
-    textHeight,
-    isTextLight,
-    isMobile,
-    isTablet,
-    isDesktop,
-    isMobileAdaptive,
-    font,
-    color,
-    alignment,
-    format,
-  ]);
-
   return (
     <div
+      ref={screenRef}
       className={clsx(
         s.container,
         Boolean(selectedBackground)
@@ -54,6 +42,7 @@ const ScreenComponent = ({
       )}
     >
       <ScreenTopPanel
+        containerRef={topPanelRef}
         price={price}
         isTextLight={isTextLight}
         toggleTextLight={toggleTextLight}
@@ -64,6 +53,7 @@ const ScreenComponent = ({
           textHeight={textHeight}
           textWidth={textWidth}
           isTextLight={isTextLight}
+          innerScreenSize={innerScreenSize}
           // getAlignmentStyle={getAlignmentStyle}
           // alignment={alignment}
           // isTablet={isTablet}
