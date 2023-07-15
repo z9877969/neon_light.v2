@@ -1,14 +1,15 @@
 $display-width-font-size: 14px;
 $display-height-font-size: 14px;
 $base-font-size: 48px;
+$min-font-size-value: 1;
+$max-font-size-value: 120;
 $base-marker-font-size: 14px;
 $base-marker-space: 8px;
 $line-height: 1.2;
 $line-width: 1px;
 $onlight-color: #f8c51e;
-$test-font-size: 120px;
 
-@mixin around-text-space($_font-size) {
+@mixin around-text-space($_font-size, $font-id) {
   $space-size: calc(($line-height - 1) / 2 * $_font-size);
   $_space-out-of-line: calc($_font-size / 2);
   $_space-out-of-size: $space-size;
@@ -18,33 +19,36 @@ $test-font-size: 120px;
   $_marker-space: calc(
     $base-marker-space / $base-marker-font-size * $_marker-font-size
   );
-  .markerHeightWrapper {
-    top: calc((100% - $_space-out-of-line) / 2);
-  }
-  .markerHeight,
-  .markerWidth {
-    font-size: $_marker-font-size;
-  }
-  .markerHeight {
-    margin-right: $_marker-space;
-  }
-  .linesContainer {
-    padding-bottom: $_space-out-of-line;
-  }
-  .linesContainer::before {
-    height: 100%;
-    margin-right: $_space-out-of-line;
-  }
-  .text {
-    font-size: $_font-size;
-  }
-  .markerWidthWrapper {
-    padding-left: $_space-out-of-line;
-  }
-  .markerWidth {
-    margin: 0 auto;
-    margin-top: $_marker-space;
-    width: max-content;
+
+  .container.fontSize-#{$font-id} {
+    & .markerHeightWrapper {
+      top: calc((100% - $_space-out-of-line) / 2);
+    }
+    & .markerHeight,
+    & .markerWidth {
+      font-size: $_marker-font-size;
+    }
+    & .markerHeight {
+      margin-right: $_marker-space;
+    }
+    & .linesContainer {
+      padding-bottom: $_space-out-of-line;
+    }
+    & .linesContainer::before {
+      height: 100%;
+      margin-right: $_space-out-of-line;
+    }
+    & .text {
+      font-size: $_font-size;
+    }
+    & .markerWidthWrapper {
+      padding-left: $_space-out-of-line;
+    }
+    & .markerWidth {
+      margin: 0 auto;
+      margin-top: $_marker-space;
+      width: max-content;
+    }
   }
 }
 
@@ -63,6 +67,12 @@ $test-font-size: 120px;
     height: 85%;
   }
 }
+
+@for $i from $min-font-size-value to $max-font-size-value {
+  $font-size: #{$i}px;
+  @include around-text-space($font-size, $i);
+}
+
 .textBar {
   position: relative;
   display: flex;
@@ -86,8 +96,6 @@ $test-font-size: 120px;
     background-color: #fff;
   }
 }
-@include around-text-space($test-font-size);
-
 .text {
   display: inline-flex;
 
@@ -95,7 +103,6 @@ $test-font-size: 120px;
     // on light styles
   }
 }
-
 .markerWidthWrapper {
   position: absolute;
   top: 100%;
