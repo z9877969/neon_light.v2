@@ -37,13 +37,13 @@ const Options = ({
             <label htmlFor="width">
               <p className={s.title}>Ширина</p>
               <input
-                onBlur={(e) => blurHandler(e)}
+                onBlur={blurHandler}
                 className={s.option}
                 type="number"
                 name="width"
                 placeholder="0"
-                value={textWidth}
-                onChange={(e) => onWidthChange(e)}
+                value={textWidth.toString()}
+                onChange={onWidthChange}
               />
             </label>
             {widthDirty && widthError && (
@@ -60,7 +60,7 @@ const Options = ({
                 name="height"
                 placeholder="0"
                 value={textHeight}
-                onChange={(e) => onHeightChange(e)}
+                onChange={onHeightChange}
               />
             </label>
             {heightDirty && heightError && (

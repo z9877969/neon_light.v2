@@ -4,20 +4,29 @@ import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import s from "./ScreenText.module.scss";
 import { useFontSize } from "../../hooks/useFontSize";
+import { useTextMarkersValue } from "../../hooks/useTextMarkersValue";
 
 const ScreenText = ({
   text,
   textHeight,
   textWidth,
+  setTextWidth,
+  setTextHeight,
   isTextLight,
   innerScreenSize,
 }) => {
-  // const [fontSize, setFontSize] = useState(48);
   const containerRef = useRef(null);
   const textBarRef = useRef(null);
-  const textRef = useRef(null);
+
   const heightMarkerRef = useRef(null);
   const widthMarkerRef = useRef(null);
+  const textRef = useTextMarkersValue({
+    widthMarker: textWidth,
+    heightMarker: textHeight,
+    setTextWidth,
+    setTextHeight,
+    text
+  });
 
   const refs = {
     containerRef,

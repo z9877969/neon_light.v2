@@ -1,6 +1,11 @@
 export const getNodeSizes = (node) => {
-  return {
-    width: node.clientWidth,
-    height: node.clientHeight,
-  };
+  return node
+    ? {
+        width: node.clientWidth,
+        height: node.clientHeight,
+      }
+    : {
+        width: 0,
+        height: 0,
+      };
 };

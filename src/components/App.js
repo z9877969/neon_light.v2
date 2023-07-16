@@ -36,6 +36,7 @@ const App = () => {
   const textWidthToHeightRatio = 4;
 
   useEffect(() => {
+    // controls error
     if (!text) {
       setTextError("Обовязкове поле");
       setPrice(0);
@@ -55,7 +56,9 @@ const App = () => {
     } else {
       setHeightError("");
     }
+    // controls error -END
 
+    // calc price
     if (text && textWidth && textHeight) {
       const symbolQuantityText = text.split(" ").join("").length;
       const lengthOfLedStripInMeters = getNeonStripLength(
@@ -71,6 +74,7 @@ const App = () => {
       );
       setPrice(Math.round(totalPrice));
     }
+    // calc price -END
   }, [text, textHeight, textWidth]);
 
   const handelePriceChange = (newPrice) => {
@@ -130,27 +134,11 @@ const App = () => {
   };
 
   const handleWidthChange = (event) => {
-    let newWidth = event.target.value;
-
-    if (newWidth > 200) {
-      newWidth = 200;
-    }
-
-    const newHeight = Math.round(newWidth / textWidthToHeightRatio);
-    setTextWidth(newWidth);
-    setTextHeight(newHeight);
+    setTextWidth(event.target.value);
   };
 
   const handleHeightChange = (event) => {
-    let newHeight = event.target.value;
-
-    if (newHeight > 51) {
-      newHeight = 50;
-    }
-
-    const newWidth = Math.round(newHeight * textWidthToHeightRatio);
-    setTextHeight(newHeight);
-    setTextWidth(newWidth);
+    setTextHeight(event.target.value);
   };
 
   return (
@@ -163,6 +151,8 @@ const App = () => {
               text={text}
               textWidth={textWidth}
               textHeight={textHeight}
+              setTextWidth={setTextWidth}
+              setTextHeight={setTextHeight}
               font={font}
               color={color}
               alignment={positionText}
