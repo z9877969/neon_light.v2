@@ -1,6 +1,6 @@
 import "react-toastify/dist/ReactToastify.css";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import Container from "./Container/Container";
 import FormFeedback from "./FormFeedback/FormFeedback";
@@ -11,7 +11,7 @@ import { ScreenComponent } from "./Screen";
 import Tabs from "./Tabs/Tabs";
 import { ToastContainer } from "react-toastify";
 import calculatePrice from "../shared/lib/priceCalculator";
-import fonts from "./FormInscription/Options/fonts";
+import fonts from "./FormInscription/TextOptionsInputs/fonts";
 import getNeonStripLength from "../shared/lib/getNeonStripLength";
 import s from "./App.module.scss";
 
@@ -33,9 +33,10 @@ const App = () => {
   const [widthError, setWidthError] = useState("*Обовязкове поле");
   const [heightError, setHeightError] = useState("*Обовязкове поле");
 
-  const textWidthToHeightRatio = 4;
+  // const textWidthToHeightRatio = 4;
 
   useEffect(() => {
+    // controls error
     if (!text) {
       setTextError("Обовязкове поле");
       setPrice(0);
@@ -49,18 +50,20 @@ const App = () => {
     }
     if (!textHeight) {
       setHeightError("Обовязкове поле");
-    } else if (+textHeight < 8) {
+    } else if (Number(textHeight) < 8) {
       setHeightDirty(true);
       setHeightError("Мінімально 8 см");
     } else {
       setHeightError("");
     }
+    // controls error -END
 
+    // calc price
     if (text && textWidth && textHeight) {
       const symbolQuantityText = text.split(" ").join("").length;
       const lengthOfLedStripInMeters = getNeonStripLength(
         symbolQuantityText,
-        +textHeight
+        Number(textHeight)
       );
 
       const totalPrice = calculatePrice(
@@ -71,6 +74,7 @@ const App = () => {
       );
       setPrice(Math.round(totalPrice));
     }
+    // calc price -END
   }, [text, textHeight, textWidth]);
 
   const handelePriceChange = (newPrice) => {
@@ -125,32 +129,16 @@ const App = () => {
     }
   };
 
-  const handleTextChange = (e) => {
+  const handleTextChange = useCallback((e) => {
     setText(e.target.value);
-  };
+  }, []);
 
   const handleWidthChange = (event) => {
-    let newWidth = event.target.value;
-
-    if (newWidth > 200) {
-      newWidth = 200;
-    }
-
-    const newHeight = Math.round(newWidth / textWidthToHeightRatio);
-    setTextWidth(newWidth);
-    setTextHeight(newHeight);
+    setTextWidth(event.target.value);
   };
 
   const handleHeightChange = (event) => {
-    let newHeight = event.target.value;
-
-    if (newHeight > 51) {
-      newHeight = 50;
-    }
-
-    const newWidth = Math.round(newHeight * textWidthToHeightRatio);
-    setTextHeight(newHeight);
-    setTextWidth(newWidth);
+    setTextHeight(event.target.value);
   };
 
   return (
@@ -163,6 +151,8 @@ const App = () => {
               text={text}
               textWidth={textWidth}
               textHeight={textHeight}
+              setTextWidth={setTextWidth}
+              setTextHeight={setTextHeight}
               font={font}
               color={color}
               alignment={positionText}

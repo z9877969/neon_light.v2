@@ -1,5 +1,4 @@
 const fonts = [
-
   {
     label: "Alumini Sans",
     value: "alumini sans",

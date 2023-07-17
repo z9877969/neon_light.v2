@@ -1,5 +1,5 @@
 import { getNodeSizes, getStylePropertyValue } from "../services/helpers";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 const getMargins = (innerScreenWidth, textBarWidth, heightMarkerWidth) => {
   const margin = (innerScreenWidth - textBarWidth - heightMarkerWidth) / 2;
@@ -29,13 +29,13 @@ const initialFontSize = 48;
 
 export const useFontSize = (innerScreenSize, refs, text) => {
   const [fontSize, setFontSize] = useState(initialFontSize);
+
   const { containerRef, textBarRef, textRef, heightMarkerRef, widthMarkerRef } =
     refs;
 
   useEffect(() => {
     const { width: wrapperWidth, height: wrapperHeight } = innerScreenSize;
     const textBarSizes = getNodeSizes(textBarRef.current);
-    const textSizes = getNodeSizes(textRef.current);
     const heightMarkerSizes = getNodeSizes(heightMarkerRef.current);
     const widthMarkerSizes = getNodeSizes(widthMarkerRef.current);
     const textBarFullSizes = {
