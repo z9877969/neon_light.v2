@@ -1,7 +1,7 @@
-import { getNodeSizes, getStylePropertyValue } from "../../services/helpers";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useMemo, useRef } from "react";
 
 import clsx from "clsx";
+import { nanoid } from "nanoid";
 import s from "./ScreenText.module.scss";
 import { useFontSize } from "../../hooks/useFontSize";
 import { useTextMarkersValue } from "../../hooks/useTextMarkersValue";
@@ -17,6 +17,7 @@ const ScreenText = ({
 }) => {
   const containerRef = useRef(null);
   const textBarRef = useRef(null);
+  // const textRef = useRef(null);
 
   const heightMarkerRef = useRef(null);
   const widthMarkerRef = useRef(null);
@@ -25,7 +26,7 @@ const ScreenText = ({
     heightMarker: textHeight,
     setTextWidth,
     setTextHeight,
-    text
+    text,
   });
 
   const refs = {
@@ -37,6 +38,10 @@ const ScreenText = ({
   };
 
   const fontSize = useFontSize(innerScreenSize, refs, text);
+  const parsedByEnterText = useMemo(() => {
+    // if(text.every(el => !el))
+    return text.split("\n").map((el) => ({ stringText: el, id: nanoid() }));
+  }, [text]);
 
   return (
     <div
@@ -48,12 +53,23 @@ const ScreenText = ({
           <span className={s.markerHeight}>{`${textHeight} см`}</span>
         </div>
         <div className={s.linesContainer}>
-          <span
+          <p
             ref={textRef}
             className={clsx(s.text, isTextLight && s.onLightText)}
           >
-            {text}
-          </span>
+            {parsedByEnterText.map((el, idx, arr) =>
+              idx < arr.length - 1 ? (
+                <Fragment key={el.id}>
+                  {el.stringText}
+                  <br />
+                </Fragment>
+              ) : (
+                <Fragment key={el.id}>
+                  {el.stringText}
+                </Fragment>
+              )
+            )}
+          </p>
         </div>
         <div ref={widthMarkerRef} className={s.markerWidthWrapper}>
           <p className={s.markerWidth}>

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import clsx from "clsx";
+
 import { AiFillExclamationCircle } from "react-icons/ai";
-import Options from "./Options/Options";
-import TextPositionAndFormat from "./TextPositionAndFormat/TextPositionAndFormat";
 import ColorPicker from "./ColorPicker/ColorPicker";
+import TextOptionsInputs from "./TextOptionsInputs/TextOptionsInputs";
+import TextPositionAndFormat from "./TextPositionAndFormat/TextPositionAndFormat";
+import clsx from "clsx";
 import s from "./FormInscription.module.scss";
 
 const FormInscription = ({
@@ -34,14 +35,6 @@ const FormInscription = ({
 }) => {
   const [validForm, setValidForm] = useState(false);
 
-  useEffect(() => {
-    if (widthError || heightError || textError) {
-      setValidForm(false);
-    } else {
-      setValidForm(true);
-    }
-  }, [heightError, textError, widthError]);
-
   const numberWithSpaces = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   };
@@ -50,6 +43,14 @@ const FormInscription = ({
     e.preventDefault();
     openModal();
   };
+
+  useEffect(() => {
+    if (widthError || heightError || textError) {
+      setValidForm(false);
+    } else {
+      setValidForm(true);
+    }
+  }, [heightError, textError, widthError]);
 
   return (
     <>
@@ -69,7 +70,7 @@ const FormInscription = ({
             )}
           </div>
           <div className={s.options}>
-            <Options
+            <TextOptionsInputs
               widthDirty={widthDirty}
               widthError={widthError}
               heightDirty={heightDirty}

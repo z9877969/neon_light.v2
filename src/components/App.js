@@ -1,6 +1,6 @@
 import "react-toastify/dist/ReactToastify.css";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import Container from "./Container/Container";
 import FormFeedback from "./FormFeedback/FormFeedback";
@@ -11,7 +11,7 @@ import { ScreenComponent } from "./Screen";
 import Tabs from "./Tabs/Tabs";
 import { ToastContainer } from "react-toastify";
 import calculatePrice from "../shared/lib/priceCalculator";
-import fonts from "./FormInscription/Options/fonts";
+import fonts from "./FormInscription/TextOptionsInputs/fonts";
 import getNeonStripLength from "../shared/lib/getNeonStripLength";
 import s from "./App.module.scss";
 
@@ -33,49 +33,49 @@ const App = () => {
   const [widthError, setWidthError] = useState("*Обовязкове поле");
   const [heightError, setHeightError] = useState("*Обовязкове поле");
 
-  const textWidthToHeightRatio = 4;
+  // const textWidthToHeightRatio = 4;
 
-  useEffect(() => {
-    // controls error
-    if (!text) {
-      setTextError("Обовязкове поле");
-      setPrice(0);
-    } else {
-      setTextError("");
-    }
-    if (!textWidth) {
-      setWidthError("Обовязкове поле");
-    } else {
-      setWidthError("");
-    }
-    if (!textHeight) {
-      setHeightError("Обовязкове поле");
-    } else if (+textHeight < 8) {
-      setHeightDirty(true);
-      setHeightError("Мінімально 8 см");
-    } else {
-      setHeightError("");
-    }
-    // controls error -END
+  // useEffect(() => {
+  //   // controls error
+  //   if (!text) {
+  //     setTextError("Обовязкове поле");
+  //     setPrice(0);
+  //   } else {
+  //     setTextError("");
+  //   }
+  //   if (!textWidth) {
+  //     setWidthError("Обовязкове поле");
+  //   } else {
+  //     setWidthError("");
+  //   }
+  //   if (!textHeight) {
+  //     setHeightError("Обовязкове поле");
+  //   } else if (Number(textHeight) < 8) {
+  //     setHeightDirty(true);
+  //     setHeightError("Мінімально 8 см");
+  //   } else {
+  //     setHeightError("");
+  //   }
+  //   // controls error -END
 
-    // calc price
-    if (text && textWidth && textHeight) {
-      const symbolQuantityText = text.split(" ").join("").length;
-      const lengthOfLedStripInMeters = getNeonStripLength(
-        symbolQuantityText,
-        +textHeight
-      );
+  //   // calc price
+  //   if (text && textWidth && textHeight) {
+  //     const symbolQuantityText = text.split(" ").join("").length;
+  //     const lengthOfLedStripInMeters = getNeonStripLength(
+  //       symbolQuantityText,
+  //       Number(textHeight)
+  //     );
 
-      const totalPrice = calculatePrice(
-        textWidth / 100,
-        textHeight / 100,
-        symbolQuantityText,
-        lengthOfLedStripInMeters / 100
-      );
-      setPrice(Math.round(totalPrice));
-    }
-    // calc price -END
-  }, [text, textHeight, textWidth]);
+  //     const totalPrice = calculatePrice(
+  //       textWidth / 100,
+  //       textHeight / 100,
+  //       symbolQuantityText,
+  //       lengthOfLedStripInMeters / 100
+  //     );
+  //     setPrice(Math.round(totalPrice));
+  //   }
+  //   // calc price -END
+  // }, [text, textHeight, textWidth]);
 
   const handelePriceChange = (newPrice) => {
     setPrice(newPrice);
@@ -129,9 +129,9 @@ const App = () => {
     }
   };
 
-  const handleTextChange = (e) => {
+  const handleTextChange = useCallback((e) => {
     setText(e.target.value);
-  };
+  }, []);
 
   const handleWidthChange = (event) => {
     setTextWidth(event.target.value);
