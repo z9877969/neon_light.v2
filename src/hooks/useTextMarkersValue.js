@@ -2,10 +2,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { getNodeSizes } from "../services/helpers";
 
-const getIsSpaceInStrEnd = (str) => {
-  return str.split("\n").some((el) => el.slice(-1) === " ");
-};
-
 export const useTextMarkersValue = ({
   widthMarker,
   heightMarker,
@@ -13,7 +9,6 @@ export const useTextMarkersValue = ({
   setTextHeight,
   text,
 }) => {
-  // const [xK, setXK] = useState(1);
   const [k, setK] = useState(1);
 
   const textRef = useRef(null);
@@ -28,14 +23,13 @@ export const useTextMarkersValue = ({
     return Math.round(k * nodeSize);
   }, []);
 
-  // + calc k | set base ratio beetween textHeight and nodeYSize and set base textWidth by textHeight
+  // calc k | set base ratio beetween textHeight and nodeYSize and set base textWidth by textHeight
   useEffect(() => {
     if (!firstRenderRef.current) return;
     const { width: nodeXSize, height: nodeYSize } = getNodeSizes(
       textRef.current
     );
     const k = calcK(heightMarker, nodeYSize);
-    // if (k === xK) return;
     setK(k);
     setTextWidth(calcMarkerValue(k, nodeXSize));
     prevKRef.current = k;
@@ -55,7 +49,7 @@ export const useTextMarkersValue = ({
     setTextHeight(calcMarkerValue(k, nodeYSize));
   }, [widthMarker, calcK, calcMarkerValue, setTextHeight]);
   // set textHeight by textWidth -END
-
+  // ===
   // set textWidth by textHeight
   useEffect(() => {
     if (firstRenderRef.current) return;
@@ -68,7 +62,7 @@ export const useTextMarkersValue = ({
     setTextWidth(newMarkerWidth);
   }, [heightMarker, calcK, calcMarkerValue, setTextWidth]);
   // set textWidth by textHeight -END
-
+  // ===
   // change markers by changed text
   useEffect(() => {
     if (firstRenderRef.current) return;
@@ -92,7 +86,3 @@ export const useTextMarkersValue = ({
 
   return textRef;
 };
-
-/* 
-
-*/

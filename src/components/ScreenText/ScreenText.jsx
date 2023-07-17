@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo, useRef } from "react";
+import { Fragment, useMemo, useRef } from "react";
 
 import clsx from "clsx";
 import { nanoid } from "nanoid";
@@ -17,7 +17,6 @@ const ScreenText = ({
 }) => {
   const containerRef = useRef(null);
   const textBarRef = useRef(null);
-  // const textRef = useRef(null);
 
   const heightMarkerRef = useRef(null);
   const widthMarkerRef = useRef(null);
@@ -39,7 +38,6 @@ const ScreenText = ({
 
   const fontSize = useFontSize(innerScreenSize, refs, text);
   const parsedByEnterText = useMemo(() => {
-    // if(text.every(el => !el))
     return text.split("\n").map((el) => ({ stringText: el, id: nanoid() }));
   }, [text]);
 
@@ -64,9 +62,7 @@ const ScreenText = ({
                   <br />
                 </Fragment>
               ) : (
-                <Fragment key={el.id}>
-                  {el.stringText}
-                </Fragment>
+                <Fragment key={el.id}>{el.stringText}</Fragment>
               )
             )}
           </p>

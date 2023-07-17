@@ -35,47 +35,47 @@ const App = () => {
 
   // const textWidthToHeightRatio = 4;
 
-  // useEffect(() => {
-  //   // controls error
-  //   if (!text) {
-  //     setTextError("Обовязкове поле");
-  //     setPrice(0);
-  //   } else {
-  //     setTextError("");
-  //   }
-  //   if (!textWidth) {
-  //     setWidthError("Обовязкове поле");
-  //   } else {
-  //     setWidthError("");
-  //   }
-  //   if (!textHeight) {
-  //     setHeightError("Обовязкове поле");
-  //   } else if (Number(textHeight) < 8) {
-  //     setHeightDirty(true);
-  //     setHeightError("Мінімально 8 см");
-  //   } else {
-  //     setHeightError("");
-  //   }
-  //   // controls error -END
+  useEffect(() => {
+    // controls error
+    if (!text) {
+      setTextError("Обовязкове поле");
+      setPrice(0);
+    } else {
+      setTextError("");
+    }
+    if (!textWidth) {
+      setWidthError("Обовязкове поле");
+    } else {
+      setWidthError("");
+    }
+    if (!textHeight) {
+      setHeightError("Обовязкове поле");
+    } else if (Number(textHeight) < 8) {
+      setHeightDirty(true);
+      setHeightError("Мінімально 8 см");
+    } else {
+      setHeightError("");
+    }
+    // controls error -END
 
-  //   // calc price
-  //   if (text && textWidth && textHeight) {
-  //     const symbolQuantityText = text.split(" ").join("").length;
-  //     const lengthOfLedStripInMeters = getNeonStripLength(
-  //       symbolQuantityText,
-  //       Number(textHeight)
-  //     );
+    // calc price
+    if (text && textWidth && textHeight) {
+      const symbolQuantityText = text.split(" ").join("").length;
+      const lengthOfLedStripInMeters = getNeonStripLength(
+        symbolQuantityText,
+        Number(textHeight)
+      );
 
-  //     const totalPrice = calculatePrice(
-  //       textWidth / 100,
-  //       textHeight / 100,
-  //       symbolQuantityText,
-  //       lengthOfLedStripInMeters / 100
-  //     );
-  //     setPrice(Math.round(totalPrice));
-  //   }
-  //   // calc price -END
-  // }, [text, textHeight, textWidth]);
+      const totalPrice = calculatePrice(
+        textWidth / 100,
+        textHeight / 100,
+        symbolQuantityText,
+        lengthOfLedStripInMeters / 100
+      );
+      setPrice(Math.round(totalPrice));
+    }
+    // calc price -END
+  }, [text, textHeight, textWidth]);
 
   const handelePriceChange = (newPrice) => {
     setPrice(newPrice);
