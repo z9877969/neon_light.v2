@@ -7,8 +7,6 @@ import { useFontSize } from "../../hooks/useFontSize";
 import { useMaxTextSize } from "../../hooks/useMaxTextSize";
 import { useTextMarkersValue } from "../../hooks/useTextMarkersValue";
 
-const calcNewFont = () => {};
-
 const ScreenText = ({
   text,
   textHeight,
@@ -17,6 +15,8 @@ const ScreenText = ({
   setTextHeight,
   isTextLight,
   innerScreenSize,
+  textAlign,
+  lettersFormat,
 }) => {
   const containerRef = useRef(null);
   const textBarRef = useRef(null);
@@ -62,7 +62,7 @@ const ScreenText = ({
         <div className={s.linesContainer}>
           <p
             ref={textRef}
-            className={clsx(s.text, isTextLight && s.onLightText)}
+            className={clsx(s.text, isTextLight && s.onLightText, s[textAlign])}
           >
             {parsedByEnterText.map((el, idx, arr) =>
               idx < arr.length - 1 ? (

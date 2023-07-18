@@ -160,8 +160,8 @@ const App = () => {
               setTextHeight={setTextHeight}
               font={font}
               color={color}
-              alignment={textAlign}
-              format={lettersFormat}
+              textAlign={textAlign}
+              lettersFormat={lettersFormat}
               price={price}
             />
             <p className={s.warrningText}>

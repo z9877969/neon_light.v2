@@ -18,8 +18,8 @@ const ScreenComponent = ({
   setTextHeight,
   font,
   color,
-  alignment,
-  format,
+  textAlign,
+  lettersFormat,
   price,
 }) => {
   const [isTextLight, setIsTextLight] = useState(false);
@@ -58,7 +58,8 @@ const ScreenComponent = ({
           innerScreenSize={innerScreenSize}
           setTextWidth={setTextWidth}
           setTextHeight={setTextHeight}
-          // alignment={alignment}
+          textAlign={textAlign}
+          lettersFormat={lettersFormat}
           // isTablet={isTablet}
         />
       )}
