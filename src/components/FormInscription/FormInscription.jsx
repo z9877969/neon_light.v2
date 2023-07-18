@@ -3,7 +3,6 @@ import ColorPicker from "./ColorPicker/ColorPicker";
 import TextOptionsInputs from "./TextOptionsInputs/TextOptionsInputs";
 import TextPositionAndFormat from "./TextPositionAndFormat/TextPositionAndFormat";
 import clsx from "clsx";
-import debounce from 'lodash.debounce';
 import s from "./FormInscription.module.scss";
 import { useState } from "react";
 
@@ -18,7 +17,7 @@ const FormInscription = ({
   errorTextWidth,
   errorTextHeight,
   setFontOption,
-  handleColor,
+  setColor,
   onTextChange,
   onWidthChange,
   onHeightChange,
@@ -85,7 +84,7 @@ const FormInscription = ({
             textWidth={textWidth}
             textHeight={textHeight}
             color={color}
-            setColor={handleColor}
+            setColor={setColor}
           />
 
           <div className={clsx(s.ordering, !price && s.withOutWarningText)}>

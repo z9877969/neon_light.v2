@@ -91,7 +91,7 @@ const App = () => {
                 errorTextHeight={errorTextHeight}
                 textWidth={textWidth}
                 textHeight={textHeight}
-                handleColor={setColor}
+                setColor={setColor}
                 setFontOption={setFontOption}
                 onTextChange={setText}
                 setTextAlign={setTextAlign}

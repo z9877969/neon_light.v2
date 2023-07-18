@@ -1,5 +1,5 @@
-const colorPickerOptions = [
-  { color: "#FEFEFE" },
+export const colorPickerOptions = [
+  { color: "#FEFEFE" }, // default color
   { color: "#FFFEFE" },
   { color: "#FAF6F6" },
   { color: "#ECEA48" },
@@ -11,5 +11,3 @@ const colorPickerOptions = [
   { color: "#55C5CC" },
   { color: "#3E74BC" },
 ];
-
-export default colorPickerOptions;

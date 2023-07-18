@@ -1,44 +1,37 @@
-import { useState } from "react";
 import clsx from "clsx";
+import { colorPickerOptions } from "constants";
 import s from "./ColorPiker.module.scss";
-import colorPickerOptions from "./colorPickerOptions";
+
+const colors = colorPickerOptions.map(({ color }) => color.toLowerCase());
 
 export function ColorPicker({ setColor, color, textWidth, textHeight }) {
-  const [activeOptionIdx, setActiveOptionIdx] = useState(0);
-
-  const setActiveOptionsIndAndColor = (index, color) => {
-    setActiveOptionIdx(index);
-    setColor(color);
-  };
-
-  const makeOptionClassName = (index) => {
-    return index === activeOptionIdx ? s.activeOption : s.option;
-  };
-  const handleWarrningTextColorpiscker = color === "#FEFEFE" ? false : true;
-  const handleWarningText = textWidth || textHeight ? true : false;
+  const showColorpickerWarningText = color !== colors[0];
 
   return (
     <div
-      className={clsx(s.container, handleWarningText && s.activeWarrningText)}
+      className={clsx(
+        s.container,
+        (textWidth || textHeight) && s.activeWarrningText
+      )}
     >
       <div className={s.textWrapper}>
         <p className={s.title}>Колір</p>
         <p className={s.text}>Виберіть колір вашої неонової вивіски</p>
       </div>
       <div className={s.colorPicker}>
-        {colorPickerOptions.map(({ color }, index) => (
+        {colors.map((el) => (
           <button
-            key={index}
-            className={makeOptionClassName(index)}
-            style={{ backgroundColor: color }}
-            onClick={() => setActiveOptionsIndAndColor(index, color)}
+            key={el}
+            className={el === color ? s.activeOption : s.option}
+            style={{ backgroundColor: el }}
+            onClick={() => setColor(el)}
             type="button"
             name="color"
             aria-label="Color"
           />
         ))}
       </div>
-      {handleWarrningTextColorpiscker && (
+      {showColorpickerWarningText && (
         <p className={s.warrningText}>
           Зверніть увагу: колір продукту на вашому екрані може відрізнятися від
           реального через індивідуальні налаштування екрану.

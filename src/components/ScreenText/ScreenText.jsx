@@ -42,6 +42,7 @@ const ScreenText = ({
   textAlign,
   lettersFormat,
   font,
+  color,
 }) => {
   const containerRef = useRef(null);
   const textBarRef = useRef(null);
@@ -93,7 +94,7 @@ const ScreenText = ({
           <div className={s.linesContainer}>
             <p
               ref={textSizesOptions.textRef}
-              style={{ fontFamily: `${font}, sans-serif` }}
+              style={{ fontFamily: `${font}, sans-serif`, color }}
               className={clsx(
                 s.text,
                 isTextLight && s.onLightText,

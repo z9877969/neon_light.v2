@@ -60,6 +60,7 @@ const ScreenComponent = ({
           textAlign={textAlign}
           lettersFormat={lettersFormat}
           font={font}
+          color={color}
         />
       )}
       <BgChanger
