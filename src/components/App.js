@@ -1,12 +1,5 @@
 import "react-toastify/dist/ReactToastify.css";
 
-import {
-  alignmentOptions as alignment,
-  letterFormatOptions,
-  lettersFormatOptions,
-} from "../constants";
-import { useCallback, useEffect, useState } from "react";
-
 import Container from "./Container/Container";
 import FormFeedback from "./FormFeedback/FormFeedback";
 import FormInscription from "./FormInscription/FormInscription";
@@ -15,100 +8,38 @@ import OwnDesign from "./OwnDesign/OwnDesign";
 import { ScreenComponent } from "./Screen";
 import Tabs from "./Tabs/Tabs";
 import { ToastContainer } from "react-toastify";
-import calculatePrice from "../shared/lib/priceCalculator";
-import fonts from "./FormInscription/TextOptionsInputs/fonts";
-import getNeonStripLength from "../shared/lib/getNeonStripLength";
 import s from "./App.module.scss";
+import useError from "../hooks/useError";
+import useFormInscription from "../hooks/useFormInscription";
+import usePrice from "../hooks/usePrice";
+import { useState } from "react";
+import useToggle from "../hooks/useToggle";
 
 const App = () => {
   const [formInscription, setFormInscription] = useState(true);
-  const [text, setText] = useState("");
-  const [textWidth, setTextWidth] = useState(0);
-  const [textHeight, setTextHeight] = useState(6);
-  const [isOpen, setIsOpen] = useState(false);
-  const [font, setFont] = useState("alumini sans");
-  const [color, setColor] = useState("#FEFEFE");
-  const [price, setPrice] = useState(0);
-  const [textAlign, setTextAlign] = useState(alignment.LEFT);
-  const [lettersFormat, setLettersFormat] = useState(lettersFormatOptions.NONE);
-  const [textDirty, setTextDirty] = useState(false);
-  const [widthDirty, setWidthDirty] = useState(false);
-  const [heightDirty, setHeightDirty] = useState(false);
-  const [textError, setTextError] = useState("");
-  const [widthError, setWidthError] = useState("*Обовязкове поле");
-  const [heightError, setHeightError] = useState("*Обовязкове поле");
-
-  // const textWidthToHeightRatio = 4;
-
-  useEffect(() => {
-    // controls error
-    if (!text) {
-      setTextError("Обовязкове поле");
-      setPrice(0);
-    } else {
-      setTextError("");
-    }
-    if (!textWidth) {
-      setWidthError("Обовязкове поле");
-    } else {
-      setWidthError("");
-    }
-    if (!textHeight) {
-      setHeightError("Обовязкове поле");
-    } else if (Number(textHeight) < 8) {
-      setHeightDirty(true);
-      setHeightError("Мінімально 8 см");
-    } else {
-      setHeightError("");
-    }
-    // controls error -END
-
-    // calc price
-    if (text && textWidth && textHeight) {
-      const symbolQuantityText = text.split(" ").join("").length;
-      const lengthOfLedStripInMeters = getNeonStripLength(
-        symbolQuantityText,
-        Number(textHeight)
-      );
-
-      const totalPrice = calculatePrice(
-        textWidth / 100,
-        textHeight / 100,
-        symbolQuantityText,
-        lengthOfLedStripInMeters / 100
-      );
-      setPrice(Math.round(totalPrice));
-    }
-    // calc price -END
-  }, [text, textHeight, textWidth]);
-
-  const handelePriceChange = (newPrice) => {
-    setPrice(newPrice);
-  };
-
-  const handeleAlignmentChange = (newAlignment) => {
-    setTextAlign(newAlignment);
-  };
-
-  const handleFormatChange = (newFormat) => {
-    setLettersFormat(newFormat);
-  };
-
-  const handleColor = (color) => {
-    setColor(color);
-  };
-
-  const getSelectValue = () => {
-    return font ? fonts.find((c) => c.value === font) : "";
-  };
-
-  const onChangeSelectValue = (newValue) => {
-    setFont(newValue.value);
-  };
-
-  const handleTogleModal = () => {
-    setIsOpen(!isOpen);
-  };
+  const { isModalOpen, handleToggleModal } = useToggle();
+  const {
+    text,
+    textWidth,
+    textHeight,
+    fontOption,
+    color,
+    textAlign,
+    lettersFormat,
+    setText,
+    setTextWidth,
+    setTextHeight,
+    setFontOption,
+    setColor,
+    setTextAlign,
+    setLettersFormat,
+  } = useFormInscription();
+  const { errorText, errorTextWidth, errorTextHeight } = useError({
+    text,
+    textWidth,
+    textHeight,
+  });
+  const { price, setPrice } = usePrice({ text, textWidth, textHeight });
 
   const onFormInscription = () => {
     setFormInscription(false);
@@ -116,34 +47,6 @@ const App = () => {
 
   const onOwnDesign = () => {
     setFormInscription(true);
-  };
-
-  const blurHandler = (e) => {
-    switch (e.target.name) {
-      case "text":
-        setTextDirty(true);
-        break;
-      case "width":
-        setWidthDirty(true);
-        break;
-      case "height":
-        setHeightDirty(true);
-        break;
-      default:
-        return;
-    }
-  };
-
-  const handleTextChange = useCallback((e) => {
-    setText(e.target.value);
-  }, []);
-
-  const handleWidthChange = (event) => {
-    setTextWidth(event.target.value);
-  };
-
-  const handleHeightChange = (event) => {
-    setTextHeight(event.target.value);
   };
 
   return (
@@ -158,7 +61,7 @@ const App = () => {
               textHeight={textHeight}
               setTextWidth={setTextWidth}
               setTextHeight={setTextHeight}
-              font={font}
+              font={fontOption.value}
               color={color}
               textAlign={textAlign}
               lettersFormat={lettersFormat}
@@ -177,46 +80,41 @@ const App = () => {
             />
             {formInscription ? (
               <FormInscription
-              textAlign={textAlign}
+                textAlign={textAlign}
                 lettersFormat={lettersFormat}
                 color={color}
                 text={text}
-                font={font}
+                fontOption={fontOption}
                 price={price}
-                textDirty={textDirty}
-                widthDirty={widthDirty}
-                heightDirty={heightDirty}
-                textError={textError}
-                widthError={widthError}
-                heightError={heightError}
+                errorText={errorText}
+                errorTextWidth={errorTextWidth}
+                errorTextHeight={errorTextHeight}
                 textWidth={textWidth}
                 textHeight={textHeight}
-                blurHandler={blurHandler}
-                handleColor={handleColor}
-                getSelectValue={getSelectValue()}
-                onChangeSelectValue={onChangeSelectValue}
-                onTextChange={handleTextChange}
-                onWidthChange={handleWidthChange}
-                onHeightChange={handleHeightChange}
+                handleColor={setColor}
+                setFontOption={setFontOption}
+                onTextChange={setText}
                 setTextAlign={setTextAlign}
                 setLettersFormat={setLettersFormat}
-                onPriceChange={handelePriceChange}
-                openModal={handleTogleModal}
+                onWidthChange={setTextWidth}
+                onHeightChange={setTextHeight}
+                onPriceChange={setPrice}
+                openModal={handleToggleModal}
               />
             ) : (
-              <OwnDesign openModal={handleTogleModal} />
+              <OwnDesign openModal={handleToggleModal} />
             )}
           </div>
         </div>
-        {isOpen && (
-          <ModalFeedback onClose={handleTogleModal}>
+        {isModalOpen && (
+          <ModalFeedback onClose={handleToggleModal}>
             <FormFeedback
               formInscription={formInscription}
               textAlign={textAlign}
               lettersFormat={lettersFormat}
               color={color}
               text={text}
-              font={font}
+              font={fontOption.value}
               price={price}
               width={textWidth}
               height={textHeight}

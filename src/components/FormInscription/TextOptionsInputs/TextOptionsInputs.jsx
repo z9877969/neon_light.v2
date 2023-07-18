@@ -1,19 +1,17 @@
 import Select from "react-select";
-import fonts from "./fonts";
 import s from "./TextOptionsInputs.module.scss";
+import { selectorFonts } from "constants";
 
-const Options = ({
-  widthDirty,
-  widthError,
-  heightDirty,
-  heightError,
-  blurHandler,
+const TextOptionsInputs = ({
+  validForm,
+  errorTextHeight,
+  errorTextWidth,
   textWidth,
   textHeight,
   onWidthChange,
   onHeightChange,
-  onChangeSelectValue,
-  getSelectValue,
+  fontOption,
+  setFontOption,
 }) => {
   const handleWarningText = textWidth || textHeight ? true : false;
 
@@ -24,12 +22,12 @@ const Options = ({
           <p className={s.title}>Шрифт</p>
           <Select
             name="font"
-            onChange={onChangeSelectValue}
-            value={getSelectValue}
+            onChange={(option) => setFontOption(option)}
+            value={fontOption}
             isSearchable={false}
             className="select-container"
             classNamePrefix="select"
-            options={fonts}
+            options={selectorFonts}
           />
         </div>
         <div className={s.options}>
@@ -37,34 +35,32 @@ const Options = ({
             <label htmlFor="width">
               <p className={s.title}>Ширина</p>
               <input
-                onBlur={blurHandler}
                 className={s.option}
                 type="number"
                 name="width"
                 placeholder="0"
                 value={textWidth.toString()}
-                onChange={onWidthChange}
+                onChange={(e) => onWidthChange(e.target.value)}
               />
             </label>
-            {widthDirty && widthError && (
-              <span className={s.errorMessage}>{widthError}</span>
+            {errorTextWidth && !validForm && (
+              <span className={s.errorMessage}>{errorTextWidth}</span>
             )}
           </div>
           <div className={s.inputWrapper}>
             <label htmlFor="height">
               <p className={s.title}>Висота</p>
               <input
-                onBlur={(e) => blurHandler(e)}
                 className={s.option}
                 type="number"
                 name="height"
                 placeholder="0"
                 value={textHeight}
-                onChange={onHeightChange}
+                onChange={(e) => onHeightChange(e.target.value)}
               />
             </label>
-            {heightDirty && heightError && (
-              <span className={s.errorMessage}>{heightError}</span>
+            {errorTextHeight && !validForm && (
+              <span className={s.errorMessage}>{errorTextHeight}</span>
             )}
           </div>
         </div>
@@ -79,4 +75,4 @@ const Options = ({
   );
 };
 
-export default Options;
+export default TextOptionsInputs;

@@ -1,29 +1,23 @@
-import { useEffect, useState } from "react";
-
 import { AiFillExclamationCircle } from "react-icons/ai";
 import ColorPicker from "./ColorPicker/ColorPicker";
 import TextOptionsInputs from "./TextOptionsInputs/TextOptionsInputs";
 import TextPositionAndFormat from "./TextPositionAndFormat/TextPositionAndFormat";
 import clsx from "clsx";
 import s from "./FormInscription.module.scss";
+import { useState } from "react";
 
 const FormInscription = ({
   price,
   color,
-  font,
+  fontOption,
   text,
   textWidth,
   textHeight,
-  blurHandler,
-  textDirty,
-  textError,
-  widthDirty,
-  widthError,
-  heightDirty,
-  heightError,
-  getSelectValue,
+  errorText,
+  errorTextWidth,
+  errorTextHeight,
+  setFontOption,
   handleColor,
-  onChangeSelectValue,
   onTextChange,
   onWidthChange,
   onHeightChange,
@@ -33,7 +27,7 @@ const FormInscription = ({
   textAlign,
   lettersFormat,
 }) => {
-  const [validForm, setValidForm] = useState(false);
+  const [validForm, setValidForm] = useState(true);
 
   const numberWithSpaces = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
@@ -41,16 +35,13 @@ const FormInscription = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (errorText || errorTextWidth || errorTextHeight) {
+      return setValidForm(false);
+    }
+
+    setValidForm(true);
     openModal();
   };
-
-  useEffect(() => {
-    if (widthError || heightError || textError) {
-      setValidForm(false);
-    } else {
-      setValidForm(true);
-    }
-  }, [heightError, textError, widthError]);
 
   return (
     <>
@@ -58,31 +49,27 @@ const FormInscription = ({
         <div className={s.textSettings}>
           <div className={s.inputWrapper}>
             <textarea
-              onBlur={(e) => blurHandler(e)}
               className={s.textArea}
               name="text"
               placeholder="Введіть текст"
               value={text}
-              onChange={onTextChange}
+              onChange={(e) => onTextChange(e.target.value)}
             />
-            {textDirty && textError && (
-              <span className={s.errorMessage}>{textError}</span>
+            {errorText && !validForm && (
+              <span className={s.errorMessage}>{errorText}</span>
             )}
           </div>
           <div className={s.options}>
             <TextOptionsInputs
-              widthDirty={widthDirty}
-              widthError={widthError}
-              heightDirty={heightDirty}
-              heightError={heightError}
+              validForm={validForm}
+              errorTextHeight={errorTextHeight}
+              errorTextWidth={errorTextWidth}
               textWidth={textWidth}
               textHeight={textHeight}
-              font={font}
-              blurHandler={blurHandler}
+              fontOption={fontOption}
+              setFontOption={setFontOption}
               onWidthChange={onWidthChange}
               onHeightChange={onHeightChange}
-              getSelectValue={getSelectValue}
-              onChangeSelectValue={onChangeSelectValue}
             />
             <TextPositionAndFormat
               setTextAlign={setTextAlign}
@@ -114,7 +101,7 @@ const FormInscription = ({
 
               <button
                 aria-label="Price"
-                disabled={!validForm}
+                // disabled={!validForm}
                 type="submit"
                 className={s.btnOpenModal}
               >

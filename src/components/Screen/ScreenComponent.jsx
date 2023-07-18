@@ -5,8 +5,6 @@ import ScreenText from "../ScreenText/ScreenText";
 import ScreenTopPanel from "../ScreenTopPanel/ScreenTopPanel";
 import { backgrounds } from "../../images";
 import clsx from "clsx";
-// import getAlignmentStyle from "./utils/AlignmentStyle/getAlignmentStyle";
-// import handleRadioChange from "./utils/RadioChange/handleRadioChange";
 import s from "./ScreenComponent.module.scss";
 import { useInnerScreenSize } from "../../hooks/useInnerScreenSize";
 
@@ -50,7 +48,7 @@ const ScreenComponent = ({
         isTextLight={isTextLight}
         toggleTextLight={toggleTextLight}
       />
-      {text.length > 0 && (
+      {text?.length > 0 && (
         <ScreenText
           text={text}
           textHeight={textHeight}

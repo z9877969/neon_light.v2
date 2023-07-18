@@ -1,4 +1,4 @@
-const fonts = [
+export const selectorFonts = [
   {
     label: "Alumini Sans",
     value: "alumini sans",
@@ -32,5 +32,3 @@ const fonts = [
     value: "pacifico",
   },
 ];
-
-export default fonts;
