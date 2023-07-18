@@ -24,3 +24,6 @@ yarn-error.log*
 
 #some additional
 tasks.txt
+
+# Local Netlify folder
+.netlify

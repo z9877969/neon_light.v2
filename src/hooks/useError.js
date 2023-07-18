@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import { textSizeOptions as textSize } from "constants";
+
 const useError = ({
   text,
   textWidth,
@@ -33,8 +35,8 @@ const useError = ({
       return setErrorTextHeight(errorMessageTextHeight);
     }
 
-    if (Number(textHeight) < 6) {
-      return setErrorTextHeight("Мінімальна висота 6 см.");
+    if (Number(textHeight) < textSize.MIN_HEIGHT) {
+      return setErrorTextHeight(`Мінімальна висота ${textSize.MIN} см.`);
     }
 
     setErrorTextHeight("");

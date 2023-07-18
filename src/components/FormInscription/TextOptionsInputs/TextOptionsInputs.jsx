@@ -1,8 +1,8 @@
 import Select from "react-select";
-import fonts from "./fonts";
 import s from "./TextOptionsInputs.module.scss";
+import { selectorFonts } from "constants";
 
-const Options = ({
+const TextOptionsInputs = ({
   validForm,
   errorTextHeight,
   errorTextWidth,
@@ -10,8 +10,8 @@ const Options = ({
   textHeight,
   onWidthChange,
   onHeightChange,
-  onChangeSelectValue,
-  getSelectValue,
+  fontOption,
+  setFontOption,
 }) => {
   const handleWarningText = textWidth || textHeight ? true : false;
 
@@ -22,12 +22,12 @@ const Options = ({
           <p className={s.title}>Шрифт</p>
           <Select
             name="font"
-            onChange={({ value }) => onChangeSelectValue(value)}
-            value={getSelectValue}
+            onChange={(option) => setFontOption(option)}
+            value={fontOption}
             isSearchable={false}
             className="select-container"
             classNamePrefix="select"
-            options={fonts}
+            options={selectorFonts}
           />
         </div>
         <div className={s.options}>
@@ -75,4 +75,4 @@ const Options = ({
   );
 };
 
-export default Options;
+export default TextOptionsInputs;

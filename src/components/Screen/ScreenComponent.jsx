@@ -5,8 +5,6 @@ import ScreenText from "../ScreenText/ScreenText";
 import ScreenTopPanel from "../ScreenTopPanel/ScreenTopPanel";
 import { backgrounds } from "../../images";
 import clsx from "clsx";
-// import getAlignmentStyle from "./utils/AlignmentStyle/getAlignmentStyle";
-// import handleRadioChange from "./utils/RadioChange/handleRadioChange";
 import s from "./ScreenComponent.module.scss";
 import { useInnerScreenSize } from "../../hooks/useInnerScreenSize";
 
@@ -18,16 +16,17 @@ const ScreenComponent = ({
   setTextHeight,
   font,
   color,
-  alignment,
-  format,
+  textAlign,
+  lettersFormat,
   price,
 }) => {
   const [isTextLight, setIsTextLight] = useState(false);
   const [selectedBackground, setSelectedBackground] = useState(null);
 
-  const { innerScreenSize, screenRef } = useInnerScreenSize();
   const topPanelRef = useRef(null);
-  // const { textSize } = useTextSize();
+  const screenRef = useRef(null);
+
+  const innerScreenSize = useInnerScreenSize(screenRef, topPanelRef);
 
   const toggleTextLight = () => {
     setIsTextLight((p) => !p);
@@ -58,9 +57,8 @@ const ScreenComponent = ({
           innerScreenSize={innerScreenSize}
           setTextWidth={setTextWidth}
           setTextHeight={setTextHeight}
-          // getAlignmentStyle={getAlignmentStyle}
-          // alignment={alignment}
-          // isTablet={isTablet}
+          textAlign={textAlign}
+          lettersFormat={lettersFormat}
         />
       )}
       <BgChanger

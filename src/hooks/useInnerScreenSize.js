@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { getStylePropertyValue } from "../services/helpers/getStylePropertyValue";
 import { useMedia } from "./useMedia";
@@ -43,31 +43,27 @@ const getElPaddingSizes = (screenNodeEl) => {
   return paddingSizes;
 };
 
-export const useInnerScreenSize = () => {
+export const useInnerScreenSize = (screenRef, topPanelRef) => {
   const viewChanging = useMedia();
   const [innerScreenSize, setInnerScreenSize] = useState({
     width: 0,
     height: 0,
   });
 
-  const screenRef = useRef(null);
-
-  const screenOptions = useMemo(() => {
-    return { innerScreenSize, screenRef };
-  }, [innerScreenSize]);
-
   useEffect(() => {
-    const { current } = screenRef;
-    const { top, right, bottom, left } = getElPaddingSizes(current);
-    const containerInnerWidth = current.clientWidth - (right + left);
-    const containerInnerHeight = current.clientHeight - (top + bottom);
+    const { top, right, bottom, left } = getElPaddingSizes(screenRef.current);
+    const containerInnerWidth = screenRef.current.clientWidth - (right + left);
+
+    const containerInnerHeight =
+      screenRef.current.clientHeight -
+      (top + bottom + topPanelRef.current.clientHeight);
     const curScreenInnerSize = {
       width: containerInnerWidth,
       height: containerInnerHeight,
     };
 
     setInnerScreenSize(curScreenInnerSize);
-  }, [viewChanging]);
+  }, [viewChanging, screenRef, topPanelRef]);
 
-  return screenOptions;
+  return innerScreenSize;
 };

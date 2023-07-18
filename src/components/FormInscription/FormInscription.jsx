@@ -1,32 +1,31 @@
-import { useState } from "react";
 import { AiFillExclamationCircle } from "react-icons/ai";
 import ColorPicker from "./ColorPicker/ColorPicker";
 import TextOptionsInputs from "./TextOptionsInputs/TextOptionsInputs";
 import TextPositionAndFormat from "./TextPositionAndFormat/TextPositionAndFormat";
 import clsx from "clsx";
 import s from "./FormInscription.module.scss";
+import { useState } from "react";
 
 const FormInscription = ({
   price,
   color,
-  font,
+  fontOption,
   text,
   textWidth,
   textHeight,
   errorText,
   errorTextWidth,
   errorTextHeight,
-  getSelectValue,
+  setFontOption,
   handleColor,
-  onChangeSelectValue,
   onTextChange,
   onWidthChange,
   onHeightChange,
   openModal,
-  onAlignmentChange,
-  onFormatChange,
-  alignment,
-  format,
+  setTextAlign,
+  setLettersFormat,
+  textAlign,
+  lettersFormat,
 }) => {
   const [validForm, setValidForm] = useState(true);
 
@@ -67,17 +66,16 @@ const FormInscription = ({
               errorTextWidth={errorTextWidth}
               textWidth={textWidth}
               textHeight={textHeight}
-              font={font}
+              fontOption={fontOption}
+              setFontOption={setFontOption}
               onWidthChange={onWidthChange}
               onHeightChange={onHeightChange}
-              getSelectValue={getSelectValue}
-              onChangeSelectValue={onChangeSelectValue}
             />
             <TextPositionAndFormat
-              onAlignmentChange={onAlignmentChange}
-              onFormatChange={onFormatChange}
-              alignment={alignment}
-              format={format}
+              setTextAlign={setTextAlign}
+              setLettersFormat={setLettersFormat}
+              textAlign={textAlign}
+              lettersFormat={lettersFormat}
             />
           </div>
         </div>

@@ -1,7 +1,5 @@
 import "react-toastify/dist/ReactToastify.css";
 
-import { useState } from "react";
-
 import Container from "./Container/Container";
 import FormFeedback from "./FormFeedback/FormFeedback";
 import FormInscription from "./FormInscription/FormInscription";
@@ -10,12 +8,12 @@ import OwnDesign from "./OwnDesign/OwnDesign";
 import { ScreenComponent } from "./Screen";
 import Tabs from "./Tabs/Tabs";
 import { ToastContainer } from "react-toastify";
-import fonts from "./FormInscription/TextOptionsInputs/fonts";
-import useToggle from "../hooks/useToggle";
-import useFormInscription from "../hooks/useFormInscription";
-import useError from "../hooks/useError";
-import usePrice from "../hooks/usePrice";
 import s from "./App.module.scss";
+import useError from "../hooks/useError";
+import useFormInscription from "../hooks/useFormInscription";
+import usePrice from "../hooks/usePrice";
+import { useState } from "react";
+import useToggle from "../hooks/useToggle";
 
 const App = () => {
   const [formInscription, setFormInscription] = useState(true);
@@ -24,17 +22,17 @@ const App = () => {
     text,
     textWidth,
     textHeight,
-    font,
+    fontOption,
     color,
-    positionText,
-    styleText,
+    textAlign,
+    lettersFormat,
     setText,
     setTextWidth,
     setTextHeight,
-    setFont,
+    setFontOption,
     setColor,
-    setPositionText,
-    setStyleText,
+    setTextAlign,
+    setLettersFormat,
   } = useFormInscription();
   const { errorText, errorTextWidth, errorTextHeight } = useError({
     text,
@@ -42,11 +40,6 @@ const App = () => {
     textHeight,
   });
   const { price, setPrice } = usePrice({ text, textWidth, textHeight });
-  // const textWidthToHeightRatio = 4;
-
-  const getSelectValue = () => {
-    return font ? fonts.find((c) => c.value === font) : "";
-  };
 
   const onFormInscription = () => {
     setFormInscription(false);
@@ -68,10 +61,10 @@ const App = () => {
               textHeight={textHeight}
               setTextWidth={setTextWidth}
               setTextHeight={setTextHeight}
-              font={font}
+              font={fontOption.value}
               color={color}
-              alignment={positionText}
-              format={styleText}
+              textAlign={textAlign}
+              lettersFormat={lettersFormat}
               price={price}
             />
             <p className={s.warrningText}>
@@ -87,11 +80,11 @@ const App = () => {
             />
             {formInscription ? (
               <FormInscription
-                alignment={positionText}
-                format={styleText}
+                textAlign={textAlign}
+                lettersFormat={lettersFormat}
                 color={color}
                 text={text}
-                font={font}
+                fontOption={fontOption}
                 price={price}
                 errorText={errorText}
                 errorTextWidth={errorTextWidth}
@@ -99,13 +92,12 @@ const App = () => {
                 textWidth={textWidth}
                 textHeight={textHeight}
                 handleColor={setColor}
-                getSelectValue={getSelectValue()}
-                onChangeSelectValue={setFont}
+                setFontOption={setFontOption}
                 onTextChange={setText}
+                setTextAlign={setTextAlign}
+                setLettersFormat={setLettersFormat}
                 onWidthChange={setTextWidth}
                 onHeightChange={setTextHeight}
-                onAlignmentChange={setPositionText}
-                onFormatChange={setStyleText}
                 onPriceChange={setPrice}
                 openModal={handleToggleModal}
               />
@@ -118,11 +110,11 @@ const App = () => {
           <ModalFeedback onClose={handleToggleModal}>
             <FormFeedback
               formInscription={formInscription}
-              positionText={positionText}
-              styleText={styleText}
+              textAlign={textAlign}
+              lettersFormat={lettersFormat}
               color={color}
               text={text}
-              font={font}
+              font={fontOption.value}
               price={price}
               width={textWidth}
               height={textHeight}
