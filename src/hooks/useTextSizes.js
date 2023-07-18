@@ -23,6 +23,7 @@ export const useTextSizes = ({
   text,
   fontSize,
   lettersFormat,
+  font,
 }) => {
   const [k, setK] = useState(1);
   const [withMaxSizeError, setWithMaxSizeError] = useState(null);
@@ -104,6 +105,7 @@ export const useTextSizes = ({
     text,
     fontSize,
     lettersFormat,
+    font,
     k,
     calcMarkerValue,
     setTextWidth,

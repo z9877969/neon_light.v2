@@ -3,6 +3,7 @@ import ColorPicker from "./ColorPicker/ColorPicker";
 import TextOptionsInputs from "./TextOptionsInputs/TextOptionsInputs";
 import TextPositionAndFormat from "./TextPositionAndFormat/TextPositionAndFormat";
 import clsx from "clsx";
+import debounce from 'lodash.debounce';
 import s from "./FormInscription.module.scss";
 import { useState } from "react";
 

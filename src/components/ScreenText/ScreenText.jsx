@@ -41,11 +41,13 @@ const ScreenText = ({
   innerScreenSize,
   textAlign,
   lettersFormat,
+  font,
 }) => {
   const containerRef = useRef(null);
   const textBarRef = useRef(null);
   const heightMarkerRef = useRef(null);
   const widthMarkerRef = useRef(null);
+
   const textSizesOptions = useTextSizes({
     widthMarker: textWidth,
     heightMarker: textHeight,
@@ -53,6 +55,7 @@ const ScreenText = ({
     setTextHeight,
     text,
     lettersFormat,
+    font,
   });
 
   const refs = {
@@ -67,14 +70,14 @@ const ScreenText = ({
     innerScreenSize,
     refs,
     text,
+    lettersFormat,
+    font,
   });
   const parsedByEnterText = useMemo(() => {
-    const paresedText = text.split("\n").map((el) => ({
+    return text.split("\n").map((el) => ({
       stringText: changeByLettersFormat(el, lettersFormat),
       id: nanoid(),
     }));
-    console.log("paresedText :>> ", paresedText);
-    return paresedText;
   }, [text, lettersFormat]);
 
   return (
@@ -90,6 +93,7 @@ const ScreenText = ({
           <div className={s.linesContainer}>
             <p
               ref={textSizesOptions.textRef}
+              style={{ fontFamily: `${font}, sans-serif` }}
               className={clsx(
                 s.text,
                 isTextLight && s.onLightText,
