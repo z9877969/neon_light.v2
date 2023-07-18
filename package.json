@@ -2,7 +2,6 @@
   "name": "neon-light",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://Rdk001.github.io/neon-light/",
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -17,6 +16,7 @@
     "fabric": "^5.3.0",
     "formik": "^2.4.1",
     "gh-pages": "^5.0.0",
+    "netlify-cli": "^15.9.0",
     "normalize.css": "^8.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -30,7 +30,7 @@
   },
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "netlify deploy -p",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

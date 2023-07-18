@@ -1,10 +1,13 @@
-import { Fragment, useMemo, useRef } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 
 import clsx from "clsx";
 import { nanoid } from "nanoid";
 import s from "./ScreenText.module.scss";
 import { useFontSize } from "../../hooks/useFontSize";
+import { useMaxTextSize } from "../../hooks/useMaxTextSize";
 import { useTextMarkersValue } from "../../hooks/useTextMarkersValue";
+
+const calcNewFont = () => {};
 
 const ScreenText = ({
   text,
@@ -17,7 +20,6 @@ const ScreenText = ({
 }) => {
   const containerRef = useRef(null);
   const textBarRef = useRef(null);
-
   const heightMarkerRef = useRef(null);
   const widthMarkerRef = useRef(null);
   const textRef = useTextMarkersValue({
@@ -27,6 +29,7 @@ const ScreenText = ({
     setTextHeight,
     text,
   });
+  const maxNodeWidth = useMaxTextSize({ textRef, textWidth });
 
   const refs = {
     containerRef,
@@ -36,7 +39,13 @@ const ScreenText = ({
     widthMarkerRef,
   };
 
-  const fontSize = useFontSize(innerScreenSize, refs, text);
+  const fontSize = useFontSize({
+    innerScreenSize,
+    refs,
+    text,
+    textWidth,
+    textHeight,
+  });
   const parsedByEnterText = useMemo(() => {
     return text.split("\n").map((el) => ({ stringText: el, id: nanoid() }));
   }, [text]);

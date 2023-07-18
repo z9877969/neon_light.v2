@@ -58,7 +58,6 @@ const ScreenComponent = ({
           innerScreenSize={innerScreenSize}
           setTextWidth={setTextWidth}
           setTextHeight={setTextHeight}
-          // getAlignmentStyle={getAlignmentStyle}
           // alignment={alignment}
           // isTablet={isTablet}
         />

@@ -28,10 +28,10 @@ const FormInscription = ({
   onWidthChange,
   onHeightChange,
   openModal,
-  onAlignmentChange,
-  onFormatChange,
-  alignment,
-  format,
+  setTextAlign,
+  setLettersFormat,
+  textAlign,
+  lettersFormat,
 }) => {
   const [validForm, setValidForm] = useState(false);
 
@@ -85,10 +85,10 @@ const FormInscription = ({
               onChangeSelectValue={onChangeSelectValue}
             />
             <TextPositionAndFormat
-              onAlignmentChange={onAlignmentChange}
-              onFormatChange={onFormatChange}
-              alignment={alignment}
-              format={format}
+              setTextAlign={setTextAlign}
+              setLettersFormat={setLettersFormat}
+              textAlign={textAlign}
+              lettersFormat={lettersFormat}
             />
           </div>
         </div>

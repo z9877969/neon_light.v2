@@ -1,6 +1,10 @@
 import { getNodeSizes, getStylePropertyValue } from "../services/helpers";
 import { useEffect, useState } from "react";
 
+const initialFontSize = 48;
+const scaleStep = 0.1;
+const letterRatio = 1.5; // a = 1k -> w ~ 1.5k
+
 const getMargins = (innerScreenWidth, textBarWidth, heightMarkerWidth) => {
   const margin = (innerScreenWidth - textBarWidth - heightMarkerWidth) / 2;
   return {
@@ -25,9 +29,13 @@ const getNextLetterSizes = (node, nodeText) => {
   };
 };
 
-const initialFontSize = 48;
-
-export const useFontSize = (innerScreenSize, refs, text) => {
+export const useFontSize = ({
+  innerScreenSize,
+  refs,
+  text,
+  textWidth,
+  textHeight,
+}) => {
   const [fontSize, setFontSize] = useState(initialFontSize);
 
   const { containerRef, textBarRef, textRef, heightMarkerRef, widthMarkerRef } =
@@ -53,14 +61,13 @@ export const useFontSize = (innerScreenSize, refs, text) => {
     containerRef.current.style.marginLeft = marginLeft;
     containerRef.current.style.marginRight = marginRight;
 
-    const scaleStep = 0.1;
     // const curWidthRatio = textBarWidthF / wrapperWidth;
     const curHeightRatio = textBarHeightF / wrapperHeight;
 
     const { width: nextLetterWidth, height: nextLetterHeight } =
       getNextLetterSizes(textRef.current, text);
     const nextWidthRatio =
-      (textBarWidthF + nextLetterWidth * 1.5) / wrapperWidth;
+      (textBarWidthF + nextLetterWidth * letterRatio) / wrapperWidth;
 
     const nextHeightRatio = (textBarHeightF + nextLetterHeight) / wrapperHeight;
 
@@ -78,6 +85,11 @@ export const useFontSize = (innerScreenSize, refs, text) => {
       });
       return;
     }
+    if (Number(textWidth) > 200 || Number(textHeight) > 200) {
+      console.log("Number(textWidth) :>> ", Number(textWidth));
+
+      setFontSize((p) => Math.round(p * (1 - scaleStep)));
+    }
   }, [
     text,
     innerScreenSize,
@@ -86,6 +98,8 @@ export const useFontSize = (innerScreenSize, refs, text) => {
     textRef,
     heightMarkerRef,
     widthMarkerRef,
+    textWidth,
+    textHeight,
   ]);
 
   return fontSize;

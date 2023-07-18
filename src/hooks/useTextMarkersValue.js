@@ -26,12 +26,10 @@ export const useTextMarkersValue = ({
   // calc k | set base ratio beetween textHeight and nodeYSize and set base textWidth by textHeight
   useEffect(() => {
     if (!firstRenderRef.current) return;
-    const { width: nodeXSize, height: nodeYSize } = getNodeSizes(
-      textRef.current
-    );
+    const { height: nodeYSize } = getNodeSizes(textRef.current);
     const k = calcK(heightMarker, nodeYSize);
     setK(k);
-    setTextWidth(calcMarkerValue(k, nodeXSize));
+    // setTextWidth(calcMarkerValue(k, nodeXSize));
     prevKRef.current = k;
   }, [heightMarker, calcK, calcMarkerValue, setTextWidth]);
   // calc k | set base ratio beetween textHeight and nodeYSize and set base textWidth by textHeight -END
@@ -63,7 +61,7 @@ export const useTextMarkersValue = ({
   }, [heightMarker, calcK, calcMarkerValue, setTextWidth]);
   // set textWidth by textHeight -END
   // ===
-  // change markers by changed text
+  // change markers by changed text or changed k
   useEffect(() => {
     if (firstRenderRef.current) return;
     const { width: nodeXSize, height: nodeYSize } = getNodeSizes(
@@ -74,7 +72,7 @@ export const useTextMarkersValue = ({
     const newHeightMarker = calcMarkerValue(k, nodeYSize);
     setTextHeight(newHeightMarker);
   }, [text, k, calcMarkerValue, setTextWidth, setTextHeight]);
-  // change markers by changed text -END
+  // change markers by changed text or changed k -END
 
   useEffect(() => {
     firstRenderRef.current = false;

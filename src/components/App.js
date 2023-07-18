@@ -1,5 +1,10 @@
 import "react-toastify/dist/ReactToastify.css";
 
+import {
+  alignmentOptions as alignment,
+  letterFormatOptions,
+  lettersFormatOptions,
+} from "../constants";
 import { useCallback, useEffect, useState } from "react";
 
 import Container from "./Container/Container";
@@ -24,8 +29,8 @@ const App = () => {
   const [font, setFont] = useState("alumini sans");
   const [color, setColor] = useState("#FEFEFE");
   const [price, setPrice] = useState(0);
-  const [positionText, setPositionText] = useState("start");
-  const [styleText, setStyleText] = useState("none");
+  const [textAlign, setTextAlign] = useState(alignment.LEFT);
+  const [lettersFormat, setLettersFormat] = useState(lettersFormatOptions.NONE);
   const [textDirty, setTextDirty] = useState(false);
   const [widthDirty, setWidthDirty] = useState(false);
   const [heightDirty, setHeightDirty] = useState(false);
@@ -82,11 +87,11 @@ const App = () => {
   };
 
   const handeleAlignmentChange = (newAlignment) => {
-    setPositionText(newAlignment);
+    setTextAlign(newAlignment);
   };
 
   const handleFormatChange = (newFormat) => {
-    setStyleText(newFormat);
+    setLettersFormat(newFormat);
   };
 
   const handleColor = (color) => {
@@ -155,8 +160,8 @@ const App = () => {
               setTextHeight={setTextHeight}
               font={font}
               color={color}
-              alignment={positionText}
-              format={styleText}
+              alignment={textAlign}
+              format={lettersFormat}
               price={price}
             />
             <p className={s.warrningText}>
@@ -172,8 +177,8 @@ const App = () => {
             />
             {formInscription ? (
               <FormInscription
-                alignment={positionText}
-                format={styleText}
+              textAlign={textAlign}
+                lettersFormat={lettersFormat}
                 color={color}
                 text={text}
                 font={font}
@@ -193,8 +198,8 @@ const App = () => {
                 onTextChange={handleTextChange}
                 onWidthChange={handleWidthChange}
                 onHeightChange={handleHeightChange}
-                onAlignmentChange={handeleAlignmentChange}
-                onFormatChange={handleFormatChange}
+                setTextAlign={setTextAlign}
+                setLettersFormat={setLettersFormat}
                 onPriceChange={handelePriceChange}
                 openModal={handleTogleModal}
               />
@@ -207,8 +212,8 @@ const App = () => {
           <ModalFeedback onClose={handleTogleModal}>
             <FormFeedback
               formInscription={formInscription}
-              positionText={positionText}
-              styleText={styleText}
+              textAlign={textAlign}
+              lettersFormat={lettersFormat}
               color={color}
               text={text}
               font={font}

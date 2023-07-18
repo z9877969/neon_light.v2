@@ -1,16 +1,39 @@
+import {
+  FormatAlignCenter,
+  FormatAlignLeft,
+  FormatAlignRight,
+} from "@mui/icons-material";
+import {
+  alignmentOptions as alignment,
+  lettersFormatOptions as lettersFormat,
+} from "constants";
+
 import Box from "@mui/joy/Box";
 import Radio from "@mui/joy/Radio";
 import RadioGroup from "@mui/joy/RadioGroup";
-import FormatAlignCenterIcon from "@mui/icons-material/FormatAlignCenter";
-import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
-import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
 import s from "../FormInscription.module.scss";
 
+const textAlignmetnList = Object.values(alignment);
+const lettersFormatList = Object.values(lettersFormat);
+
+const textAlignIcons = {
+  [alignment.LEFT]: <FormatAlignLeft className={s.svgIcon} />,
+  [alignment.CENTER]: <FormatAlignCenter className={s.svgIcon} />,
+  [alignment.RIGHT]: <FormatAlignRight className={s.svgIcon} />,
+};
+
+const letterFormatIcons = {
+  [lettersFormat.NONE]: <p className={s.svgIcon}>-</p>,
+  [lettersFormat.UPPERCASE]: <p className={s.svgIcon}>AA</p>,
+  [lettersFormat.LOWERCASE]: <p className={s.svgIcon}>aa</p>,
+  [lettersFormat.CAPITALIZE]: <p className={s.svgIcon}>Aa</p>,
+};
+
 export function TextPositionAdnFormat({
-  onAlignmentChange,
-  onFormatChange,
-  alignment,
-  format,
+  setTextAlign,
+  setLettersFormat,
+  textAlign,
+  lettersFormat,
 }) {
   return (
     <div className={s.TextPositionAndFormat}>
@@ -18,16 +41,16 @@ export function TextPositionAdnFormat({
         orientation="horizontal"
         aria-label="Alignment"
         name="positionText"
-        value={alignment}
-        onChange={(event) => onAlignmentChange(event.target.value)}
+        value={textAlign}
+        onChange={(event) => setTextAlign(event.target.value)}
         sx={{
           gap: "8px",
           marginBottom: "8px",
         }}
       >
-        {["start", "center", "right"].map((item) => (
+        {textAlignmetnList.map((align) => (
           <Box
-            key={item}
+            key={align}
             sx={{
               position: "relative",
               display: "flex",
@@ -42,24 +65,18 @@ export function TextPositionAdnFormat({
             }}
           >
             <Radio
-              value={item}
+              value={align}
               disableIcon
               overlay
-              label={
-                {
-                  start: <FormatAlignLeftIcon className={s.svgIcon} />,
-                  right: <FormatAlignRightIcon className={s.svgIcon} />,
-                  center: <FormatAlignCenterIcon className={s.svgIcon} />,
-                }[item]
-              }
+              label={textAlignIcons[align]}
               sx={{
                 "& .Joy-checked": {
                   backgroundColor: "#fff",
                 },
               }}
-              variant={alignment === item ? "solid" : "plain"}
+              variant={textAlign === align ? "solid" : "plain"}
               slotProps={{
-                input: { "aria-label": item },
+                input: { "aria-label": align },
                 action: {
                   sx: {
                     "&:hover": {
@@ -81,15 +98,15 @@ export function TextPositionAdnFormat({
           orientation="horizontal"
           aria-label="Format"
           name="styleText"
-          value={format}
-          onChange={(event) => onFormatChange(event.target.value)}
+          value={lettersFormat}
+          onChange={(e) => setLettersFormat(e.target.value)}
           sx={{
             gap: "8px",
           }}
         >
-          {["none", "uppercase", "lowercase", "capitalize"].map((item) => (
+          {lettersFormatList.map((format) => (
             <Box
-              key={item}
+              key={format}
               sx={{
                 position: "relative",
                 display: "flex",
@@ -111,20 +128,13 @@ export function TextPositionAdnFormat({
                     backgroundColor: "#fff",
                   },
                 }}
-                value={item}
+                value={format}
                 disableIcon
                 overlay
-                label={
-                  {
-                    none: <p className={s.svgIcon}>-</p>,
-                    uppercase: <p className={s.svgIcon}>AA</p>,
-                    lowercase: <p className={s.svgIcon}>aa</p>,
-                    capitalize: <p className={s.svgIcon}>Aa</p>,
-                  }[item]
-                }
-                variant={format === item ? "solid" : "plain"}
+                label={letterFormatIcons[format]}
+                variant={format === lettersFormat ? "solid" : "plain"}
                 slotProps={{
-                  input: { "aria-label": item },
+                  input: { "aria-label": format },
                   action: {
                     sx: {
                       "&:hover": {
