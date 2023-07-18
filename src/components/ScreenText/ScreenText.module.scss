@@ -56,10 +56,10 @@ $onlight-color: #f8c51e;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  // font-size: calc(10px + 2vmin);
   color: #fff;
   height: 75%;
-  overflow-wrap: break-word;
+  // overflow-wrap: break-word;
   font-weight: 400;
   line-height: $line-height;
 
@@ -98,6 +98,7 @@ $onlight-color: #f8c51e;
 }
 .text {
   display: inline-flex;
+  white-space: nowrap;
 
   &.onLightText {
     // on light styles

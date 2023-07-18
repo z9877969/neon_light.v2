@@ -25,9 +25,10 @@ const ScreenComponent = ({
   const [isTextLight, setIsTextLight] = useState(false);
   const [selectedBackground, setSelectedBackground] = useState(null);
 
-  const { innerScreenSize, screenRef } = useInnerScreenSize();
   const topPanelRef = useRef(null);
-  // const { textSize } = useTextSize();
+  const screenRef = useRef(null);
+
+  const innerScreenSize = useInnerScreenSize(screenRef, topPanelRef);
 
   const toggleTextLight = () => {
     setIsTextLight((p) => !p);
@@ -60,7 +61,6 @@ const ScreenComponent = ({
           setTextHeight={setTextHeight}
           textAlign={textAlign}
           lettersFormat={lettersFormat}
-          // isTablet={isTablet}
         />
       )}
       <BgChanger
