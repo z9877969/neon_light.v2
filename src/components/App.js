@@ -1,6 +1,6 @@
 import "react-toastify/dist/ReactToastify.css";
 
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 
 import Container from "./Container/Container";
 import FormFeedback from "./FormFeedback/FormFeedback";
@@ -10,99 +10,42 @@ import OwnDesign from "./OwnDesign/OwnDesign";
 import { ScreenComponent } from "./Screen";
 import Tabs from "./Tabs/Tabs";
 import { ToastContainer } from "react-toastify";
-import calculatePrice from "../shared/lib/priceCalculator";
 import fonts from "./FormInscription/TextOptionsInputs/fonts";
-import getNeonStripLength from "../shared/lib/getNeonStripLength";
+import useToggle from "../hooks/useToggle";
+import useFormInscription from "../hooks/useFormInscription";
+import useError from "../hooks/useError";
+import usePrice from "../hooks/usePrice";
 import s from "./App.module.scss";
 
 const App = () => {
   const [formInscription, setFormInscription] = useState(true);
-  const [text, setText] = useState("");
-  const [textWidth, setTextWidth] = useState(0);
-  const [textHeight, setTextHeight] = useState(6);
-  const [isOpen, setIsOpen] = useState(false);
-  const [font, setFont] = useState("alumini sans");
-  const [color, setColor] = useState("#FEFEFE");
-  const [price, setPrice] = useState(0);
-  const [positionText, setPositionText] = useState("start");
-  const [styleText, setStyleText] = useState("none");
-  const [textDirty, setTextDirty] = useState(false);
-  const [widthDirty, setWidthDirty] = useState(false);
-  const [heightDirty, setHeightDirty] = useState(false);
-  const [textError, setTextError] = useState("");
-  const [widthError, setWidthError] = useState("*Обовязкове поле");
-  const [heightError, setHeightError] = useState("*Обовязкове поле");
-
+  const { isModalOpen, handleToggleModal } = useToggle();
+  const {
+    text,
+    textWidth,
+    textHeight,
+    font,
+    color,
+    positionText,
+    styleText,
+    setText,
+    setTextWidth,
+    setTextHeight,
+    setFont,
+    setColor,
+    setPositionText,
+    setStyleText,
+  } = useFormInscription();
+  const { errorText, errorTextWidth, errorTextHeight } = useError({
+    text,
+    textWidth,
+    textHeight,
+  });
+  const { price, setPrice } = usePrice({ text, textWidth, textHeight });
   // const textWidthToHeightRatio = 4;
-
-  useEffect(() => {
-    // controls error
-    if (!text) {
-      setTextError("Обовязкове поле");
-      setPrice(0);
-    } else {
-      setTextError("");
-    }
-    if (!textWidth) {
-      setWidthError("Обовязкове поле");
-    } else {
-      setWidthError("");
-    }
-    if (!textHeight) {
-      setHeightError("Обовязкове поле");
-    } else if (Number(textHeight) < 8) {
-      setHeightDirty(true);
-      setHeightError("Мінімально 8 см");
-    } else {
-      setHeightError("");
-    }
-    // controls error -END
-
-    // calc price
-    if (text && textWidth && textHeight) {
-      const symbolQuantityText = text.split(" ").join("").length;
-      const lengthOfLedStripInMeters = getNeonStripLength(
-        symbolQuantityText,
-        Number(textHeight)
-      );
-
-      const totalPrice = calculatePrice(
-        textWidth / 100,
-        textHeight / 100,
-        symbolQuantityText,
-        lengthOfLedStripInMeters / 100
-      );
-      setPrice(Math.round(totalPrice));
-    }
-    // calc price -END
-  }, [text, textHeight, textWidth]);
-
-  const handelePriceChange = (newPrice) => {
-    setPrice(newPrice);
-  };
-
-  const handeleAlignmentChange = (newAlignment) => {
-    setPositionText(newAlignment);
-  };
-
-  const handleFormatChange = (newFormat) => {
-    setStyleText(newFormat);
-  };
-
-  const handleColor = (color) => {
-    setColor(color);
-  };
 
   const getSelectValue = () => {
     return font ? fonts.find((c) => c.value === font) : "";
-  };
-
-  const onChangeSelectValue = (newValue) => {
-    setFont(newValue.value);
-  };
-
-  const handleTogleModal = () => {
-    setIsOpen(!isOpen);
   };
 
   const onFormInscription = () => {
@@ -111,34 +54,6 @@ const App = () => {
 
   const onOwnDesign = () => {
     setFormInscription(true);
-  };
-
-  const blurHandler = (e) => {
-    switch (e.target.name) {
-      case "text":
-        setTextDirty(true);
-        break;
-      case "width":
-        setWidthDirty(true);
-        break;
-      case "height":
-        setHeightDirty(true);
-        break;
-      default:
-        return;
-    }
-  };
-
-  const handleTextChange = useCallback((e) => {
-    setText(e.target.value);
-  }, []);
-
-  const handleWidthChange = (event) => {
-    setTextWidth(event.target.value);
-  };
-
-  const handleHeightChange = (event) => {
-    setTextHeight(event.target.value);
   };
 
   return (
@@ -178,33 +93,29 @@ const App = () => {
                 text={text}
                 font={font}
                 price={price}
-                textDirty={textDirty}
-                widthDirty={widthDirty}
-                heightDirty={heightDirty}
-                textError={textError}
-                widthError={widthError}
-                heightError={heightError}
+                errorText={errorText}
+                errorTextWidth={errorTextWidth}
+                errorTextHeight={errorTextHeight}
                 textWidth={textWidth}
                 textHeight={textHeight}
-                blurHandler={blurHandler}
-                handleColor={handleColor}
+                handleColor={setColor}
                 getSelectValue={getSelectValue()}
-                onChangeSelectValue={onChangeSelectValue}
-                onTextChange={handleTextChange}
-                onWidthChange={handleWidthChange}
-                onHeightChange={handleHeightChange}
-                onAlignmentChange={handeleAlignmentChange}
-                onFormatChange={handleFormatChange}
-                onPriceChange={handelePriceChange}
-                openModal={handleTogleModal}
+                onChangeSelectValue={setFont}
+                onTextChange={setText}
+                onWidthChange={setTextWidth}
+                onHeightChange={setTextHeight}
+                onAlignmentChange={setPositionText}
+                onFormatChange={setStyleText}
+                onPriceChange={setPrice}
+                openModal={handleToggleModal}
               />
             ) : (
-              <OwnDesign openModal={handleTogleModal} />
+              <OwnDesign openModal={handleToggleModal} />
             )}
           </div>
         </div>
-        {isOpen && (
-          <ModalFeedback onClose={handleTogleModal}>
+        {isModalOpen && (
+          <ModalFeedback onClose={handleToggleModal}>
             <FormFeedback
               formInscription={formInscription}
               positionText={positionText}

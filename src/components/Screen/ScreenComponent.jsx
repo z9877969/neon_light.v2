@@ -49,7 +49,7 @@ const ScreenComponent = ({
         isTextLight={isTextLight}
         toggleTextLight={toggleTextLight}
       />
-      {text.length > 0 && (
+      {text?.length > 0 && (
         <ScreenText
           text={text}
           textHeight={textHeight}

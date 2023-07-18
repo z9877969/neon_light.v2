@@ -76,6 +76,7 @@
   position: relative;
 }
 .errorMessage {
+  white-space: nowrap;
   position: absolute;
   bottom: 0;
   left: 5px;
