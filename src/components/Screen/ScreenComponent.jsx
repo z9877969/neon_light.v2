@@ -59,6 +59,8 @@ const ScreenComponent = ({
           setTextHeight={setTextHeight}
           textAlign={textAlign}
           lettersFormat={lettersFormat}
+          font={font}
+          color={color}
         />
       )}
       <BgChanger

@@ -17,7 +17,7 @@ const FormInscription = ({
   errorTextWidth,
   errorTextHeight,
   setFontOption,
-  handleColor,
+  setColor,
   onTextChange,
   onWidthChange,
   onHeightChange,
@@ -84,7 +84,7 @@ const FormInscription = ({
             textWidth={textWidth}
             textHeight={textHeight}
             color={color}
-            setColor={handleColor}
+            setColor={setColor}
           />
 
           <div className={clsx(s.ordering, !price && s.withOutWarningText)}>

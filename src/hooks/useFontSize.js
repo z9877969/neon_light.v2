@@ -29,7 +29,13 @@ const getNextLetterSizes = (node, nodeText) => {
   };
 };
 
-export const useFontSize = ({ innerScreenSize, refs, text }) => {
+export const useFontSize = ({
+  innerScreenSize,
+  refs,
+  text,
+  lettersFormat,
+  font,
+}) => {
   const [fontSize, setFontSize] = useState(initialFontSize);
 
   const { containerRef, textBarRef, textRef, heightMarkerRef, widthMarkerRef } =
@@ -96,6 +102,8 @@ export const useFontSize = ({ innerScreenSize, refs, text }) => {
     textRef,
     heightMarkerRef,
     widthMarkerRef,
+    lettersFormat,
+    font,
   ]);
   // set font size by width or height  text bar goes to more than container -END
 
