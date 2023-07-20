@@ -11,7 +11,7 @@ export const lettersFormatOptions = {
   CAPITALIZE: "capitalize",
 };
 
-export const textSizeOptions = {
+export const textSizeConstants = {
   MIN_WIDTH: 3,
   MIN_HEIGHT: 6,
   MAX_WIDTH: 200,

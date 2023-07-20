@@ -39,7 +39,7 @@ const TextOptionsInputs = ({
                 type="number"
                 name="width"
                 placeholder="0"
-                value={textWidth.toString()}
+                value={textWidth}
                 onChange={(e) => onWidthChange(e.target.value)}
               />
             </label>

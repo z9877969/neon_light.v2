@@ -1,35 +1,11 @@
-import { Fragment, useMemo, useRef } from "react";
+import { Fragment, useRef } from "react";
 
 import ModalError from "components/ModalError/ModalError";
 import clsx from "clsx";
-import { lettersFormatOptions } from "constants";
-import { nanoid } from "nanoid";
 import s from "./ScreenText.module.scss";
+import { useDisplayingText } from "hooks/useDisplayingText";
 import { useFontSize } from "../../hooks/useFontSize";
 import { useTextSizes } from "../../hooks/useTextSizes";
-
-const toCapitalizeCase = (str) => {
-  const firstLetter = str[0].toUpperCase();
-  return firstLetter + str.slice(1);
-};
-
-const changeByLettersFormat = function (str, lettersFormat) {
-  const SPACE = " ";
-  const { UPPERCASE, LOWERCASE, CAPITALIZE } = lettersFormatOptions;
-  switch (lettersFormat) {
-    case UPPERCASE:
-      return str.toUpperCase();
-    case LOWERCASE:
-      return str.toLowerCase();
-    case CAPITALIZE:
-      return str
-        .split(SPACE)
-        .map((el) => (el !== SPACE ? toCapitalizeCase(el) : el))
-        .join(SPACE);
-    default:
-      return str;
-  }
-};
 
 const ScreenText = ({
   text,
@@ -74,12 +50,8 @@ const ScreenText = ({
     lettersFormat,
     font,
   });
-  const parsedByEnterText = useMemo(() => {
-    return text.split("\n").map((el) => ({
-      stringText: changeByLettersFormat(el, lettersFormat),
-      id: nanoid(),
-    }));
-  }, [text, lettersFormat]);
+
+  const displayingText = useDisplayingText(text, lettersFormat);
 
   return (
     <>
@@ -101,7 +73,7 @@ const ScreenText = ({
                 s[textAlign]
               )}
             >
-              {parsedByEnterText.map((el, idx, arr) =>
+              {displayingText.map((el, idx, arr) =>
                 idx < arr.length - 1 ? (
                   <Fragment key={el.id}>
                     {el.stringText}

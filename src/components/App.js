@@ -9,6 +9,7 @@ import { ScreenComponent } from "./Screen";
 import Tabs from "./Tabs/Tabs";
 import { ToastContainer } from "react-toastify";
 import s from "./App.module.scss";
+import { useDisplayingText } from "hooks/useDisplayingText";
 import useError from "../hooks/useError";
 import useFormInscription from "../hooks/useFormInscription";
 import usePrice from "../hooks/usePrice";

@@ -1,8 +1,10 @@
+import { fontSize as fontSizeConstants, textSizeConstants } from "constants";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { getNodeSizes } from "../services/helpers";
 
-const DISPLAY_MAX_SIZE = 200;
+const { LINE_HEIGHT } = fontSizeConstants;
+const { MAX_HEIGHT, MAX_WIDTH, MIN_HEIGHT } = textSizeConstants;
 
 const maxSizesMessages = {
   onlyWidth:
@@ -13,6 +15,13 @@ const maxSizesMessages = {
     "Максимальна ширина може бути 200см. Тому, для даного варіанту тексту, автоматично зменшено ширину до 200см, та висоту пераховано відповідно до цієї ширини.",
   bothAndHeightMore:
     "Максимальна висота може бути 200см. Тому, для даного варіанту тексту, автоматично зменшено висоту до 200см, та ширину перераховано відповідно до цієї висоти.",
+};
+
+const calcTextRows = (text) => {
+  const fullRowsAmount = text
+    .split("\n")
+    .filter((el, i, arr) => !(i === arr.length - 1 && !el)).length;
+  return fullRowsAmount;
 };
 
 export const useTextSizes = ({
@@ -35,11 +44,12 @@ export const useTextSizes = ({
   const prevFontSize = useRef(fontSize);
 
   const calcK = useCallback((markerValue, nodeSize) => {
-    return markerValue / nodeSize;
+    return markerValue / nodeSize; // cm/px
   }, []);
   const calcMarkerValue = useCallback((k, nodeSize) => {
     return Math.round(k * nodeSize);
   }, []);
+
   const textSizesOptions = useMemo(
     () => ({
       textRef,
@@ -107,60 +117,63 @@ export const useTextSizes = ({
     lettersFormat,
     font,
     k,
-    calcMarkerValue,
     setTextWidth,
     setTextHeight,
+    calcMarkerValue,
   ]);
   // change markers by changed text or changed k -END
   // ===
-  // change markers sizes if width or height more than max
+  // change k-ratio if width or height more than max
   useEffect(() => {
     const { width: nodeXSize, height: nodeYSize } = getNodeSizes(
       textRef.current
     );
     const widthMarkerNum = Number(widthMarker);
     const heightMarkerNum = Number(heightMarker);
-    if (
-      widthMarkerNum > DISPLAY_MAX_SIZE &&
-      heightMarkerNum > DISPLAY_MAX_SIZE
-    ) {
+    if (widthMarkerNum > MAX_WIDTH && heightMarkerNum > MAX_HEIGHT) {
       if (widthMarkerNum > heightMarkerNum) {
-        const k = calcK(DISPLAY_MAX_SIZE, nodeXSize);
+        const k = calcK(MAX_WIDTH, nodeXSize);
         setWithMaxSizeError(maxSizesMessages.bothAndWidthMore);
         setK(k);
       }
       if (heightMarkerNum >= widthMarkerNum) {
-        const k = calcK(DISPLAY_MAX_SIZE, nodeYSize);
+        const k = calcK(MAX_HEIGHT, nodeYSize);
         setWithMaxSizeError(maxSizesMessages.bothAndHeightMore);
         setK(k);
       }
       return;
     }
-    if (
-      widthMarkerNum > DISPLAY_MAX_SIZE &&
-      heightMarkerNum <= DISPLAY_MAX_SIZE
-    ) {
-      const k = calcK(DISPLAY_MAX_SIZE, nodeXSize);
-      // setWithMaxSizeError(maxSizesMessages.onlyWidth);
+    if (widthMarkerNum > MAX_WIDTH && heightMarkerNum <= MAX_HEIGHT) {
+      const k = calcK(MAX_WIDTH, nodeXSize);
       setK(k);
       return;
     }
-    if (
-      heightMarkerNum > DISPLAY_MAX_SIZE &&
-      widthMarkerNum <= DISPLAY_MAX_SIZE
-    ) {
-      const k = calcK(DISPLAY_MAX_SIZE, nodeYSize);
-      // setWithMaxSizeError(maxSizesMessages.onlyHeight);
+    if (heightMarkerNum > MAX_HEIGHT && widthMarkerNum <= MAX_WIDTH) {
+      const k = calcK(MAX_HEIGHT, nodeYSize);
       setK(k);
       return;
     }
   }, [widthMarker, heightMarker, calcK]);
-  // change markers sizes if width or height more than max -END
+  // change k-ratio if width or height more than max -END
+
+  // change k-ratio if row height less than min
+  useEffect(() => {
+    const heightMarkerNum = Number(heightMarker);
+    const { height: nodeYSize } = getNodeSizes(textRef.current);
+    const rowsAmount = calcTextRows(text);
+    const correctMinHeight = rowsAmount * MIN_HEIGHT * LINE_HEIGHT;
+    if (heightMarkerNum < correctMinHeight) {
+      const k = calcK(correctMinHeight, nodeYSize);
+      setK(k);
+      return;
+    }
+  }, [text, widthMarker, heightMarker, calcK]);
+  // change k-ratio if row height less than min -END
 
   useEffect(() => {
     firstRenderRef.current = false;
     return () => {
-      setTextHeight((p) => Number(p));
+      setTextHeight((p) => (Number(p) > MIN_HEIGHT ? Number(p) : MIN_HEIGHT));
       setTextWidth(0);
     };
   }, [setTextHeight, setTextWidth]);
