@@ -1,13 +1,10 @@
 @import "../../../sass/utils/mixin";
 @import "../../../sass/utils/variables";
 .optionContainer {
-  @include tablet_max {
-    margin-bottom: 32px;
-  }
   display: flex;
   flex-direction: column;
   flex: 1;
-  margin-bottom: 24px;
+  margin-bottom: 15px;
 }
 
 .optionSetting {
@@ -15,7 +12,7 @@
     display: flex;
     gap: 8px;
   }
-  margin-bottom: 18px;
+  margin-bottom: 25px;
   .selectWrapper {
     position: relative;
     @include desktop_max {
@@ -76,14 +73,13 @@
   position: relative;
 }
 .errorMessage {
-  white-space: nowrap;
   position: absolute;
   bottom: 0;
   left: 5px;
   font-family: $primary-font;
   @include font(400, 10px, 12px);
   color: $main-accent-color;
-  bottom: -16px;
+  top: 74px;
 
   @include tablet {
     @include font(400, 12px, 14px);
