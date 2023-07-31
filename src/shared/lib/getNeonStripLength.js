@@ -1,4 +1,4 @@
-import { textSizeConstants as constants } from "constants";
+import { textSizeConstants } from "constants";
 
 const LETTER_HEIGHT_TO_LED_LENGTH_MAP = {
   6: 23,
@@ -19,8 +19,14 @@ const LETTER_HEIGHT_TO_LED_LENGTH_MAP = {
 };
 
 function getNeonStripLength(wordLength, fontSizeCM) {
-  const { MIN_HEIGHT } = constants;
-  fontSizeCM = fontSizeCM < MIN_HEIGHT ? MIN_HEIGHT : fontSizeCM;
+  const { MIN_FONT_HEIGHT, MAX_FONT_HEIGHT } = textSizeConstants;
+
+  fontSizeCM =
+    fontSizeCM < MIN_FONT_HEIGHT
+      ? MIN_FONT_HEIGHT
+      : fontSizeCM > MAX_FONT_HEIGHT
+      ? MAX_FONT_HEIGHT
+      : fontSizeCM;
 
   if (!LETTER_HEIGHT_TO_LED_LENGTH_MAP[fontSizeCM]) {
     const heightVariants = Object.keys(LETTER_HEIGHT_TO_LED_LENGTH_MAP);
@@ -36,7 +42,7 @@ function getNeonStripLength(wordLength, fontSizeCM) {
       }
     }
   }
-  return wordLength * LETTER_HEIGHT_TO_LED_LENGTH_MAP[fontSizeCM] || 0;
+  return wordLength * LETTER_HEIGHT_TO_LED_LENGTH_MAP[fontSizeCM];
 }
 
 export default getNeonStripLength;
