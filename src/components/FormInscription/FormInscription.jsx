@@ -3,8 +3,26 @@ import ColorPicker from "./ColorPicker/ColorPicker";
 import TextOptionsInputs from "./TextOptionsInputs/TextOptionsInputs";
 import TextPositionAndFormat from "./TextPositionAndFormat/TextPositionAndFormat";
 import clsx from "clsx";
+import debounce from "lodash.debounce";
 import s from "./FormInscription.module.scss";
 import { useState } from "react";
+
+const DebouncedTextField = ({ text, setText }) => {
+  const [localText, setLocalText] = useState(text);
+
+  return (
+    <textarea
+      className={s.textArea}
+      name="text"
+      placeholder="Введіть текст"
+      value={localText}
+      onChange={(e) => {
+        debounce((textValue) => setText(textValue), 0)(e.target.value);
+        setLocalText(e.target.value);
+      }}
+    />
+  );
+};
 
 const FormInscription = ({
   price,
@@ -18,7 +36,7 @@ const FormInscription = ({
   errorTextHeight,
   setFontOption,
   setColor,
-  onTextChange,
+  setText,
   onWidthChange,
   onHeightChange,
   openModal,
@@ -48,13 +66,15 @@ const FormInscription = ({
       <form onSubmit={handleSubmit} autoComplete="off">
         <div className={s.textSettings}>
           <div className={s.inputWrapper}>
-            <textarea
+            <DebouncedTextField text={text} setText={setText} />
+            {/* <textarea
+              ref={textFieldRef}
               className={s.textArea}
               name="text"
               placeholder="Введіть текст"
               value={text}
               onChange={(e) => onTextChange(e.target.value)}
-            />
+            /> */}
             {errorText && !validForm && (
               <span className={s.errorMessage}>{errorText}</span>
             )}
@@ -110,7 +130,7 @@ const FormInscription = ({
             </div>
           </div>
         </div>
-        {price && (
+        {price > 0 && (
           <div className={s.warrningTextWrapper}>
             <AiFillExclamationCircle
               style={{

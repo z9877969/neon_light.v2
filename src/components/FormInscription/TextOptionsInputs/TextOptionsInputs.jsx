@@ -33,13 +33,13 @@ const TextOptionsInputs = ({
         <div className={s.options}>
           <div className={s.inputWrapper}>
             <label htmlFor="width">
-              <p className={s.title}>Ширина</p>
+              <p className={s.title}>Ширина, см</p>
               <input
                 className={s.option}
                 type="number"
                 name="width"
                 placeholder="0"
-                value={textWidth}
+                value={Math.round(Number(textWidth))}
                 onChange={(e) => onWidthChange(e.target.value)}
               />
             </label>
@@ -49,13 +49,13 @@ const TextOptionsInputs = ({
           </div>
           <div className={s.inputWrapper}>
             <label htmlFor="height">
-              <p className={s.title}>Висота</p>
+              <p className={s.title}>Висота, см</p>
               <input
                 className={s.option}
                 type="number"
                 name="height"
                 placeholder="0"
-                value={textHeight}
+                value={Math.round(Number(textHeight))}
                 onChange={(e) => onHeightChange(e.target.value)}
               />
             </label>

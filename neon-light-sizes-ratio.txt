@@ -1,0 +1,10 @@
+wSm/wPx = hSm/hPx
+wSm = hSm/hPx*wPx
+
+# w by h
+wSm/hSm = wPx/hPx
+wSm = wPx/hPx*hSm
+
+# h by w
+hSm/wSm = hPx/wPx
+hSm = hPx/wPx*wSm

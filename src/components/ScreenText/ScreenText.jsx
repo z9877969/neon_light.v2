@@ -22,23 +22,14 @@ const ScreenText = ({
 }) => {
   const containerRef = useRef(null);
   const textBarRef = useRef(null);
+  const textRef = useRef(null);
   const heightMarkerRef = useRef(null);
   const widthMarkerRef = useRef(null);
-
-  const textSizesOptions = useTextSizes({
-    widthMarker: textWidth,
-    heightMarker: textHeight,
-    setTextWidth,
-    setTextHeight,
-    text,
-    lettersFormat,
-    font,
-  });
 
   const refs = {
     containerRef,
     textBarRef,
-    textRef: textSizesOptions.textRef,
+    textRef,
     heightMarkerRef,
     widthMarkerRef,
   };
@@ -46,6 +37,17 @@ const ScreenText = ({
   const fontSize = useFontSize({
     innerScreenSize,
     refs,
+    text,
+    lettersFormat,
+    font,
+  });
+
+  const textSizesOptions = useTextSizes({
+    textRef,
+    widthMarker: textWidth,
+    heightMarker: textHeight,
+    setTextWidth,
+    setTextHeight,
     text,
     lettersFormat,
     font,
@@ -61,11 +63,11 @@ const ScreenText = ({
       >
         <div ref={textBarRef} className={s.textBar}>
           <div ref={heightMarkerRef} className={s.markerHeightWrapper}>
-            <span className={s.markerHeight}>{`${textHeight} см`}</span>
+            <span className={s.markerHeight}>{`${Number(textHeight).toFixed()} см`}</span>
           </div>
           <div className={s.linesContainer}>
             <p
-              ref={textSizesOptions.textRef}
+              ref={textRef}
               style={{ fontFamily: `${font}, sans-serif`, color }}
               className={clsx(
                 s.text,
@@ -87,7 +89,9 @@ const ScreenText = ({
           </div>
           <div ref={widthMarkerRef} className={s.markerWidthWrapper}>
             <p className={s.markerWidth}>
-              <span className={s.widthValue}>{`${textWidth}`}</span>
+              <span className={s.widthValue}>{`${Number(
+                textWidth
+              ).toFixed()}`}</span>
               <span className={s.widthUnit}>см</span>
             </p>
           </div>
