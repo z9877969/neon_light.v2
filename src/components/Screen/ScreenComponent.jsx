@@ -48,7 +48,7 @@ const ScreenComponent = ({
         isTextLight={isTextLight}
         toggleTextLight={toggleTextLight}
       />
-      {text?.length > 0 && (
+      {text.length > 0 && (
         <ScreenText
           text={text}
           textHeight={textHeight}
@@ -57,8 +57,8 @@ const ScreenComponent = ({
           innerScreenSize={innerScreenSize}
           setTextWidth={setTextWidth}
           setTextHeight={setTextHeight}
-          textAlign={textAlign}
           lettersFormat={lettersFormat}
+          textAlign={textAlign}
           font={font}
           color={color}
         />

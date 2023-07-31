@@ -26,7 +26,13 @@ $onlight-color: #f8c51e;
     }
     & .markerHeight,
     & .markerWidth {
-      font-size: $_marker-font-size;
+      @if $font-id < 12 {
+        font-size: calc($_marker-font-size * 3);
+      } @else if $font-id >= 12 and $font-id < 24 {
+        font-size: calc($_marker-font-size * 2);
+      } @else {
+        font-size: $_marker-font-size;
+      }
     }
     & .markerHeight {
       margin-right: $_marker-space;

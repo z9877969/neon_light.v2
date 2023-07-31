@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { textSizeOptions as textSize } from "constants";
+import { textSizeConstants as textSize } from "constants";
 
 const useError = ({
   text,

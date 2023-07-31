@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import calculatePrice from "../shared/lib/priceCalculator";
 import getNeonStripLength from "../shared/lib/getNeonStripLength";
 
@@ -18,6 +19,11 @@ const usePrice = ({ text, textWidth, textHeight }) => {
         symbolQuantityText,
         lengthOfLedStripInMeters / 100
       );
+      console.log("totalPrice :>> ", totalPrice);
+      console.log("textWidth / 100", textWidth / 100);
+      console.log("textHeight / 100", textHeight / 100);
+      console.log("symbolQuantityText", symbolQuantityText);
+      console.log("lengthOfLedStripInMeters", lengthOfLedStripInMeters / 100);
       setPrice(Math.round(totalPrice));
     }
   }, [text, textHeight, textWidth]);
