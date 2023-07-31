@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import { textSizeConstants as textSize } from "constants";
 
 const useError = ({
@@ -27,6 +26,10 @@ const useError = ({
       return setErrorTextWidth(errorMessageTextWidth);
     }
 
+    if (Number(Math.floor(textWidth)) > textSize.MAX_WIDTH) {
+      return setErrorTextWidth(`Максимальна висота ${textSize.MAX_WIDTH} см.`);
+    }
+
     setErrorTextWidth("");
   }, [textWidth, errorMessageTextWidth]);
 
@@ -36,7 +39,13 @@ const useError = ({
     }
 
     if (Number(textHeight) < textSize.MIN_HEIGHT) {
-      return setErrorTextHeight(`Мінімальна висота ${textSize.MIN} см.`);
+      return setErrorTextHeight(`Мінімальна висота ${textSize.MIN_HEIGHT} см.`);
+    }
+
+    if (Number(Math.floor(textHeight)) > textSize.MAX_HEIGHT) {
+      return setErrorTextHeight(
+        `Максимальна висота ${textSize.MAX_HEIGHT} см.`
+      );
     }
 
     setErrorTextHeight("");
