@@ -12,7 +12,7 @@ const ScreenTopPanel = ({ price, isTextLight, toggleTextLight, containerRef }) =
       >
         {price} грн
       </Typography>
-      <Switch checked={isTextLight} onChange={toggleTextLight} />
+      <Switch checked={!isTextLight} onChange={toggleTextLight} />
     </div>
   );
 };

@@ -20,7 +20,7 @@ const ScreenComponent = ({
   lettersFormat,
   price,
 }) => {
-  const [isTextLight, setIsTextLight] = useState(false);
+  const [isTextLight, setIsTextLight] = useState(true);
   const [selectedBackground, setSelectedBackground] = useState(null);
 
   const topPanelRef = useRef(null);
