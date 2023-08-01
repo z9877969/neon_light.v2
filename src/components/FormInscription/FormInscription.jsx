@@ -45,7 +45,7 @@ const FormInscription = ({
   textAlign,
   lettersFormat,
 }) => {
-  const [validForm, setValidForm] = useState(true);
+  const [validForm, setValidForm] = useState(false);
 
   const numberWithSpaces = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
@@ -59,6 +59,8 @@ const FormInscription = ({
 
     setValidForm(true);
     openModal();
+
+    return setValidForm(false);
   };
 
   return (
@@ -67,14 +69,6 @@ const FormInscription = ({
         <div className={s.textSettings}>
           <div className={s.inputWrapper}>
             <DebouncedTextField text={text} setText={setText} />
-            {/* <textarea
-              ref={textFieldRef}
-              className={s.textArea}
-              name="text"
-              placeholder="Введіть текст"
-              value={text}
-              onChange={(e) => onTextChange(e.target.value)}
-            /> */}
             {errorText && !validForm && (
               <span className={s.errorMessage}>{errorText}</span>
             )}
