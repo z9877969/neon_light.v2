@@ -8,13 +8,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.85);;
+  background-color: rgba(0, 0, 0, 0.85);
 }
 .errorDescr {
   width: 90%;
   background-color: antiquewhite;
   border-radius: 8px;
   padding: 12px 16px;
+  font-weight: 500;
 
   @media screen and (min-width: 420px) {
     width: 375px;

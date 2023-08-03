@@ -7,7 +7,7 @@ import debounce from "lodash.debounce";
 import s from "./FormInscription.module.scss";
 import { useState } from "react";
 
-const DebouncedTextField = ({ text, setText }) => {
+const DebouncedTextField = ({ text, handleChangeText }) => {
   const [localText, setLocalText] = useState(text);
 
   return (
@@ -17,7 +17,7 @@ const DebouncedTextField = ({ text, setText }) => {
       placeholder="Введіть текст"
       value={localText}
       onChange={(e) => {
-        debounce((textValue) => setText(textValue), 0)(e.target.value);
+        debounce((textValue) => handleChangeText(textValue), 0)(e.target.value);
         setLocalText(e.target.value);
       }}
     />
@@ -36,7 +36,7 @@ const FormInscription = ({
   errorTextHeight,
   setFontOption,
   setColor,
-  setText,
+  handleChangeText,
   onWidthChange,
   onHeightChange,
   openModal,
@@ -68,7 +68,10 @@ const FormInscription = ({
       <form onSubmit={handleSubmit} autoComplete="off">
         <div className={s.textSettings}>
           <div className={s.inputWrapper}>
-            <DebouncedTextField text={text} setText={setText} />
+            <DebouncedTextField
+              text={text}
+              handleChangeText={handleChangeText}
+            />
             {errorText && !validForm && (
               <span className={s.errorMessage}>{errorText}</span>
             )}

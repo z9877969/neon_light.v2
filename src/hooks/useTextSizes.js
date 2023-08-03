@@ -1,22 +1,22 @@
-import { fontSize as fontSizeConstants, textSizeConstants } from "constants";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { getNodeSizes } from "../services/helpers";
+import { textSizeConstants } from "constants";
 
-const { MIN_HEIGHT } = textSizeConstants;
+const { MIN_HEIGHT, MAX_HEIGHT, MAX_WIDTH } = textSizeConstants;
 
-// const maxSizesMessages = {
-//   onlyWidth:
-//     "Максимальна ширина може бути 200см. Тому для даного варіанту тексту відповідну висоту зменшено автоматично.",
-//   onlyHeight:
-//     "Максимальна висота може бути 200см. Тому для даного варіанту відповідну ширину зменшено автоматично.",
-//   bothAndWidthMore:
-//     "Максимальна ширина може бути 200см. Тому, для даного варіанту тексту, автоматично зменшено ширину до 200см, та висоту пераховано відповідно до цієї ширини.",
-//   bothAndHeightMore:
-//     "Максимальна висота може бути 200см. Тому, для даного варіанту тексту, автоматично зменшено висоту до 200см, та ширину перераховано відповідно до цієї висоти.",
-// };
+const maxSizesMessages = {
+  onlyWidth:
+    "Максимальна ширина може бути 200см. Тому значення введеного розміру ширини зменшено до 200, і для поточного варіанту тексту розмір висоти також автоматично зменшено відповідно до даної ширини.",
+  onlyHeight:
+    "Максимальна висота може бути 200см. Тому значення введеного розміру висоти зменшено до 200, і для поточного варіанту тексту розмір ширини також автоматично зменшено відповідно до даної висоти.",
+  bothAndWidthMore:
+    "Максимальна ширина може бути 200см. Тому, для даного варіанту тексту, автоматично зменшено ширину до 200см, та висоту пераховано відповідно до цієї ширини.",
+  bothAndHeightMore:
+    "Максимальна висота може бути 200см. Тому, для даного варіанту тексту, автоматично зменшено висоту до 200см, та ширину перераховано відповідно до цієї висоти.",
+};
 
-const changeToFloat = (num) => Math.round(num * 100) / 100;
+const changeToFloat = (num) => Math.floor(num * 100) / 100;
 
 export const useTextSizes = ({
   widthMarker,
@@ -24,6 +24,7 @@ export const useTextSizes = ({
   setTextWidth,
   setTextHeight,
   text,
+  setText,
   lettersFormat,
   font,
   textRef,
@@ -49,7 +50,7 @@ export const useTextSizes = ({
     const { width: nodeXSize, height: nodeYSize } = getNodeSizes(
       textRef.current
     );
-    const widthMarker = Math.round((nodeXSize / nodeYSize) * heightMarker);
+    const widthMarker = changeToFloat((nodeXSize / nodeYSize) * heightMarker);
     setTextWidth(widthMarker);
     widthMarkerRef.current = widthMarker;
     heightMarkerRef.current = heightMarker;
@@ -63,7 +64,7 @@ export const useTextSizes = ({
         textRef.current
       );
       const heightMarker = changeToFloat((nodeYSize / nodeXSize) * widthMarker);
-      setTextHeight(heightMarker);
+      setTextHeight(heightMarker >= 6 ? heightMarker : 6);
       heightMarkerRef.current = heightMarker;
       widthMarkerRef.current = widthMarker;
       nodeYSizeRef.current = nodeYSize;
@@ -95,6 +96,22 @@ export const useTextSizes = ({
     if (nodeXSizeRef !== nodeXSizeRef.current) {
       // wSm = wPx/hPx*hSm
       const widthMarker = changeToFloat((nodeXSize / nodeYSize) * heightMarker);
+      // if (widthMarker > MAX_WIDTH) {
+      //   setText((p) => {
+      //     const devidedText = p.split("");
+      //     devidedText.splice(devidedText.length - 2, 0, "\n");
+      //     return devidedText.join("");
+      //   });
+      //   const heightMarker = changeToFloat(
+      //     (nodeYSize / nodeXSize) * widthMarkerRef.current
+      //   );
+      //   setTextHeight(heightMarker);
+      //   nodeXSizeRef.current = nodeXSize;
+      // } else {
+      //   setTextWidth(widthMarker);
+      //   widthMarkerRef.current = widthMarker;
+      //   nodeXSizeRef.current = nodeXSize;
+      // }
       setTextWidth(widthMarker);
       widthMarkerRef.current = widthMarker;
       nodeXSizeRef.current = nodeXSize;
@@ -102,7 +119,7 @@ export const useTextSizes = ({
     if (nodeYSize !== nodeYSizeRef.current) {
       // hSm = hPx/wPx*wSm
       const heightMarker = changeToFloat((nodeYSize / nodeXSize) * widthMarker);
-      setTextHeight(heightMarker);
+      setTextHeight(heightMarker >= 6 ? heightMarker : 6);
       heightMarkerRef.current = heightMarker;
       nodeYSizeRef.current = nodeYSize;
     }
@@ -115,8 +132,52 @@ export const useTextSizes = ({
     heightMarker,
     setTextHeight,
     setTextWidth,
+    // setText,
   ]);
-  // change markers by changed text or changed k -END
+  // ===
+
+  // changes widthMarker/heightMarker by another side and show error if its more than max
+  useEffect(() => {
+    const { width: nodeXSize, height: nodeYSize } = getNodeSizes(
+      textRef.current
+    );
+    const widthMarkerNum = Math.floor(Number(widthMarker));
+    const heightMarkerNum = Math.floor(Number(heightMarker));
+    if (widthMarkerNum <= MAX_WIDTH && heightMarkerNum <= MAX_HEIGHT) return;
+    let validWidth = MAX_WIDTH;
+    let validHeight = MAX_HEIGHT;
+    if (widthMarkerNum > MAX_WIDTH && heightMarkerNum > MAX_HEIGHT) {
+      if (widthMarkerNum > heightMarkerNum) {
+        // hSm = hPx/wPx*wSm
+        validHeight = changeToFloat((nodeYSize / nodeXSize) * validWidth);
+        setWithMaxSizeError(maxSizesMessages.bothAndWidthMore);
+      }
+      if (heightMarkerNum >= widthMarkerNum) {
+        validWidth = changeToFloat((nodeXSize / nodeYSize) * validHeight);
+        setWithMaxSizeError(maxSizesMessages.bothAndHeightMore);
+      }
+    } else {
+      if (widthMarkerNum > MAX_WIDTH) {
+        validHeight = changeToFloat((nodeYSize / nodeXSize) * validWidth);
+        setWithMaxSizeError(maxSizesMessages.bothAndWidthMore);
+      }
+      if (heightMarkerNum > MAX_HEIGHT) {
+        validWidth = changeToFloat((nodeXSize / nodeYSize) * validHeight);
+        setWithMaxSizeError(maxSizesMessages.bothAndHeightMore);
+      }
+    }
+    if (
+      heightMarkerRef.current === validHeight &&
+      widthMarkerRef.current === validWidth
+    )
+      return;
+
+    setTextHeight(validHeight);
+    setTextWidth(validWidth);
+    heightMarkerRef.current = validHeight;
+    widthMarkerRef.current = validWidth;
+  }, [widthMarker, heightMarker, textRef, setTextHeight, setTextWidth]);
+  // changes widthMarker/heightMarker by another side and show error if its more than max -END
 
   useEffect(() => {
     firstRenderRef.current = false;
@@ -128,36 +189,3 @@ export const useTextSizes = ({
 
   return textSizesOptions;
 };
-
-// change k-ratio and show error if width or height more than max
-// useEffect(() => {
-// const { width: nodeXSize, height: nodeYSize } = getNodeSizes(
-//   textRef.current
-// );
-// const widthMarkerNum = Number(widthMarker);
-// const heightMarkerNum = Number(heightMarker);
-// if (widthMarkerNum > MAX_WIDTH && heightMarkerNum > MAX_HEIGHT) {
-//   if (widthMarkerNum > heightMarkerNum) {
-//     const k = calcK(MAX_WIDTH, nodeXSize);
-//     setWithMaxSizeError(maxSizesMessages.bothAndWidthMore);
-//     setK(k);
-//   }
-//   if (heightMarkerNum >= widthMarkerNum) {
-//     const k = calcK(MAX_HEIGHT, nodeYSize);
-//     setWithMaxSizeError(maxSizesMessages.bothAndHeightMore);
-//     setK(k);
-//   }
-//   return;
-// }
-// if (widthMarkerNum > MAX_WIDTH && heightMarkerNum <= MAX_HEIGHT) {
-//   const k = calcK(MAX_WIDTH, nodeXSize);
-//   setK(k);
-//   return;
-// }
-// if (heightMarkerNum > MAX_HEIGHT && widthMarkerNum <= MAX_WIDTH) {
-//   const k = calcK(MAX_HEIGHT, nodeYSize);
-//   setK(k);
-//   return;
-// }
-// }, [widthMarker, heightMarker, textRef, calcK]);
-// change k-ratio and show error if width or height more than max -END

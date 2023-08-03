@@ -14,11 +14,13 @@ const ScreenComponent = ({
   textHeight,
   setTextWidth,
   setTextHeight,
+  setText,
   font,
   color,
   textAlign,
   lettersFormat,
   price,
+  setIsTextSizeError,
 }) => {
   const [isTextLight, setIsTextLight] = useState(true);
   const [selectedBackground, setSelectedBackground] = useState(null);
@@ -57,10 +59,12 @@ const ScreenComponent = ({
           innerScreenSize={innerScreenSize}
           setTextWidth={setTextWidth}
           setTextHeight={setTextHeight}
+          setText={setText}
           lettersFormat={lettersFormat}
           textAlign={textAlign}
           font={font}
           color={color}
+          setIsTextSizeError={setIsTextSizeError}
         />
       )}
       <BgChanger

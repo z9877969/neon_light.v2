@@ -1,5 +1,7 @@
 import "react-toastify/dist/ReactToastify.css";
 
+import { useCallback, useState } from "react";
+
 import Container from "./Container/Container";
 import FormFeedback from "./FormFeedback/FormFeedback";
 import FormInscription from "./FormInscription/FormInscription";
@@ -13,7 +15,6 @@ import s from "./App.module.scss";
 import useError from "../hooks/useError";
 import useFormInscription from "../hooks/useFormInscription";
 import usePrice from "../hooks/usePrice";
-import { useState } from "react";
 import useToggle from "../hooks/useToggle";
 
 const App = () => {
@@ -41,6 +42,7 @@ const App = () => {
     textHeight,
   });
   const { price, setPrice } = usePrice({ text, textWidth, textHeight });
+  const [isTextSizeError, setIsTextSizeError] = useState(false);
 
   const onFormInscription = () => {
     setFormInscription(false);
@@ -49,6 +51,14 @@ const App = () => {
   const onOwnDesign = () => {
     setFormInscription(true);
   };
+
+  const handleChangeText = useCallback(
+    (text) => {
+      if (isTextSizeError) return;
+      setText(text);
+    },
+    [isTextSizeError, setText]
+  );
 
   return (
     <>
@@ -62,11 +72,13 @@ const App = () => {
               textHeight={textHeight}
               setTextWidth={setTextWidth}
               setTextHeight={setTextHeight}
+              setText={setText}
               font={fontOption.label}
               color={color}
               textAlign={textAlign}
               lettersFormat={lettersFormat}
               price={price}
+              setIsTextSizeError={setIsTextSizeError}
             />
             <p className={s.warrningText}>
               Зображення може спотворюватися для двох та більше рядків. Ми
@@ -94,7 +106,7 @@ const App = () => {
                 textHeight={textHeight}
                 setColor={setColor}
                 setFontOption={setFontOption}
-                setText={setText}
+                handleChangeText={handleChangeText}
                 setTextAlign={setTextAlign}
                 setLettersFormat={setLettersFormat}
                 onWidthChange={setTextWidth}
