@@ -1,7 +1,5 @@
 import "react-toastify/dist/ReactToastify.css";
 
-import { useCallback, useState } from "react";
-
 import Container from "./Container/Container";
 import FormFeedback from "./FormFeedback/FormFeedback";
 import FormInscription from "./FormInscription/FormInscription";
@@ -11,10 +9,10 @@ import { ScreenComponent } from "./Screen";
 import Tabs from "./Tabs/Tabs";
 import { ToastContainer } from "react-toastify";
 import s from "./App.module.scss";
-// import { useDisplayingText } from "hooks/useDisplayingText";
 import useError from "../hooks/useError";
 import useFormInscription from "../hooks/useFormInscription";
 import usePrice from "../hooks/usePrice";
+import { useState } from "react";
 import useToggle from "../hooks/useToggle";
 
 const App = () => {
@@ -42,7 +40,6 @@ const App = () => {
     textHeight,
   });
   const { price, setPrice } = usePrice({ text, textWidth, textHeight });
-  const [isTextSizeError, setIsTextSizeError] = useState(false);
 
   const onFormInscription = () => {
     setFormInscription(false);
@@ -70,7 +67,6 @@ const App = () => {
               textAlign={textAlign}
               lettersFormat={lettersFormat}
               price={price}
-              setIsTextSizeError={setIsTextSizeError}
             />
             <p className={s.warrningText}>
               Зображення може спотворюватися для двох та більше рядків. Ми
@@ -98,7 +94,6 @@ const App = () => {
                 textHeight={textHeight}
                 setColor={setColor}
                 setFontOption={setFontOption}
-                // handleChangeText={handleChangeText}
                 setText={setText}
                 setTextAlign={setTextAlign}
                 setLettersFormat={setLettersFormat}

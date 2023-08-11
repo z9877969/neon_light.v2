@@ -1,20 +1,9 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import { getNodeSizes } from "../services/helpers";
 import { textSizeConstants } from "constants";
 
 const { MIN_HEIGHT, MAX_HEIGHT, MAX_WIDTH } = textSizeConstants;
-
-// const maxSizesMessages = {
-//   onlyWidth:
-//     "Максимальна ширина може бути 200см. Тому значення введеного розміру ширини зменшено до 200, і для поточного варіанту тексту розмір висоти також автоматично зменшено відповідно до даної ширини.",
-//   onlyHeight:
-//     "Максимальна висота може бути 200см. Тому значення введеного розміру висоти зменшено до 200, і для поточного варіанту тексту розмір ширини також автоматично зменшено відповідно до даної висоти.",
-//   bothAndWidthMore:
-//     "Максимальна ширина може бути 200см. Тому, для даного варіанту тексту, автоматично зменшено ширину до 200см, та висоту пераховано відповідно до цієї ширини.",
-//   bothAndHeightMore:
-//     "Максимальна висота може бути 200см. Тому, для даного варіанту тексту, автоматично зменшено висоту до 200см, та ширину перераховано відповідно до цієї висоти.",
-// };
 
 const changeToFloat = (num) => Math.floor(num * 100) / 100;
 const replaceTextToNewRow = (text) => {
@@ -22,17 +11,6 @@ const replaceTextToNewRow = (text) => {
   devidedText.splice(-1, 0, "\n");
   return devidedText.join("");
 };
-const removeRow = (text) => {
-  return text.split("\n").slice(0, -1).join("\n");
-};
-const parseTextByRows = (text) => {
-  const parsedByRowsText = text.split("\n");
-  return {
-    text,
-    parsedByRowsText,
-  };
-};
-let render = 0;
 
 export const useTextSizes = ({
   widthMarker,
@@ -111,10 +89,10 @@ export const useTextSizes = ({
   }, [heightMarker, textRef, setTextWidth]);
   // ===
   useEffect(() => {
-    if (firstRenderRef.current) return; // +
+    if (firstRenderRef.current) return;
     const { width: nodeXSize, height: nodeYSize } = getNodeSizes(
       textRef.current
-    ); // +
+    );
 
     if (nodeXSizeRef !== nodeXSizeRef.current) {
       // wSm = wPx/hPx*hSm
@@ -150,10 +128,10 @@ export const useTextSizes = ({
   }, [text]);
   // ===
   useEffect(() => {
-    if (firstRenderRef.current) return; // +
+    if (firstRenderRef.current) return;
     const { width: nodeXSize, height: nodeYSize } = getNodeSizes(
       textRef.current
-    ); // +
+    );
     // wSm = wPx/hPx*hSm
     const widthMarker = changeToFloat((nodeXSize / nodeYSize) * heightMarker);
     if (widthMarker > MAX_WIDTH) {
@@ -173,7 +151,7 @@ export const useTextSizes = ({
     if (firstRenderRef.current) return; // +
     const { width: nodeXSize, height: nodeYSize } = getNodeSizes(
       textRef.current
-    ); // +
+    );
 
     if (nodeXSize > nodeYSize) {
       // wSm = wPx/hPx*hSm
@@ -209,49 +187,4 @@ export const useTextSizes = ({
       setTextWidth(0);
     };
   }, [setTextHeight, setTextWidth]);
-
-  // return textSizesOptions;
 };
-
-// // changes widthMarker/heightMarker by another side and show error if its more than max
-// useEffect(() => {
-//   const { width: nodeXSize, height: nodeYSize } = getNodeSizes(
-//     textRef.current
-//   );
-//   const widthMarkerNum = Math.floor(Number(widthMarker));
-//   const heightMarkerNum = Math.floor(Number(heightMarker));
-//   if (widthMarkerNum <= MAX_WIDTH && heightMarkerNum <= MAX_HEIGHT) return;
-//   let validWidth = MAX_WIDTH;
-//   let validHeight = MAX_HEIGHT;
-//   if (widthMarkerNum > MAX_WIDTH && heightMarkerNum > MAX_HEIGHT) {
-//     if (widthMarkerNum > heightMarkerNum) {
-//       // hSm = hPx/wPx*wSm
-//       validHeight = changeToFloat((nodeYSize / nodeXSize) * validWidth);
-//       setWithMaxSizeError(maxSizesMessages.bothAndWidthMore);
-//     }
-//     if (heightMarkerNum >= widthMarkerNum) {
-//       validWidth = changeToFloat((nodeXSize / nodeYSize) * validHeight);
-//       setWithMaxSizeError(maxSizesMessages.bothAndHeightMore);
-//     }
-//   } else {
-//     if (widthMarkerNum > MAX_WIDTH) {
-//       validHeight = changeToFloat((nodeYSize / nodeXSize) * validWidth);
-//       setWithMaxSizeError(maxSizesMessages.bothAndWidthMore);
-//     }
-//     if (heightMarkerNum > MAX_HEIGHT) {
-//       validWidth = changeToFloat((nodeXSize / nodeYSize) * validHeight);
-//       setWithMaxSizeError(maxSizesMessages.bothAndHeightMore);
-//     }
-//   }
-//   if (
-//     heightMarkerRef.current === validHeight &&
-//     widthMarkerRef.current === validWidth
-//   )
-//     return;
-
-//   setTextHeight(validHeight);
-//   setTextWidth(validWidth);
-//   heightMarkerRef.current = validHeight;
-//   widthMarkerRef.current = validWidth;
-// }, [widthMarker, heightMarker, textRef, setTextHeight, setTextWidth]);
-// // changes widthMarker/heightMarker by another side and show error if its more than max -END

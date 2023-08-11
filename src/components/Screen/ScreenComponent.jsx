@@ -20,7 +20,6 @@ const ScreenComponent = ({
   textAlign,
   lettersFormat,
   price,
-  setIsTextSizeError,
 }) => {
   const [isTextLight, setIsTextLight] = useState(true);
   const [selectedBackground, setSelectedBackground] = useState(null);
@@ -64,7 +63,6 @@ const ScreenComponent = ({
           textAlign={textAlign}
           font={font}
           color={color}
-          setIsTextSizeError={setIsTextSizeError}
         />
       )}
       <BgChanger

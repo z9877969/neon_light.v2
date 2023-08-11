@@ -16,34 +16,7 @@ export const useFontSize = ({
 }) => {
   const [fontSize, setFontSize] = useState(initialFontSize);
 
-  const { containerRef, textBarRef, textRef, heightMarkerRef, widthMarkerRef } =
-    refs;
-
-  // calc sizes markers ratio
-  // const calcTextSizesRatio = useCallback(() => {
-  //   const { width: wrapperWidth, height: wrapperHeight } = innerScreenSize;
-
-  //   const { width: textBarFullWidth, height: textBarFullHeight } =
-  //     calcTextBarFullSizes();
-
-  //   const curWidthRatio = textBarFullWidth / wrapperWidth;
-  //   const curHeightRatio = textBarFullHeight / wrapperHeight;
-
-  //   const { width: nextLetterWidth, height: nextLetterHeight } =
-  //     getNextLetterSizes(textRef.current, text);
-  //   const nextWidthRatio =
-  //     (textBarFullWidth + nextLetterWidth * letterRatio) / wrapperWidth;
-
-  //   const nextHeightRatio =
-  //     (textBarFullHeight + nextLetterHeight) / wrapperHeight;
-  //   return {
-  //     curWidthRatio,
-  //     curHeightRatio,
-  //     nextWidthRatio,
-  //     nextHeightRatio,
-  //   };
-  // }, [innerScreenSize, text, textRef, calcTextBarFullSizes]);
-  // calc sizes markers ratio -END
+  const { containerRef, textBarRef, heightMarkerRef, widthMarkerRef } = refs;
 
   // calc text sizes
   const calcTextBarFullSizes = useCallback(() => {

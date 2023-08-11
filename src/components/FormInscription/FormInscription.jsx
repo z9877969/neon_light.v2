@@ -5,30 +5,7 @@ import ColorPicker from "./ColorPicker/ColorPicker";
 import TextOptionsInputs from "./TextOptionsInputs/TextOptionsInputs";
 import TextPositionAndFormat from "./TextPositionAndFormat/TextPositionAndFormat";
 import clsx from "clsx";
-import debounce from "lodash.debounce";
 import s from "./FormInscription.module.scss";
-
-// const DebouncedTextField = ({ text, handleChangeText }) => {
-//   const [localText, setLocalText] = useState(text);
-
-//   useEffect(() => {
-//     localText !== text && setLocalText(text);
-//     // eslint-disable-next-line
-//   }, [text]);
-
-//   return (
-//     <textarea
-//       className={s.textArea}
-//       name="text"
-//       placeholder="Введіть текст"
-//       value={localText}
-//       onChange={(e) => {
-//         debounce((textValue) => handleChangeText(textValue), 0)(e.target.value);
-//         setLocalText(e.target.value);
-//       }}
-//     />
-//   );
-// };
 
 const numberWithSpaces = (x) => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");

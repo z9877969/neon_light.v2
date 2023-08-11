@@ -1,6 +1,5 @@
 import { Fragment, useRef } from "react";
 
-// import ModalError from "components/ModalError/ModalError";
 import clsx from "clsx";
 import s from "./ScreenText.module.scss";
 import { useDisplayingText } from "hooks/useDisplayingText";
