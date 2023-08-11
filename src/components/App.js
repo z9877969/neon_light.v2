@@ -52,14 +52,6 @@ const App = () => {
     setFormInscription(true);
   };
 
-  const handleChangeText = useCallback(
-    (text) => {
-      if (isTextSizeError) return;
-      setText(text);
-    },
-    [isTextSizeError, setText]
-  );
-
   return (
     <>
       <div className={s.header}></div>
@@ -106,7 +98,8 @@ const App = () => {
                 textHeight={textHeight}
                 setColor={setColor}
                 setFontOption={setFontOption}
-                handleChangeText={handleChangeText}
+                // handleChangeText={handleChangeText}
+                setText={setText}
                 setTextAlign={setTextAlign}
                 setLettersFormat={setLettersFormat}
                 onWidthChange={setTextWidth}

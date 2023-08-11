@@ -1,12 +1,10 @@
-import { Alert, Snackbar } from "@mui/material";
-import { Fragment, useEffect, useRef } from "react";
+import { Fragment, useRef } from "react";
 
 // import ModalError from "components/ModalError/ModalError";
 import clsx from "clsx";
 import s from "./ScreenText.module.scss";
 import { useDisplayingText } from "hooks/useDisplayingText";
 import { useFontSize } from "../../hooks/useFontSize";
-import { useMedia } from "hooks/useMedia";
 import { useTextSizes } from "../../hooks/useTextSizes";
 
 const ScreenText = ({
@@ -22,17 +20,12 @@ const ScreenText = ({
   lettersFormat,
   font,
   color,
-  setIsTextSizeError,
 }) => {
   const containerRef = useRef(null);
   const textBarRef = useRef(null);
   const textRef = useRef(null);
   const heightMarkerRef = useRef(null);
   const widthMarkerRef = useRef(null);
-
-  const { isMobile, isMobileAdaptive } = useMedia();
-
-  const isMobileScreen = isMobile || isMobileAdaptive;
 
   const refs = {
     containerRef,
@@ -50,7 +43,7 @@ const ScreenText = ({
     font,
   });
 
-  const textSizesOptions = useTextSizes({
+  useTextSizes({
     textRef,
     widthMarker: textWidth,
     heightMarker: textHeight,
@@ -63,12 +56,6 @@ const ScreenText = ({
   });
 
   const displayingText = useDisplayingText(text, lettersFormat);
-
-  useEffect(() => {
-    textSizesOptions.withMaxSizeError
-      ? setIsTextSizeError(true)
-      : setIsTextSizeError(false);
-  }, [textSizesOptions.withMaxSizeError, setIsTextSizeError]);
 
   return (
     <>
@@ -114,27 +101,6 @@ const ScreenText = ({
           </div>
         </div>
       </div>
-      {/* {textSizesOptions.withMaxSizeError && (
-        <ModalError
-          errorMessage={textSizesOptions.withMaxSizeError}
-          setError={textSizesOptions.setWithMaxSizeError}
-        />
-      )} */}
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={Boolean(textSizesOptions.withMaxSizeError)}
-        autoHideDuration={6000}
-        message={textSizesOptions.withMaxSizeError}
-        onClose={() => textSizesOptions.setWithMaxSizeError(null)}
-      >
-        <Alert
-          onClose={() => textSizesOptions.setWithMaxSizeError(null)}
-          severity="error"
-          sx={{ width: isMobileScreen ? "100%" : "50%", fontSize: "20px" }}
-        >
-          {textSizesOptions.withMaxSizeError}
-        </Alert>
-      </Snackbar>
     </>
   );
 };
