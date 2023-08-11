@@ -1,6 +1,5 @@
 import { Fragment, useRef } from "react";
 
-import ModalError from "components/ModalError/ModalError";
 import clsx from "clsx";
 import s from "./ScreenText.module.scss";
 import { useDisplayingText } from "hooks/useDisplayingText";
@@ -13,6 +12,7 @@ const ScreenText = ({
   textWidth,
   setTextWidth,
   setTextHeight,
+  setText,
   isTextLight,
   innerScreenSize,
   textAlign,
@@ -42,12 +42,13 @@ const ScreenText = ({
     font,
   });
 
-  const textSizesOptions = useTextSizes({
+  useTextSizes({
     textRef,
     widthMarker: textWidth,
     heightMarker: textHeight,
     setTextWidth,
     setTextHeight,
+    setText,
     text,
     lettersFormat,
     font,
@@ -63,7 +64,9 @@ const ScreenText = ({
       >
         <div ref={textBarRef} className={s.textBar}>
           <div ref={heightMarkerRef} className={s.markerHeightWrapper}>
-            <span className={s.markerHeight}>{`${Number(textHeight).toFixed()} см`}</span>
+            <span className={s.markerHeight}>{`${Number(
+              textHeight
+            ).toFixed()} см`}</span>
           </div>
           <div className={s.linesContainer}>
             <p
@@ -97,12 +100,6 @@ const ScreenText = ({
           </div>
         </div>
       </div>
-      {textSizesOptions.withMaxSizeError && (
-        <ModalError
-          errorMessage={textSizesOptions.withMaxSizeError}
-          setError={textSizesOptions.setWithMaxSizeError}
-        />
-      )}
     </>
   );
 };

@@ -1,27 +1,14 @@
+import { useEffect, useState } from "react";
+
 import { AiFillExclamationCircle } from "react-icons/ai";
 import ColorPicker from "./ColorPicker/ColorPicker";
 import TextOptionsInputs from "./TextOptionsInputs/TextOptionsInputs";
 import TextPositionAndFormat from "./TextPositionAndFormat/TextPositionAndFormat";
 import clsx from "clsx";
-import debounce from "lodash.debounce";
 import s from "./FormInscription.module.scss";
-import { useState } from "react";
 
-const DebouncedTextField = ({ text, setText }) => {
-  const [localText, setLocalText] = useState(text);
-
-  return (
-    <textarea
-      className={s.textArea}
-      name="text"
-      placeholder="Введіть текст"
-      value={localText}
-      onChange={(e) => {
-        debounce((textValue) => setText(textValue), 0)(e.target.value);
-        setLocalText(e.target.value);
-      }}
-    />
-  );
+const numberWithSpaces = (x) => {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 };
 
 const FormInscription = ({
@@ -47,8 +34,14 @@ const FormInscription = ({
 }) => {
   const [validForm, setValidForm] = useState(false);
 
-  const numberWithSpaces = (x) => {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  const handleChangeText = (e) => {
+    const { value } = e.target;
+    setText((p) => {
+      const textParsedByReplace = value.split("\n");
+      return p.length > value.length && textParsedByReplace.slice(-1)[0] === ""
+        ? textParsedByReplace.slice(0, -1).join("\n")
+        : value;
+    });
   };
 
   const handleSubmit = (e) => {
@@ -68,7 +61,13 @@ const FormInscription = ({
       <form onSubmit={handleSubmit} autoComplete="off">
         <div className={s.textSettings}>
           <div className={s.inputWrapper}>
-            <DebouncedTextField text={text} setText={setText} />
+            <textarea
+              className={s.textArea}
+              name="text"
+              placeholder="Введіть текст"
+              value={text}
+              onChange={handleChangeText}
+            />
             {errorText && !validForm && (
               <span className={s.errorMessage}>{errorText}</span>
             )}

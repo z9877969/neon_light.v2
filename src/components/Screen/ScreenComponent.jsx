@@ -14,6 +14,7 @@ const ScreenComponent = ({
   textHeight,
   setTextWidth,
   setTextHeight,
+  setText,
   font,
   color,
   textAlign,
@@ -57,6 +58,7 @@ const ScreenComponent = ({
           innerScreenSize={innerScreenSize}
           setTextWidth={setTextWidth}
           setTextHeight={setTextHeight}
+          setText={setText}
           lettersFormat={lettersFormat}
           textAlign={textAlign}
           font={font}
