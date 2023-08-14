@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
-
 import { AiFillExclamationCircle } from "react-icons/ai";
 import ColorPicker from "./ColorPicker/ColorPicker";
 import TextOptionsInputs from "./TextOptionsInputs/TextOptionsInputs";
 import TextPositionAndFormat from "./TextPositionAndFormat/TextPositionAndFormat";
 import clsx from "clsx";
 import s from "./FormInscription.module.scss";
+import { useState } from "react";
 
 const numberWithSpaces = (x) => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");

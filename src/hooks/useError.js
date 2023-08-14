@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
+
 import { textSizeConstants as textSize } from "constants";
 
 const useError = ({
   text,
   textWidth,
   textHeight,
-  errorMessageText = "*Обовязкове поле",
-  errorMessageTextWidth = "*Обовязкове поле",
-  errorMessageTextHeight = "*Обовязкове поле",
+  errorMessageText = "*Обов'язкове поле",
+  errorMessageTextWidth = "*Обов'язкове поле",
+  errorMessageTextHeight = "*Обов'язкове поле",
 }) => {
   const [errorText, setErrorText] = useState(false);
   const [errorTextWidth, setErrorTextWidth] = useState(false);
