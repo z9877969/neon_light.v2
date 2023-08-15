@@ -1,5 +1,6 @@
 import { Fragment, useRef } from "react";
 
+import CustomizedAlert from "components/CustomizedAlert/CustomizedAlert";
 import clsx from "clsx";
 import s from "./ScreenText.module.scss";
 import { useDisplayingText } from "hooks/useDisplayingText";
@@ -42,7 +43,7 @@ const ScreenText = ({
     font,
   });
 
-  const sideSizeError = useTextSizes({
+  const errorOptions = useTextSizes({
     textRef,
     widthMarker: textWidth,
     heightMarker: textHeight,
@@ -52,7 +53,7 @@ const ScreenText = ({
     text,
     lettersFormat,
     font,
-    innerScreenSize
+    innerScreenSize,
   });
 
   const displayingText = useDisplayingText(text, lettersFormat);
@@ -99,6 +100,12 @@ const ScreenText = ({
           </div>
         </div>
       </div>
+      {errorOptions.sideSizeError && (
+        <CustomizedAlert
+          message={errorOptions.sideSizeError}
+          closeAlert={errorOptions.setSideSizeError}
+        />
+      )}
     </>
   );
 };
