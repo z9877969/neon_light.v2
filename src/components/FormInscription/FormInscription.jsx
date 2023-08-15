@@ -35,26 +35,11 @@ const FormInscription = ({
 
   const handleChangeText = (e) => {
     const { value } = e.target;
-
-    const parsedValue = value.split("");
-
     setText((p) => {
-      return value;
-      // const parsedText = p.split("");
-      // const removedReplacedCharIndex = parsedText.findIndex(
-      //   (char, idx) => char === "\n" && char !== value[idx]
-      // );
-
-      // const textParsedByReplace = value.split("\n");
-      // // return p.length > value.length && textParsedByReplace.slice(-1)[0] === ""
-      // if (removedReplacedCharIndex >= 0) {
-      //   parsedText.splice(removedReplacedCharIndex, 1);
-      //   return parsedText.join("");
-      // }
-      // return value;
-      // // return p.length > value.length
-      // //   ? textParsedByReplace.slice(0, -1).join("\n")
-      // //   : value;
+      const textParsedByReplace = value.split("\n");
+      return p.length > value.length && textParsedByReplace.slice(-1)[0] === ""
+        ? textParsedByReplace.slice(0, -1).join("\n")
+        : value;
     });
   };
 

@@ -52,6 +52,7 @@ const ScreenText = ({
     text,
     lettersFormat,
     font,
+    innerScreenSize
   });
 
   const displayingText = useDisplayingText(text, lettersFormat);
