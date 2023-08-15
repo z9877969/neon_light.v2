@@ -42,7 +42,7 @@ const ScreenText = ({
     font,
   });
 
-  useTextSizes({
+  const sideSizeError = useTextSizes({
     textRef,
     widthMarker: textWidth,
     heightMarker: textHeight,
@@ -64,9 +64,9 @@ const ScreenText = ({
       >
         <div ref={textBarRef} className={s.textBar}>
           <div ref={heightMarkerRef} className={s.markerHeightWrapper}>
-            <span className={s.markerHeight}>{`${Number(
-              textHeight
-            ).toFixed()} см`}</span>
+            <span
+              className={s.markerHeight}
+            >{`${textHeight.toFixed()} см`}</span>
           </div>
           <div className={s.linesContainer}>
             <p
@@ -92,9 +92,7 @@ const ScreenText = ({
           </div>
           <div ref={widthMarkerRef} className={s.markerWidthWrapper}>
             <p className={s.markerWidth}>
-              <span className={s.widthValue}>{`${Number(
-                textWidth
-              ).toFixed()}`}</span>
+              <span className={s.widthValue}>{`${textWidth.toFixed()}`}</span>
               <span className={s.widthUnit}>см</span>
             </p>
           </div>

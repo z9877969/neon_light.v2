@@ -4,8 +4,8 @@ import { useCallback, useEffect, useState } from "react";
 import { fontSize as constants } from "constants";
 
 const initialFontSize = constants.MAX_FONT_SIZE;
-const scaleStep = constants.FONT_SCALE_STEP;
-const letterRatio = constants.LETTER_RATIO;
+// const scaleStep = constants.FONT_SCALE_STEP;
+// const letterRatio = constants.LETTER_RATIO;
 
 export const useFontSize = ({
   innerScreenSize,

@@ -12,8 +12,8 @@ export const lettersFormatOptions = {
 };
 
 export const textSizeConstants = {
-  MIN_WIDTH: 3,
   MIN_HEIGHT: 6,
+  MIN_WIDTH: 1,
   MAX_WIDTH: 200,
   MAX_HEIGHT: 200,
   MIN_FONT_HEIGHT: 6,
