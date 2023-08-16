@@ -195,3 +195,65 @@
     // }
     // eslint-disable-next-line
 //   }, [widthMarker, heightMarker, textRef, setTextHeight, setTextWidth]);
+
+ // useEffect(() => {
+  //   if (firstRenderRef.current) return;
+  //   const { width: nodeXSize, height: nodeYSize } = getNodeSizes(
+  //     textRef.current
+  //   );
+  //   console.log("nodeXSize :>> ", nodeXSize);
+  //   console.log("nodeYSize :>> ", nodeYSize);
+
+  //   const { curRowHeight } = calcMinSizes({
+  //     nodeXSize,
+  //     nodeYSize,
+  //     widthMarker,
+  //     text,
+  //   });
+
+  //   // if (curRowHeight < MIN_HEIGHT) {
+  //   //   setSideSizeError(errorMessages.litleRowSize);
+  //   //   console.log(errorMessages.litleRowSize);
+  //   //   return;
+  //   // }
+
+  //   if (nodeXSizeRef !== nodeXSizeRef.current) {
+  //     console.log("change xSize");
+  //     // wSm = wPx/hPx*hSm
+  //     // yK = newPx/oldPx = newSm/oldSm -> newSm = newPx/oldPx * oldSm -> yK * oldSm
+  //     const yK = nodeYSize / nodeYSizeRef.current;
+  //     const newHeightMarker = heightMarker * yK;
+  //     const newWidthMarker = changeToFloat(
+  //       (nodeXSize / nodeYSize) * newHeightMarker
+  //     );
+  //     if (newWidthMarker > MAX_WIDTH) {
+  //       console.log("newWidthMarker :>> ", newWidthMarker);
+  //       console.log("newWidthMarker > MAX_WIDTH");
+  //       setText((p) => replaceTextToNewRow(p));
+  //     } else {
+  //       setTextWidth(newWidthMarker);
+  //       setTextHeight(newHeightMarker);
+  //       widthMarkerRef.current = newWidthMarker;
+  //       heightMarkerRef.current = newHeightMarker;
+  //       nodeXSizeRef.current = nodeXSize;
+  //       nodeYSizeRef.current = nodeYSize;
+  //     }
+  //     return;
+  //   }
+  //   if (nodeYSize !== nodeYSizeRef.current) {
+  //     console.log("change ySize");
+  //     // hSm = hPx/wPx*wSm
+  //     const yK = nodeYSize / nodeYSizeRef.current;
+  //     const newHeightMarker = heightMarker * yK;
+  //     const newWidthMarker = changeToFloat(
+  //       (nodeXSize / nodeYSize) * newHeightMarker
+  //     );
+  //     setTextWidth(newWidthMarker);
+  //     setTextHeight(newHeightMarker);
+  //     widthMarkerRef.current = newWidthMarker;
+  //     heightMarkerRef.current = newHeightMarker;
+  //     nodeXSizeRef.current = nodeXSize;
+  //     nodeYSizeRef.current = nodeYSize;
+  //   }
+  //   // eslint-disable-next-line
+  // }, [text]);
