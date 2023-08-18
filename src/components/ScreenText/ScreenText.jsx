@@ -82,12 +82,14 @@ const ScreenText = ({
             >
               {displayingText.map((el, idx, arr) =>
                 idx < arr.length - 1 ? (
-                  <Fragment key={el.id}>
-                    {el.stringText}
-                    <br />
-                  </Fragment>
-                ) : (
-                  <Fragment key={el.id}>{el.stringText}</Fragment>
+                  // <Fragment key={el.id}>
+                  <span key={el.id}>{el.stringText}</span>
+                  // {/* <br /> */}
+                  // </Fragment>
+                  ) : (
+                  // <Fragment key={el.id}>
+                  <span key={el.id}>{el.stringText}</span>
+                  // </Fragment>
                 )
               )}
             </p>

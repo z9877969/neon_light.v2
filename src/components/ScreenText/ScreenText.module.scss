@@ -108,6 +108,7 @@ $onlight-color: #f8c51e;
 .text {
   display: inline-flex;
   white-space: nowrap;
+  flex-direction: column;
 
   &.onLightText {
     // on light styles

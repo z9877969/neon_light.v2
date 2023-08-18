@@ -37,9 +37,15 @@ const FormInscription = ({
     const { value } = e.target;
     setText((p) => {
       const textParsedByReplace = value.split("\n");
-      return p.length > value.length && textParsedByReplace.slice(-1)[0] === ""
-        ? textParsedByReplace.slice(0, -1).join("\n")
-        : value;
+      const prevTextParsedByReplace = p.split("\n");
+      if (p.length > value.length) {
+        const removedIndex = textParsedByReplace.findIndex(
+          (el, idx) => el !== prevTextParsedByReplace[idx] && el === ""
+        );
+        if (removedIndex === -1) return value;
+        textParsedByReplace.splice(removedIndex, 1);
+        return textParsedByReplace.join("\n");
+      } else return value;
     });
   };
 
