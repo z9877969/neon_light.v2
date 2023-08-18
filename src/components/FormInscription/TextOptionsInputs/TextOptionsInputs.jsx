@@ -33,12 +33,18 @@ const TextOptionsInputs = ({
   errorTextWidth,
   textWidth,
   textHeight,
-  onWidthChange,
-  onHeightChange,
+  setSides,
   fontOption,
   setFontOption,
 }) => {
   const handleWarningText = textWidth || textHeight ? true : false;
+
+  const changeWidth = (value) => {
+    setSides((p) => ({ ...p, width: value }));
+  };
+  const changeHeight = (value) => {
+    setSides((p) => ({ ...p, height: value }));
+  };
 
   return (
     <div className={s.optionContainer}>
@@ -59,21 +65,13 @@ const TextOptionsInputs = ({
           <div className={s.inputWrapper}>
             <label htmlFor="width">
               <p className={s.title}>Ширина, см</p>
-              {/* <input
-                className={s.option}
-                type="number"
-                name="width"
-                placeholder="0"
-                value={Math.round(Number(textWidth))}
-                onChange={(e) => onWidthChange(e.target.value)}
-              /> */}
               <DebouncedInput
                 className={s.option}
                 type="number"
                 name="width"
                 placeholder="0"
                 value={Math.round(textWidth)}
-                cb={onWidthChange}
+                cb={changeWidth}
               />
             </label>
             {errorTextWidth && !validForm && (
@@ -83,21 +81,13 @@ const TextOptionsInputs = ({
           <div className={s.inputWrapper}>
             <label htmlFor="height">
               <p className={s.title}>Висота, см</p>
-              {/* <input
-                className={s.option}
-                type="number"
-                name="height"
-                placeholder="0"
-                value={Math.round(Number(textHeight))}
-                onChange={(e) => onHeightChange(e.target.value)}
-              /> */}
               <DebouncedInput
                 className={s.option}
                 type="number"
                 name="height"
                 placeholder="0"
                 value={Math.round(textHeight)}
-                cb={onHeightChange}
+                cb={changeHeight}
               />
             </label>
             {errorTextHeight && !validForm && (

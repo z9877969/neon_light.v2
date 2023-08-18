@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { getNodeSizes } from "../services/helpers";
 import onResize from "resize-event";
@@ -36,14 +36,13 @@ const calcMinSizes = ({ nodeXSize, nodeYSize, widthMarker, text }) => {
 };
 
 let render = 0;
-// w = pxW/pxH*h
-// h = pxH/pxW*w
 
 export const useTextSizes = ({
   widthMarker,
   heightMarker,
-  setTextWidth,
-  setTextHeight,
+  // setSideWidth,
+  // setSideHeight,
+  setSides,
   text,
   setText,
   lettersFormat,
@@ -63,6 +62,33 @@ export const useTextSizes = ({
   render += 1;
   console.log("render :>> ", render);
 
+  const setSideWidth = useCallback(
+    (width) => {
+      setSides((p) => ({ ...p, width }));
+    },
+    [setSides]
+  );
+  const setSideHeight = useCallback(
+    (height) => {
+      setSides((p) => ({ ...p, height }));
+    },
+    [setSides]
+  );
+  // w = pxW/pxH*h
+  const calcWidthByNodeSizes = useCallback(
+    (height) => {
+      return changeToFloat((nodeSize.width / nodeSize.height) * height);
+    },
+    [nodeSize]
+  );
+  // h = pxH/pxW*w
+  const calcHeightByNodeSizes = useCallback(
+    (width) => {
+      return changeToFloat((nodeSize.height / nodeSize.width) * width);
+    },
+    [nodeSize]
+  );
+
   useEffect(() => {
     if (sideSizeError) {
       const id = setTimeout(() => {
@@ -81,71 +107,44 @@ export const useTextSizes = ({
     );
     const widthMarker = changeToFloat((nodeXSize / nodeYSize) * heightMarker);
     if (nodeYSizeRef.current === nodeYSize) return;
-    setTextWidth(widthMarker);
+    setSideWidth(widthMarker);
     widthMarkerRef.current = widthMarker;
     heightMarkerRef.current = heightMarker;
     nodeYSizeRef.current = nodeYSize;
     nodeXSizeRef.current = nodeXSize;
-  }, [heightMarker, textRef, setTextWidth, setTextHeight]);
+  }, [heightMarker, textRef, setSideWidth, setSideHeight]);
   // AFTER FIRST RENDER -END
   // ===
   useEffect(() => {
     if (firstRenderRef.current) return;
     if (widthMarker === widthMarkerRef.current) return;
-    const { curMinHeight } = calcMinSizes({
-      nodeXSize: nodeSize.width,
-      nodeYSize: nodeSize.height,
-      widthMarker,
-      text,
-    });
     if (widthMarker <= MAX_WIDTH) {
-      // hSm = hPx/wPx*wSm
-      const newHeightMarker = changeToFloat(
-        (nodeSize.height / nodeSize.width) * widthMarker
-      );
-      const setingHeight =
-        newHeightMarker > MAX_HEIGHT
-          ? MAX_HEIGHT
-          : // : Math.round(newHeightMarker) < Math.round(curMinHeight)
-            // ? curMinHeight
-            newHeightMarker;
-      setTextHeight(setingHeight);
-      heightMarkerRef.current = newHeightMarker;
-      // if (Math.round(newHeightMarker) < Math.round(curMinHeight)) {
-      //   // setSideSizeError(errorMessages.litleRowSize);
-      //   console.log(errorMessages.litleRowSize);
-      // }
       if (widthMarker < 1) {
-        const fixedWidthMarker = changeToFloat(
-          (nodeSize.width / nodeSize.height) * setingHeight
-        );
-        setTextWidth(fixedWidthMarker);
-        widthMarkerRef.current = fixedWidthMarker;
+        setSides((p) => ({ ...p, width: calcWidthByNodeSizes(p.height) }));
+      } else {
+        const newHeightMarker = calcHeightByNodeSizes(widthMarker);
+        const setingHeight =
+          newHeightMarker > MAX_HEIGHT ? MAX_HEIGHT : newHeightMarker;
+        setSides((p) => ({ ...p, height: setingHeight }));
+        heightMarkerRef.current = newHeightMarker;
       }
     } else {
       if (nodeSize.width >= nodeSize.height) {
-        setTextWidth(MAX_WIDTH);
-        const newMarkerHeight = changeToFloat(
-          (nodeSize.height / nodeSize.width) * MAX_WIDTH
-        );
-        setTextHeight(newMarkerHeight);
+        const newMarkerHeight = calcHeightByNodeSizes(MAX_WIDTH);
+        setSides({ width: MAX_WIDTH, height: newMarkerHeight });
         heightMarkerRef.current = newMarkerHeight;
         widthMarkerRef.current = MAX_WIDTH;
       } else {
-        setTextHeight(MAX_HEIGHT);
-        const newMarkerWidth = changeToFloat(
-          (nodeSize.width / nodeSize.height) * MAX_HEIGHT
-        );
-        setTextWidth(newMarkerWidth);
+        const newMarkerWidth = calcWidthByNodeSizes(MAX_HEIGHT);
+        setSides({ width: newMarkerWidth, height: MAX_HEIGHT });
         heightMarkerRef.current = MAX_HEIGHT;
         widthMarkerRef.current = newMarkerWidth;
       }
     }
-  }, [widthMarker, textRef, setTextHeight, setTextWidth]);
+  }, [widthMarker, textRef, setSides]);
   // ===
   useEffect(() => {
     if (firstRenderRef.current) return;
-    console.log("heightMarker :>> ", heightMarker);
     if (heightMarker === heightMarkerRef.current) return;
     const { curMinHeight } = calcMinSizes({
       nodeXSize: nodeSize.width,
@@ -156,101 +155,137 @@ export const useTextSizes = ({
     let newWidthMarker = 0;
     let newHeightMarker = heightMarker;
     if (heightMarker <= MAX_HEIGHT) {
-      newWidthMarker = changeToFloat(
-        (nodeSize.width / nodeSize.height) * heightMarker
-      );
-      setTextWidth(newWidthMarker > MAX_WIDTH ? MAX_WIDTH : newWidthMarker);
-      widthMarkerRef.current = newWidthMarker;
+      const width = calcWidthByNodeSizes(heightMarker);
+      newWidthMarker = width > MAX_WIDTH ? MAX_WIDTH : width;
+      setSides((p) => ({
+        ...p,
+        width: newWidthMarker,
+      }));
     } else {
-      newWidthMarker = changeToFloat(
-        (nodeSize.width / nodeSize.height) * MAX_HEIGHT
-      );
       newHeightMarker = MAX_HEIGHT;
-      setTextHeight(newHeightMarker);
-      setTextWidth(newWidthMarker);
-      widthMarkerRef.current = newWidthMarker;
-      heightMarkerRef.current = MAX_HEIGHT;
+      newWidthMarker = calcWidthByNodeSizes(newHeightMarker);
+      setSides({ width: newWidthMarker, height: newHeightMarker });
     }
+    widthMarkerRef.current = newWidthMarker;
+    heightMarkerRef.current = newHeightMarker;
     if (Math.round(newHeightMarker) < Math.round(curMinHeight)) {
       // setSideSizeError(errorMessages.litleRowSize);
       console.log(errorMessages.litleRowSize);
     }
-  }, [heightMarker, textRef, setTextWidth]);
-  // ===
-  // useEffect(() => {
-  //   if (firstRenderRef.current) return;
-
-  //   const { width: nodeXSize, height: nodeYSize } = getNodeSizes(
-  //     textRef.current
-  //   );
-
-  //   const { curMinHeight, curMinWidth } = calcMinSizes({
-  //     nodeXSize,
-  //     nodeYSize,
-  //     widthMarker,
-  //     text,
-  //   });
-
-  //   let newText = text;
-
-  //   const yK = nodeYSize / nodeYSizeRef.current;
-  //   const newHeightMarker = changeToFloat(heightMarker * yK);
-  //   const newWidthMarker = changeToFloat(
-  //     (nodeXSize / nodeYSize) * newHeightMarker
-  //   );
-  //   if (Math.round(newWidthMarker) > MAX_WIDTH) {
-  //     setText((p) => (newText = replaceTextToNewRow(p)));
-  //   } else {
-  //     setTextWidth(newWidthMarker);
-  //     setTextHeight(newHeightMarker);
-  //     widthMarkerRef.current = newWidthMarker;
-  //     heightMarkerRef.current = newHeightMarker;
-  //     nodeXSizeRef.current = nodeXSize;
-  //     nodeYSizeRef.current = nodeYSize;
-  //   }
-  //   curTextValue.current = newText;
-  //   // eslint-disable-next-line
-  // }, [text]);
+  }, [heightMarker, textRef, setSideWidth]);
   // ===
   useEffect(() => {
     if (firstRenderRef.current) return;
-    const prevWidth = widthMarkerRef.current;
-    const prevHeight = heightMarkerRef.current;
+    const savedText = getLS("text") ?? { prev: "", current: "" };
+    setLS("text", { prev: savedText.current, current: text });
+
+    //   const { width: nodeXSize, height: nodeYSize } = getNodeSizes(
+    //     textRef.current
+    //   );
+
+    //   const { curMinHeight, curMinWidth } = calcMinSizes({
+    //     nodeXSize,
+    //     nodeYSize,
+    //     widthMarker,
+    //     text,
+    //   });
+
+    //   let newText = text;
+
+    //   const yK = nodeYSize / nodeYSizeRef.current;
+    //   const newHeightMarker = changeToFloat(heightMarker * yK);
+    //   const newWidthMarker = changeToFloat(
+    //     (nodeXSize / nodeYSize) * newHeightMarker
+    //   );
+    //   if (Math.round(newWidthMarker) > MAX_WIDTH) {
+    //     setText((p) => (newText = replaceTextToNewRow(p)));
+    //   } else {
+    //     setSideWidth(newWidthMarker);
+    //     setSideHeight(newHeightMarker);
+    //     widthMarkerRef.current = newWidthMarker;
+    //     heightMarkerRef.current = newHeightMarker;
+    //     nodeXSizeRef.current = nodeXSize;
+    //     nodeYSizeRef.current = nodeYSize;
+    //   }
+    //   curTextValue.current = newText;
+    //   // eslint-disable-next-line
+  }, [text]);
+  // ===
+  useEffect(() => {
+    if (firstRenderRef.current) return;
     const { width: nodeXSize, height: nodeYSize } = nodeSize;
     const prevSize = getLS("sizes") || nodeSize;
     const { width: prevNodeXSize, height: prevNodeYSize } = prevSize;
-    const { curMinHeight } = calcMinSizes({
-      nodeXSize: nodeSize.width,
-      nodeYSize: nodeSize.height,
-      widthMarker,
-      text,
-    });
-    let newWidthMarker = prevWidth;
-    let newHeightMarker = prevHeight;
-    console.log("text === textValueRef.current");
-    if (prevNodeXSize !== nodeXSize && prevNodeYSize !== nodeYSize) {
-      return;
-    } else if (prevNodeXSize !== nodeXSize) {
-      newWidthMarker = changeToFloat((nodeXSize / nodeYSize) * prevHeight);
-    } else if (prevNodeYSize !== nodeYSize) {
-      newHeightMarker = changeToFloat((nodeYSize / nodeXSize) * prevWidth);
-    }
-    setTextHeight(newHeightMarker);
-    setTextWidth(newWidthMarker);
-    setLS("sizes", nodeSize);
-    // heightMarkerRef.current = newHeightMarker;
-    // widthMarkerRef.current = newWidthMarker;
+    if (
+      (nodeYSize < prevNodeYSize && nodeXSize > prevNodeXSize) ||
+      (nodeXSize < prevNodeXSize && nodeYSize > prevNodeYSize)
+    ) {
+      // k = newPx/oldPx = newSm/oldSm -> newSm = newPx/oldPx * oldSm -> k * oldSm
+      console.log("change both sides");
 
-    if (Math.round(newHeightMarker) < Math.round(curMinHeight)) {
-      if (newHeightMarker < MAX_HEIGHT) {
-        setTextHeight(MAX_HEIGHT);
-      }
-      // setSideSizeError(errorMessages.litleRowSize);
-      console.log(errorMessages.litleRowSize);
+      setSides((p) => {
+        const sides = {
+          width: (nodeXSize / prevNodeXSize) * p.width,
+          height: (nodeYSize / prevNodeYSize) * p.height,
+        };
+        // if(sides.width > MAX_WIDTH){
+        //   sides.width = p;
+        //   setText()
+        //   return sides
+        // }
+        return sides;
+      });
+    } else if (prevNodeXSize !== nodeXSize && prevNodeYSize === nodeYSize) {
+      console.log("change X size");
+      setSides((p) => {
+        const width = calcWidthByNodeSizes(p.height);
+        width > MAX_WIDTH &&
+          setText((p) => {
+            const savedText = getLS("text")?.prev ?? "";
+            const parsedCurText = p.split("\n");
+            const parsedSavedText = savedText.split("\n");
+            const changedTextRowIdx = parsedCurText.findIndex(
+              (el, idx) => el !== parsedSavedText[idx]
+            );
+            console.log("changedTextRowIdx :>> ", changedTextRowIdx);
+            const changedSavedTextRow = parsedSavedText[changedTextRowIdx];
+            console.log("changedSavedTextRow :>> ", changedSavedTextRow);
+            const changedCurTextRow = parsedCurText[changedTextRowIdx];
+            console.log("changedCurTextRow :>> ", changedCurTextRow);
+            const replacingText = changedCurTextRow.slice(
+              changedSavedTextRow.length - changedCurTextRow.length
+            );
+            parsedSavedText.splice(
+              changedTextRowIdx,
+              1,
+              changedSavedTextRow,
+              replacingText
+            );
+            return parsedSavedText.join("\n");
+          });
+        return {
+          ...p,
+          width: width > MAX_WIDTH ? p.width : width,
+        };
+      });
+    } else if (prevNodeYSize !== nodeYSize && prevNodeXSize === nodeXSize) {
+      console.log("change Y size");
+      setSides((p) => ({
+        ...p,
+        height: calcHeightByNodeSizes(p.width),
+      }));
     }
+    setLS("sizes", nodeSize);
+    // if (Math.round(newHeightMarker) < Math.round(curMinHeight)) {
+    //   if (newHeightMarker < MAX_HEIGHT) {
+    //     setSideHeight(MAX_HEIGHT);
+    //   }
+    //   // setSideSizeError(errorMessages.litleRowSize);
+    //   console.log(errorMessages.litleRowSize);
+    // }
     textValueRef.current = text;
     // eslint-disable-next-line
-  }, [nodeSize, setTextHeight, setTextWidth]);
+  }, [nodeSize, setSideHeight, setSideWidth]);
   // ===
 
   // general base effects
@@ -283,11 +318,11 @@ export const useTextSizes = ({
     // wSm = wPx/hPx*hSm
     const widthMarker = changeToFloat((nodeXSize / nodeYSize) * heightMarker);
     if (widthMarker > MAX_WIDTH) {
-      setTextWidth(MAX_WIDTH);
+      setSideWidth(MAX_WIDTH);
       widthMarkerRef.current = MAX_WIDTH;
       nodeXSizeRef.current = nodeXSize;
     } else {
-      setTextWidth(widthMarker);
+      setSideWidth(widthMarker);
       widthMarkerRef.current = widthMarker;
       nodeXSizeRef.current = nodeXSize;
     }
@@ -298,10 +333,12 @@ export const useTextSizes = ({
   useEffect(() => {
     firstRenderRef.current = false;
     return () => {
-      setTextHeight((p) => (Number(p) > MIN_HEIGHT ? Number(p) : MIN_HEIGHT));
-      setTextWidth(0);
+      setSides((p) => ({
+        width: 0,
+        height: Number(p) > MIN_HEIGHT ? Number(p) : MIN_HEIGHT,
+      }));
     };
-  }, [setTextHeight, setTextWidth]);
+  }, [setSides]);
   // ===
 
   // data that hook returns
@@ -315,3 +352,7 @@ export const useTextSizes = ({
 
   return errorOptions;
 };
+// if (Math.round(newHeightMarker) < Math.round(curMinHeight)) {
+//   // setSideSizeError(errorMessages.litleRowSize);
+//   console.log(errorMessages.litleRowSize);
+// }

@@ -1,18 +1,15 @@
-import { Fragment, useRef } from "react";
-
 import CustomizedAlert from "components/CustomizedAlert/CustomizedAlert";
 import clsx from "clsx";
 import s from "./ScreenText.module.scss";
 import { useDisplayingText } from "hooks/useDisplayingText";
 import { useFontSize } from "../../hooks/useFontSize";
+import { useRef } from "react";
 import { useTextSizes } from "../../hooks/useTextSizes";
 
 const ScreenText = ({
   text,
-  textHeight,
-  textWidth,
-  setTextWidth,
-  setTextHeight,
+  sides,
+  setSides,
   setText,
   isTextLight,
   innerScreenSize,
@@ -45,10 +42,9 @@ const ScreenText = ({
 
   const errorOptions = useTextSizes({
     textRef,
-    widthMarker: textWidth,
-    heightMarker: textHeight,
-    setTextWidth,
-    setTextHeight,
+    widthMarker: sides.width,
+    heightMarker: sides.height,
+    setSides,
     setText,
     text,
     lettersFormat,
@@ -68,7 +64,7 @@ const ScreenText = ({
           <div ref={heightMarkerRef} className={s.markerHeightWrapper}>
             <span
               className={s.markerHeight}
-            >{`${textHeight.toFixed()} см`}</span>
+            >{`${sides.height?.toFixed()} см`}</span>
           </div>
           <div className={s.linesContainer}>
             <p
@@ -80,23 +76,26 @@ const ScreenText = ({
                 s[textAlign]
               )}
             >
-              {displayingText.map((el, idx, arr) =>
-                idx < arr.length - 1 ? (
-                  // <Fragment key={el.id}>
-                  <span key={el.id}>{el.stringText}</span>
-                  // {/* <br /> */}
-                  // </Fragment>
+              {displayingText.map((el, idx, arr) => {
+                if (idx < arr.length - 1) {
+                  return el.stringText !== "" ? (
+                    <span key={el.id}>{el.stringText}</span>
                   ) : (
-                  // <Fragment key={el.id}>
-                  <span key={el.id}>{el.stringText}</span>
-                  // </Fragment>
-                )
-              )}
+                    <br key={el.id} />
+                  );
+                } else {
+                  return el.stringText !== "" ? (
+                    <span key={el.id}>{el.stringText}</span>
+                  ) : (
+                    <br key={el.id} />
+                  );
+                }
+              })}
             </p>
           </div>
           <div ref={widthMarkerRef} className={s.markerWidthWrapper}>
             <p className={s.markerWidth}>
-              <span className={s.widthValue}>{`${textWidth.toFixed()}`}</span>
+              <span className={s.widthValue}>{`${sides.width.toFixed()}`}</span>
               <span className={s.widthUnit}>см</span>
             </p>
           </div>

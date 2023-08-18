@@ -23,8 +23,7 @@ const FormInscription = ({
   setFontOption,
   setColor,
   setText,
-  onWidthChange,
-  onHeightChange,
+  setSides,
   openModal,
   setTextAlign,
   setLettersFormat,
@@ -86,8 +85,7 @@ const FormInscription = ({
               textHeight={textHeight}
               fontOption={fontOption}
               setFontOption={setFontOption}
-              onWidthChange={onWidthChange}
-              onHeightChange={onHeightChange}
+              setSides={setSides}
             />
             <TextPositionAndFormat
               setTextAlign={setTextAlign}
