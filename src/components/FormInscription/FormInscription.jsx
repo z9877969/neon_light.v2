@@ -41,10 +41,10 @@ const FormInscription = ({
         const removedIndex = textParsedByReplace.findIndex(
           (el, idx) => el !== prevTextParsedByReplace[idx] && el === ""
         );
-        if (removedIndex === -1) return value.toLowerCase();
+        if (removedIndex === -1) return value;
         textParsedByReplace.splice(removedIndex, 1);
-        return textParsedByReplace.join("\n").toLowerCase();
-      } else return value.toLowerCase();
+        return textParsedByReplace.join("\n");
+      } else return value;
     });
   };
 
