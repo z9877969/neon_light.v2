@@ -42,10 +42,12 @@ $onlight-color: #f8c51e;
     }
     & .linesContainer {
       padding-bottom: $_space-out-of-line;
+      padding-left: $_space-out-of-line;
     }
     & .linesContainer::before {
       height: 100%;
-      margin-right: $_space-out-of-line;
+      transform: translateX(calc(-1 * $_space-out-of-line));
+      // margin-right: $_space-out-of-line;
     }
     & .text {
       font-size: $_font-size;

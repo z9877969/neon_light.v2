@@ -3,6 +3,7 @@ import clsx from "clsx";
 import s from "./ScreenText.module.scss";
 import { useDisplayingText } from "hooks/useDisplayingText";
 import { useFontSize } from "../../hooks/useFontSize";
+import { useMaxTextNodeSize } from "hooks/useMaxTextNodeSize";
 import { useRef } from "react";
 import { useTextSizes } from "../../hooks/useTextSizes";
 
@@ -20,6 +21,7 @@ const ScreenText = ({
 }) => {
   const containerRef = useRef(null);
   const textBarRef = useRef(null);
+  const textWrapperRef = useRef(null);
   const textRef = useRef(null);
   const heightMarkerRef = useRef(null);
   const widthMarkerRef = useRef(null);
@@ -40,6 +42,13 @@ const ScreenText = ({
     font,
   });
 
+  const maxTextNodeSize = useMaxTextNodeSize(
+    innerScreenSize,
+    textWrapperRef.current,
+    widthMarkerRef.current,
+    heightMarkerRef.current
+  );
+
   const errorOptions = useTextSizes({
     textRef,
     widthMarker: sides.width,
@@ -49,7 +58,7 @@ const ScreenText = ({
     text,
     lettersFormat,
     font,
-    innerScreenSize,
+    maxTextNodeSize,
   });
 
   const displayingText = useDisplayingText(text, lettersFormat);
@@ -66,32 +75,34 @@ const ScreenText = ({
               className={s.markerHeight}
             >{`${sides.height?.toFixed()} см`}</span>
           </div>
-          <div className={s.linesContainer}>
-            <p
-              ref={textRef}
-              style={{ fontFamily: `${font}, sans-serif`, color }}
-              className={clsx(
-                s.text,
-                isTextLight && s.onLightText,
-                s[textAlign]
-              )}
-            >
-              {displayingText.map((el, idx, arr) => {
-                if (idx < arr.length - 1) {
-                  return el.stringText !== "" ? (
-                    <span key={el.id}>{el.stringText}</span>
-                  ) : (
-                    <br key={el.id} />
-                  );
-                } else {
-                  return el.stringText !== "" ? (
-                    <span key={el.id}>{el.stringText}</span>
-                  ) : (
-                    <br key={el.id} />
-                  );
-                }
-              })}
-            </p>
+          <div ref={textWrapperRef} className={s.linesContainer}>
+            {text.length && (
+              <p
+                ref={textRef}
+                style={{ fontFamily: `${font}, sans-serif`, color }}
+                className={clsx(
+                  s.text,
+                  isTextLight && s.onLightText,
+                  s[textAlign]
+                )}
+              >
+                {displayingText.map((el, idx, arr) => {
+                  if (idx < arr.length - 1) {
+                    return el.stringText !== "" ? (
+                      <span key={el.id}>{el.stringText}</span>
+                    ) : (
+                      <br key={el.id} />
+                    );
+                  } else {
+                    return el.stringText !== "" ? (
+                      <span key={el.id}>{el.stringText}</span>
+                    ) : (
+                      <br key={el.id} />
+                    );
+                  }
+                })}
+              </p>
+            )}
           </div>
           <div ref={widthMarkerRef} className={s.markerWidthWrapper}>
             <p className={s.markerWidth}>

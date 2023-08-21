@@ -291,6 +291,47 @@
 //   // eslint-disable-next-line
 // }, [font]);
 
+// === v2
+// useEffect(() => {
+//   if (firstRenderRef.current) return; // +
+//   const { width: nodeXSize, height: nodeYSize } = getNodeSizes(
+//     textRef.current
+//   );
+
+//   if (nodeXSize > nodeYSize) {
+//     // wSm = wPx/hPx*hSm
+//     // const widthMarker = changeToFloat((nodeXSize / nodeYSize) * heightMarker);
+//     const widthMarker = calcWidthByNodeSizes(heightMarker);
+//     if (widthMarker > MAX_WIDTH) {
+//       // setTextWidth(MAX_WIDTH);
+//       setSides((p) => ({ ...p, width: MAX_WIDTH }));
+//       widthMarkerRef.current = MAX_WIDTH;
+//     } else {
+//       // setTextWidth(widthMarker);
+//       setSides((p) => ({ ...p, width: widthMarker }));
+//       widthMarkerRef.current = widthMarker;
+//     }
+//     nodeXSizeRef.current = nodeXSize;
+//   }
+//   if (nodeYSize > nodeXSize) {
+//     // hSm = hPx/wPx*wSm
+//     // const heightMarker = changeToFloat((nodeYSize / nodeXSize) * widthMarker);
+//     const heightMarker = calcHeightByNodeSizes(widthMarker);
+//     if (heightMarker > MAX_HEIGHT) {
+//       // setTextHeight(MAX_HEIGHT);
+//       setSides((p) => ({ ...p, height: MAX_HEIGHT }));
+//       heightMarkerRef.current = MAX_WIDTH;
+//     } else {
+//       // setTextHeight(heightMarker);
+//       setSides((p) => ({ ...p, height: heightMarker }));
+//       heightMarkerRef.current = heightMarker;
+//     }
+//     nodeYSizeRef.current = nodeYSize;
+//   }
+//   // eslint-disable-next-line
+// }, [font]);
+//=== v2 -END
+
 // else if (Math.round(heightMarker) < Math.round(curMinHeight)) {
 //   // calc min available width size
 //   const maxMarkerWidth = changeToFloat(
@@ -337,3 +378,22 @@
 //   nodeXSizeRef.current = nodeSize.width;
 //   nodeYSizeRef.current = nodeSize.height;
 // }
+
+
+  // ===
+  // useEffect(() => {
+  //   if (firstRenderRef.current) return;
+  //   const { width: nodeXSize, height: nodeYSize } = getNodeSizes(
+  //     textRef.current
+  //   );
+  //   const widthMarker = changeToFloat((nodeXSize / nodeYSize) * heightMarker);
+  //   if (widthMarker > MAX_WIDTH) {
+  //     setSides((p) => ({ ...p, width: MAX_WIDTH }));
+  //     widthMarkerRef.current = MAX_WIDTH;
+  //   } else {
+  //     setSides((p) => ({ ...p, width: widthMarker }));
+  //     widthMarkerRef.current = widthMarker;
+  //   }
+  //   // eslint-disable-next-line
+  // }, [lettersFormat]);
+  // ===
