@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
-
 import { AiFillExclamationCircle } from "react-icons/ai";
 import ColorPicker from "./ColorPicker/ColorPicker";
 import TextOptionsInputs from "./TextOptionsInputs/TextOptionsInputs";
 import TextPositionAndFormat from "./TextPositionAndFormat/TextPositionAndFormat";
 import clsx from "clsx";
 import s from "./FormInscription.module.scss";
+import { useState } from "react";
 
 const numberWithSpaces = (x) => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
@@ -24,8 +23,7 @@ const FormInscription = ({
   setFontOption,
   setColor,
   setText,
-  onWidthChange,
-  onHeightChange,
+  setSides,
   openModal,
   setTextAlign,
   setLettersFormat,
@@ -38,9 +36,15 @@ const FormInscription = ({
     const { value } = e.target;
     setText((p) => {
       const textParsedByReplace = value.split("\n");
-      return p.length > value.length && textParsedByReplace.slice(-1)[0] === ""
-        ? textParsedByReplace.slice(0, -1).join("\n")
-        : value;
+      const prevTextParsedByReplace = p.split("\n");
+      if (p.length > value.length) {
+        const removedIndex = textParsedByReplace.findIndex(
+          (el, idx) => el !== prevTextParsedByReplace[idx] && el === ""
+        );
+        if (removedIndex === -1) return value.toLowerCase();
+        textParsedByReplace.splice(removedIndex, 1);
+        return textParsedByReplace.join("\n").toLowerCase();
+      } else return value.toLowerCase();
     });
   };
 
@@ -81,8 +85,7 @@ const FormInscription = ({
               textHeight={textHeight}
               fontOption={fontOption}
               setFontOption={setFontOption}
-              onWidthChange={onWidthChange}
-              onHeightChange={onHeightChange}
+              setSides={setSides}
             />
             <TextPositionAndFormat
               setTextAlign={setTextAlign}

@@ -20,15 +20,13 @@ const App = () => {
   const { isModalOpen, handleToggleModal } = useToggle();
   const {
     text,
-    textWidth,
-    textHeight,
+    sides,
     fontOption,
     color,
     textAlign,
     lettersFormat,
     setText,
-    setTextWidth,
-    setTextHeight,
+    setSides,
     setFontOption,
     setColor,
     setTextAlign,
@@ -36,10 +34,14 @@ const App = () => {
   } = useFormInscription();
   const { errorText, errorTextWidth, errorTextHeight } = useError({
     text,
-    textWidth,
-    textHeight,
+    textWidth: sides.width,
+    textHeight: sides.height,
   });
-  const { price, setPrice } = usePrice({ text, textWidth, textHeight });
+  const { price, setPrice } = usePrice({
+    text,
+    textWidth: sides.width,
+    textHeight: sides.height,
+  });
 
   const onFormInscription = () => {
     setFormInscription(false);
@@ -57,10 +59,8 @@ const App = () => {
           <div>
             <ScreenComponent
               text={text}
-              textWidth={textWidth}
-              textHeight={textHeight}
-              setTextWidth={setTextWidth}
-              setTextHeight={setTextHeight}
+              sides={sides}
+              setSides={setSides}
               setText={setText}
               font={fontOption.label}
               color={color}
@@ -90,15 +90,14 @@ const App = () => {
                 errorText={errorText}
                 errorTextWidth={errorTextWidth}
                 errorTextHeight={errorTextHeight}
-                textWidth={textWidth}
-                textHeight={textHeight}
+                textWidth={sides.width}
+                textHeight={sides.height}
                 setColor={setColor}
                 setFontOption={setFontOption}
                 setText={setText}
                 setTextAlign={setTextAlign}
                 setLettersFormat={setLettersFormat}
-                onWidthChange={setTextWidth}
-                onHeightChange={setTextHeight}
+                setSides={setSides}
                 onPriceChange={setPrice}
                 openModal={handleToggleModal}
               />
@@ -117,8 +116,8 @@ const App = () => {
               text={text}
               font={fontOption.value}
               price={price}
-              width={textWidth}
-              height={textHeight}
+              width={sides.width}
+              height={sides.height}
             />
           </ModalFeedback>
         )}

@@ -9,8 +9,10 @@ import { useState } from "react";
 
 const useFormInscription = () => {
   const [text, setText] = useState("");
-  const [textWidth, setTextWidth] = useState(0);
-  const [textHeight, setTextHeight] = useState(textSizeConstants.MIN_HEIGHT);
+  const [sides, setSides] = useState({
+    width: 0,
+    height: textSizeConstants.MIN_HEIGHT,
+  });
   const [fontOption, setFontOption] = useState(selectorFonts[0]);
   const [color, setColor] = useState("#FEFEFE");
   const [textAlign, setTextAlign] = useState(alignmentOptions.LEFT);
@@ -18,15 +20,13 @@ const useFormInscription = () => {
 
   return {
     text,
-    textWidth,
-    textHeight,
+    sides,
     fontOption,
     color,
     textAlign,
     lettersFormat,
     setText,
-    setTextWidth,
-    setTextHeight,
+    setSides,
     setFontOption,
     setColor,
     setTextAlign,

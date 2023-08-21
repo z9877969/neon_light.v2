@@ -1,17 +1,16 @@
-import { Fragment, useRef } from "react";
-
+import CustomizedAlert from "components/CustomizedAlert/CustomizedAlert";
 import clsx from "clsx";
 import s from "./ScreenText.module.scss";
 import { useDisplayingText } from "hooks/useDisplayingText";
 import { useFontSize } from "../../hooks/useFontSize";
+import { useMaxTextNodeSize } from "hooks/useMaxTextNodeSize";
+import { useRef } from "react";
 import { useTextSizes } from "../../hooks/useTextSizes";
 
 const ScreenText = ({
   text,
-  textHeight,
-  textWidth,
-  setTextWidth,
-  setTextHeight,
+  sides,
+  setSides,
   setText,
   isTextLight,
   innerScreenSize,
@@ -22,6 +21,7 @@ const ScreenText = ({
 }) => {
   const containerRef = useRef(null);
   const textBarRef = useRef(null);
+  const textWrapperRef = useRef(null);
   const textRef = useRef(null);
   const heightMarkerRef = useRef(null);
   const widthMarkerRef = useRef(null);
@@ -42,16 +42,23 @@ const ScreenText = ({
     font,
   });
 
-  useTextSizes({
+  const maxTextNodeSize = useMaxTextNodeSize(
+    innerScreenSize,
+    textWrapperRef.current,
+    widthMarkerRef.current,
+    heightMarkerRef.current
+  );
+
+  const errorOptions = useTextSizes({
     textRef,
-    widthMarker: textWidth,
-    heightMarker: textHeight,
-    setTextWidth,
-    setTextHeight,
+    widthMarker: sides.width,
+    heightMarker: sides.height,
+    setSides,
     setText,
     text,
     lettersFormat,
     font,
+    maxTextNodeSize,
   });
 
   const displayingText = useDisplayingText(text, lettersFormat);
@@ -64,42 +71,53 @@ const ScreenText = ({
       >
         <div ref={textBarRef} className={s.textBar}>
           <div ref={heightMarkerRef} className={s.markerHeightWrapper}>
-            <span className={s.markerHeight}>{`${Number(
-              textHeight
-            ).toFixed()} см`}</span>
+            <span
+              className={s.markerHeight}
+            >{`${sides.height?.toFixed()} см`}</span>
           </div>
-          <div className={s.linesContainer}>
-            <p
-              ref={textRef}
-              style={{ fontFamily: `${font}, sans-serif`, color }}
-              className={clsx(
-                s.text,
-                isTextLight && s.onLightText,
-                s[textAlign]
-              )}
-            >
-              {displayingText.map((el, idx, arr) =>
-                idx < arr.length - 1 ? (
-                  <Fragment key={el.id}>
-                    {el.stringText}
-                    <br />
-                  </Fragment>
-                ) : (
-                  <Fragment key={el.id}>{el.stringText}</Fragment>
-                )
-              )}
-            </p>
+          <div ref={textWrapperRef} className={s.linesContainer}>
+            {text.length && (
+              <p
+                ref={textRef}
+                style={{ fontFamily: `${font}, sans-serif`, color }}
+                className={clsx(
+                  s.text,
+                  isTextLight && s.onLightText,
+                  s[textAlign]
+                )}
+              >
+                {displayingText.map((el, idx, arr) => {
+                  if (idx < arr.length - 1) {
+                    return el.stringText !== "" ? (
+                      <span key={el.id}>{el.stringText}</span>
+                    ) : (
+                      <br key={el.id} />
+                    );
+                  } else {
+                    return el.stringText !== "" ? (
+                      <span key={el.id}>{el.stringText}</span>
+                    ) : (
+                      <br key={el.id} />
+                    );
+                  }
+                })}
+              </p>
+            )}
           </div>
           <div ref={widthMarkerRef} className={s.markerWidthWrapper}>
             <p className={s.markerWidth}>
-              <span className={s.widthValue}>{`${Number(
-                textWidth
-              ).toFixed()}`}</span>
+              <span className={s.widthValue}>{`${sides.width.toFixed()}`}</span>
               <span className={s.widthUnit}>см</span>
             </p>
           </div>
         </div>
       </div>
+      {errorOptions.sideSizeError && (
+        <CustomizedAlert
+          message={errorOptions.sideSizeError}
+          closeAlert={errorOptions.setSideSizeError}
+        />
+      )}
     </>
   );
 };

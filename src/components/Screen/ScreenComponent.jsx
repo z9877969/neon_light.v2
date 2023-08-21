@@ -10,10 +10,8 @@ import { useInnerScreenSize } from "../../hooks/useInnerScreenSize";
 
 const ScreenComponent = ({
   text,
-  textWidth,
-  textHeight,
-  setTextWidth,
-  setTextHeight,
+  sides,
+  setSides,
   setText,
   font,
   color,
@@ -52,12 +50,10 @@ const ScreenComponent = ({
       {text.length > 0 && (
         <ScreenText
           text={text}
-          textHeight={textHeight}
-          textWidth={textWidth}
+          sides={sides}
           isTextLight={isTextLight}
           innerScreenSize={innerScreenSize}
-          setTextWidth={setTextWidth}
-          setTextHeight={setTextHeight}
+          setSides={setSides}
           setText={setText}
           lettersFormat={lettersFormat}
           textAlign={textAlign}

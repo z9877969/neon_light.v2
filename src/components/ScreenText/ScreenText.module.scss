@@ -27,11 +27,14 @@ $onlight-color: #f8c51e;
     & .markerHeight,
     & .markerWidth {
       @if $font-id < 12 {
-        font-size: calc($_marker-font-size * 3);
+        // font-size: calc($_marker-font-size * 3);
+        font-size: 12px;
       } @else if $font-id >= 12 and $font-id < 24 {
-        font-size: calc($_marker-font-size * 2);
+        // font-size: calc($_marker-font-size * 2);
+        font-size: 12px;
       } @else {
-        font-size: $_marker-font-size;
+        // font-size: $_marker-font-size;
+        font-size: 12px;
       }
     }
     & .markerHeight {
@@ -39,10 +42,12 @@ $onlight-color: #f8c51e;
     }
     & .linesContainer {
       padding-bottom: $_space-out-of-line;
+      padding-left: $_space-out-of-line;
     }
     & .linesContainer::before {
       height: 100%;
-      margin-right: $_space-out-of-line;
+      transform: translateX(calc(-1 * $_space-out-of-line));
+      // margin-right: $_space-out-of-line;
     }
     & .text {
       font-size: $_font-size;
@@ -105,6 +110,7 @@ $onlight-color: #f8c51e;
 .text {
   display: inline-flex;
   white-space: nowrap;
+  flex-direction: column;
 
   &.onLightText {
     // on light styles

@@ -1,6 +1,31 @@
+import { useCallback, useEffect, useState } from "react";
+
 import Select from "react-select";
+import debounce from "lodash.debounce";
 import s from "./TextOptionsInputs.module.scss";
 import { selectorFonts } from "constants";
+
+const DebouncedInput = ({ textWidth, cb, value, ...props }) => {
+  const [curValue, setCurValue] = useState(value);
+
+  const debouncedCb = useCallback(debounce(cb, 300), [cb]);
+
+  useEffect(() => {
+    setCurValue(Number(value));
+  }, [value]);
+
+  return (
+    <input
+      {...props}
+      value={String(curValue)}
+      onChange={(e) => {
+        const { value: text } = e.target;
+        debouncedCb(Number(text));
+        setCurValue(Number(text));
+      }}
+    />
+  );
+};
 
 const TextOptionsInputs = ({
   validForm,
@@ -8,12 +33,18 @@ const TextOptionsInputs = ({
   errorTextWidth,
   textWidth,
   textHeight,
-  onWidthChange,
-  onHeightChange,
+  setSides,
   fontOption,
   setFontOption,
 }) => {
   const handleWarningText = textWidth || textHeight ? true : false;
+
+  const changeWidth = (value) => {
+    setSides((p) => ({ ...p, width: value }));
+  };
+  const changeHeight = (value) => {
+    setSides((p) => ({ ...p, height: value }));
+  };
 
   return (
     <div className={s.optionContainer}>
@@ -34,13 +65,13 @@ const TextOptionsInputs = ({
           <div className={s.inputWrapper}>
             <label htmlFor="width">
               <p className={s.title}>Ширина, см</p>
-              <input
+              <DebouncedInput
                 className={s.option}
                 type="number"
                 name="width"
                 placeholder="0"
-                value={Math.round(Number(textWidth))}
-                onChange={(e) => onWidthChange(e.target.value)}
+                value={Math.round(textWidth)}
+                cb={changeWidth}
               />
             </label>
             {errorTextWidth && !validForm && (
@@ -50,13 +81,13 @@ const TextOptionsInputs = ({
           <div className={s.inputWrapper}>
             <label htmlFor="height">
               <p className={s.title}>Висота, см</p>
-              <input
+              <DebouncedInput
                 className={s.option}
                 type="number"
                 name="height"
                 placeholder="0"
-                value={Math.round(Number(textHeight))}
-                onChange={(e) => onHeightChange(e.target.value)}
+                value={Math.round(textHeight)}
+                cb={changeHeight}
               />
             </label>
             {errorTextHeight && !validForm && (
