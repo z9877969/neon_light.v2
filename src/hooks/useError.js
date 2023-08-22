@@ -27,7 +27,7 @@ const useError = ({
       return setErrorTextWidth(errorMessageTextWidth);
     }
 
-    if (Number(Math.floor(textWidth)) > textSize.MAX_WIDTH) {
+    if (Math.floor(textWidth) > textSize.MAX_WIDTH) {
       return setErrorTextWidth(`Максимальна висота ${textSize.MAX_WIDTH} см.`);
     }
 
@@ -39,11 +39,11 @@ const useError = ({
       return setErrorTextHeight(errorMessageTextHeight);
     }
 
-    if (Number(textHeight) < textSize.MIN_HEIGHT) {
+    if (Math.round(textHeight) < textSize.MIN_HEIGHT) {
       return setErrorTextHeight(`Мінімальна висота ${textSize.MIN_HEIGHT} см.`);
     }
 
-    if (Number(Math.floor(textHeight)) > textSize.MAX_HEIGHT) {
+    if (Math.floor(textHeight) > textSize.MAX_HEIGHT) {
       return setErrorTextHeight(
         `Максимальна висота ${textSize.MAX_HEIGHT} см.`
       );

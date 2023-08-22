@@ -8,6 +8,7 @@ import { selectorFonts } from "constants";
 const DebouncedInput = ({ textWidth, cb, value, ...props }) => {
   const [curValue, setCurValue] = useState(value);
 
+  // eslint-disable-next-line
   const debouncedCb = useCallback(debounce(cb, 300), [cb]);
 
   useEffect(() => {

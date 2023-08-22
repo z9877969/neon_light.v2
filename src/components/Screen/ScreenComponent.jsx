@@ -25,7 +25,11 @@ const ScreenComponent = ({
   const topPanelRef = useRef(null);
   const screenRef = useRef(null);
 
-  const innerScreenSize = useInnerScreenSize(screenRef, topPanelRef);
+  const innerScreenSize = useInnerScreenSize(
+    screenRef,
+    topPanelRef,
+    selectedBackground
+  );
 
   const toggleTextLight = () => {
     setIsTextLight((p) => !p);

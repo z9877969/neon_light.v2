@@ -5,7 +5,8 @@ export const useMaxTextNodeSize = (
   innerScreenSize,
   textWrapperNode,
   widthMarkerNode,
-  heightMarkerNode
+  heightMarkerNode,
+  isBgChange
 ) => {
   const maxTextNodeSize = useMemo(() => {
     if (!widthMarkerNode || !heightMarkerNode || !textWrapperNode)
@@ -20,12 +21,13 @@ export const useMaxTextNodeSize = (
     );
     const paddings = {
       left: parseInt(styles["padding-left"]),
-      right: parseInt(styles["padding-right"]),
+      bottom: parseInt(styles["padding-bottom"]),
     };
-    return {
+    const maxSize = {
       width: width - heightMarkerNodeXSize - paddings.left,
       height: height - widthMarkerNodeYSize - paddings.bottom,
     };
+    return maxSize;
   }, [innerScreenSize, widthMarkerNode, heightMarkerNode, textWrapperNode]);
 
   return maxTextNodeSize;
