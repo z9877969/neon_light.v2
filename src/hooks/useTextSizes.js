@@ -6,14 +6,23 @@ import { textSizeConstants } from "constants";
 
 const { MIN_HEIGHT, MAX_HEIGHT, MAX_WIDTH } = textSizeConstants;
 
-const errorMessages = {
-  litleRowSize:
-    "Текст замалий.\nПотрібно зменшити к-сть рядків або змінити розмір тексту.",
-  litleRowSizeV2:
-    "Не коректний формат.\nВ даному випадку висота рядка менша ніж це можливо для виконання",
-  litleRowSizeV3:
-    "Не коректне співвідношення розмірів сторін.\nДля даного варіанту тексту фактична висота буде менша ніж можлива до виготовлення. Потрібно зменшити текст в рядку або кількість самих рядків",
-};
+class ErrorMessages {
+  minHeight = 0;
+  messages = {
+    smallRowSize:
+      "Текст замалий.\nПотрібно зменшити к-сть рядків або змінити розмір тексту.",
+    smallRowSizeV2:
+      "Не коректний формат.\nВ даному випадку висота рядка менша ніж це можливо для виконання",
+    getV3: () =>
+      `Не коректне співвідношення розмірів сторін.\nМінімальна висота може бути ${this.minHeight}. Збільшіть її або зменшіть к-сть тексту в рядку чи к-сть самих рядків`,
+  };
+
+  create = (minHeight) => {
+    this.minHeight = minHeight;
+    return this.messages.getV3();
+  };
+}
+const errorMessages = new ErrorMessages();
 
 const getLS = (key) => JSON.parse(localStorage.getItem(key));
 const setLS = (key, data) => localStorage.setItem(key, JSON.stringify(data));
@@ -61,13 +70,17 @@ export const useTextSizes = ({
   setText,
   textRef,
   maxTextNodeSize,
+  lettersFormat,
+  font,
 }) => {
+  errorMessages.create(500);
   const [sideSizeError, setSideSizeError] = useState(null);
   const [nodeSize, setNodeSize] = useState({ width: 0, height: 0 });
   const firstRenderRef = useRef(true);
   const heightMarkerRef = useRef(heightMarker);
   const widthMarkerRef = useRef(widthMarker);
   const isNodeSizeChangeRef = useRef(false);
+  const hasChangedOptionsRef = useRef(false);
 
   // w = pxW/pxH*h - dependens for changing width by height
   const calcWidthByNodeSizes = useCallback(
@@ -146,13 +159,11 @@ export const useTextSizes = ({
         text,
       });
 
-      const roundedHeight = Math.round(height);
-
-      if (roundedHeight < curMinHeight) {
+      if (height < curMinHeight) {
         if (curMinHeight <= MAX_HEIGHT) {
           height = curMinHeight;
           width = calcWidthByNodeSizes(height);
-        } else if (curMinHeight > MAX_HEIGHT && roundedHeight < MAX_HEIGHT) {
+        } else if (curMinHeight > MAX_HEIGHT && height < MAX_HEIGHT) {
           height = MAX_HEIGHT;
           width = calcWidthByNodeSizes(height);
         }
@@ -161,9 +172,9 @@ export const useTextSizes = ({
           width = MAX_WIDTH;
           height = calcHeightByNodeSizes(width);
         }
-        if (height < curMinHeight) {
-          setSideSizeError(errorMessages.litleRowSize);
-          // console.log(errorMessages.litleRowSizeV3);
+        if (height < curMinHeight && !sideSizeError) {
+          setSideSizeError(errorMessages.create(curMinHeight));
+          // console.log(errorMessages.create(curMinHeight));
         }
       }
       heightMarkerRef.current = height;
@@ -212,12 +223,12 @@ export const useTextSizes = ({
         widthMarker: width,
         text,
       });
-      const roundedHeight = Math.round(height);
+
       if (Math.round(height) < curMinHeight) {
         if (curMinHeight <= MAX_HEIGHT) {
           height = curMinHeight;
           width = calcWidthByNodeSizes(height);
-        } else if (curMinHeight > MAX_HEIGHT && roundedHeight < MAX_HEIGHT) {
+        } else if (curMinHeight > MAX_HEIGHT && height < MAX_HEIGHT) {
           height = MAX_HEIGHT;
           width = calcWidthByNodeSizes(height);
         }
@@ -227,9 +238,9 @@ export const useTextSizes = ({
           height = calcHeightByNodeSizes(width);
         }
 
-        if (height < curMinHeight) {
-          setSideSizeError(errorMessages.litleRowSize);
-          // console.log(errorMessages.litleRowSizeV3);
+        if (height < curMinHeight && !sideSizeError) {
+          setSideSizeError(errorMessages.create(curMinHeight));
+          // console.log(errorMessages.create(curMinHeight));
         }
       }
       widthMarkerRef.current = width;
@@ -243,6 +254,10 @@ export const useTextSizes = ({
   // === CHANGES SIDES BY NODE_SIZES
   useEffect(() => {
     if (firstRenderRef.current) return;
+    if (hasChangedOptionsRef.current) {
+      hasChangedOptionsRef.current = false;
+      return;
+    }
     const { width: nodeXSize, height: nodeYSize } = nodeSize;
     const prevSize = getLS("sizes") || nodeSize;
     const { width: prevNodeXSize, height: prevNodeYSize } = prevSize;
@@ -338,6 +353,82 @@ export const useTextSizes = ({
     // eslint-disable-next-line
   }, [nodeSize, setSides]);
   // === CHANGES SIDES BY NODE_SIZES -END
+  // *
+  // === CHANGE LetterFormat & Font
+  useEffect(() => {
+    if (firstRenderRef.current) return;
+    hasChangedOptionsRef.current = true;
+    setSides((p) => {
+      if (p.width === widthMarkerRef.current) return p;
+      let xSize = textRef.current.offsetWidth;
+      let ySize = textRef.current.offsetHeight;
+      // w = pxW/pxH*h
+      const calcHeightByNodeSizes = (width) => (ySize / xSize) * width;
+      const calcWidthByNodeSizes = (height) => (xSize / ySize) * height;
+
+      let width = p.width;
+      let height = p.height;
+
+      if (width <= MAX_WIDTH) {
+        if (width <= 1) {
+          height = p.height;
+          width = calcWidthByNodeSizes(height);
+        } else {
+          const heightCalc = calcHeightByNodeSizes(width);
+
+          if (xSize >= ySize) {
+            height = heightCalc;
+            width = calcWidthByNodeSizes(height);
+          } else {
+            height = heightCalc < MAX_HEIGHT ? heightCalc : MAX_HEIGHT;
+            width = calcWidthByNodeSizes(height);
+          }
+        }
+      } else {
+        if (xSize >= ySize) {
+          width = MAX_WIDTH;
+          height = calcHeightByNodeSizes(width);
+        } else {
+          height = MAX_HEIGHT;
+          width = calcWidthByNodeSizes(height);
+        }
+      }
+
+      const { curMinHeight } = calcMinSizes({
+        nodeXSize: xSize,
+        nodeYSize: ySize,
+        widthMarker: width,
+        text,
+      });
+
+      if (height < curMinHeight) {
+        if (curMinHeight <= MAX_HEIGHT) {
+          height = curMinHeight;
+          width = calcWidthByNodeSizes(height);
+        } else if (curMinHeight > MAX_HEIGHT && height < MAX_HEIGHT) {
+          height = MAX_HEIGHT;
+          width = calcWidthByNodeSizes(height);
+        }
+
+        if (width > MAX_WIDTH) {
+          width = MAX_WIDTH;
+          height = calcHeightByNodeSizes(width);
+        }
+        if (height < curMinHeight && !sideSizeError) {
+          setSideSizeError(errorMessages.create(curMinHeight));
+          // console.log(errorMessages.create(curMinHeight));
+        }
+      }
+      heightMarkerRef.current = height;
+      widthMarkerRef.current = width;
+      return {
+        width,
+        height,
+      };
+    });
+    // eslint-disable-next-line
+  }, [textRef, lettersFormat, font, setSides]);
+  // === CHANGE LetterFormat & Font -END
 
   // === SAVES PREV_TEXT TO LS
   useEffect(() => {
@@ -366,24 +457,21 @@ export const useTextSizes = ({
   // ===
   useEffect(() => {
     const observer = onResize(textRef.current, () => {
-      const sides = {
-        width: textRef.current.offsetWidth,
-        height: textRef.current.offsetHeight,
-      };
       setNodeSize((p) => {
+        const sides = {
+          width: textRef.current.offsetWidth,
+          height: textRef.current.offsetHeight,
+        };
+        let calcSides = sides;
         if (
           sides.width > maxTextNodeSize.width ||
           sides.height > maxTextNodeSize.height
         ) {
-          return p;
+          calcSides = p;
         } else {
-          const sides = {
-            width: textRef.current.offsetWidth,
-            height: textRef.current.offsetHeight,
-          };
           setLS("sizes", p);
-          return sides;
         }
+        return calcSides;
       });
     });
     return () => {

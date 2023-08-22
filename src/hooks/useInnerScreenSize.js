@@ -43,7 +43,11 @@ const getElPaddingSizes = (screenNodeEl) => {
   return paddingSizes;
 };
 
-export const useInnerScreenSize = (screenRef, topPanelRef) => {
+export const useInnerScreenSize = (
+  screenRef,
+  topPanelRef,
+  selectedBackground
+) => {
   const viewChanging = useMedia();
   const [innerScreenSize, setInnerScreenSize] = useState({
     width: 0,
@@ -63,7 +67,7 @@ export const useInnerScreenSize = (screenRef, topPanelRef) => {
     };
 
     setInnerScreenSize(curScreenInnerSize);
-  }, [viewChanging, screenRef, topPanelRef]);
+  }, [viewChanging, screenRef, topPanelRef, selectedBackground]);
 
   return innerScreenSize;
 };
