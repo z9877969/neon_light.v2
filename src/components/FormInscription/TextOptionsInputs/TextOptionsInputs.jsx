@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import Select from "react-select";
 import debounce from "lodash.debounce";
@@ -8,22 +8,27 @@ import { selectorFonts } from "constants";
 const DebouncedInput = ({ textWidth, cb, value, ...props }) => {
   const [curValue, setCurValue] = useState(value);
 
+  const inputRef = useRef(null);
+
   // eslint-disable-next-line
   const debouncedCb = useCallback(debounce(cb, 300), [cb]);
 
   useEffect(() => {
     setCurValue(Number(value));
+    inputRef.current.blur();
   }, [value]);
 
   return (
     <input
       {...props}
+      ref={inputRef}
       value={String(curValue)}
       onChange={(e) => {
         const { value: text } = e.target;
         debouncedCb(Number(text));
         setCurValue(Number(text));
       }}
+      onFocus={e => e.target.select()}
     />
   );
 };
