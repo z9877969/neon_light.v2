@@ -224,7 +224,6 @@ export const useTextSizes = ({
   // === CHANGES HEIGHT | WIDTH CALC BY HEIGHT
   useEffect(() => {
     if (firstRenderRef.current) return;
-    console.log("change Height");
     setSides((p) => {
       if (p.height === heightMarkerRef.current) return p;
       let height = p.height;

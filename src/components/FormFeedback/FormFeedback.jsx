@@ -1,15 +1,16 @@
+import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
-import { Formik, Form, Field } from "formik";
-import { toast } from "react-toastify";
 
-import { ReactComponent as IconPin } from "../../images/pin.svg";
-import s from "./FormFeedback.module.scss";
-import errorStyle from "../../shared/components/ErrorMessage/ErrorMessage.module.scss";
-import { validationSchema } from "./YupValidationSchema";
-import InputField from "../../shared/components/InputField/InputField";
-import ErrorMessageField from "../../shared/components/ErrorMessage/ErrorMessage";
 import CheckBoxGroup from "../../shared/components/CheckBoxGroup/CheckBoxGroup";
+import ErrorMessageField from "../../shared/components/ErrorMessage/ErrorMessage";
+import { ReactComponent as IconPin } from "../../images/pin.svg";
+import InputField from "../../shared/components/InputField/InputField";
 import { addOrder } from "../../services/orderAPI";
+import errorStyle from "../../shared/components/ErrorMessage/ErrorMessage.module.scss";
+import s from "./FormFeedback.module.scss";
+import { toast } from "react-toastify";
+import { validationSchema } from "./YupValidationSchema";
+
 const initialValues = {
   name: "",
   phone: "",
@@ -21,8 +22,8 @@ const initialValues = {
 
 const FormFeedback = ({
   formInscription,
-  positionText,
-  styleText,
+  textAlign,
+  lettersFormat,
   color,
   font,
   price,
@@ -78,14 +79,15 @@ const FormFeedback = ({
     });
 
     if (formInscription) {
-      formData.append("order[positionText]", positionText);
-      formData.append("order[styleText]", styleText);
+      formData.append("order[positionText]", textAlign);
+      formData.append("order[styleText]", lettersFormat);
       formData.append("order[color]", color);
       formData.append("order[font]", font);
       formData.append("order[price]", price);
       formData.append("order[width]", width);
       formData.append("order[height]", height);
-      formData.append("order[text]", text);
+      // formData.append("order[text]", text);
+      formData.append("order[text]", JSON.stringify(text));
     } else {
       if (!selectedFile && !values.comment.trim()) {
         setFileError("*Додайте зображення або напишіть коментар!");

@@ -1,7 +1,7 @@
 export const alignmentOptions = {
-  LEFT: "left",
+  LEFT: "start",
   CENTER: "center",
-  RIGHT: "right",
+  RIGHT: "end",
 };
 
 export const lettersFormatOptions = {
