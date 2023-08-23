@@ -1,4 +1,3 @@
-import CustomizedAlert from "components/CustomizedAlert/CustomizedAlert";
 import clsx from "clsx";
 import s from "./ScreenText.module.scss";
 import { useDisplayingText } from "hooks/useDisplayingText";
@@ -49,7 +48,7 @@ const ScreenText = ({
     heightMarkerRef.current
   );
 
-  const errorOptions = useTextSizes({
+  useTextSizes({
     textRef,
     widthMarker: sides.width,
     heightMarker: sides.height,
@@ -112,12 +111,6 @@ const ScreenText = ({
           </div>
         </div>
       </div>
-      {errorOptions.sideSizeError && (
-        <CustomizedAlert
-          message={errorOptions.sideSizeError}
-          closeAlert={errorOptions.setSideSizeError}
-        />
-      )}
     </>
   );
 };

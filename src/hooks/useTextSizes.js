@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { getNodeSizes } from "../services/helpers";
 import onResize from "resize-event";
 import { textSizeConstants } from "constants";
+import { toast } from "react-toastify";
 
 const { MIN_HEIGHT, MAX_HEIGHT, MAX_WIDTH } = textSizeConstants;
 
@@ -99,10 +100,11 @@ export const useTextSizes = ({
 
   useEffect(() => {
     if (sideSizeError) {
+      toast.error(`${sideSizeError}`);
       const id = setTimeout(() => {
         setSideSizeError(null);
         clearTimeout(id);
-      }, 3500);
+      }, 2500);
     }
   }, [sideSizeError]);
 
