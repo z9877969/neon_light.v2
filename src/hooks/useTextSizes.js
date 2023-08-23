@@ -110,13 +110,46 @@ export const useTextSizes = ({
   // AFTER FIRST RENDER
   useEffect(() => {
     if (!firstRenderRef.current) return;
-    const { width: nodeXSize, height: nodeYSize } = getNodeSizes(
-      textRef.current
-    );
-    const widthMarker = changeToFloat((nodeXSize / nodeYSize) * heightMarker);
-    setSides((p) => ({ ...p, width: widthMarker }));
-    widthMarkerRef.current = widthMarker;
-    heightMarkerRef.current = heightMarker;
+    const { width: xSize, height: ySize } = getNodeSizes(textRef.current);
+    const calcWidthByNodeSizes = (height) => (xSize / ySize) * height;
+    const calcHeightByNodeSizes = (width) => (xSize / ySize) * width;
+    setSides((p) => {
+      let height = p.height;
+      let width = changeToFloat((xSize / ySize) * height);
+      const { curMinHeight } = calcMinSizes({
+        nodeXSize: xSize,
+        nodeYSize: ySize,
+        widthMarker: width,
+        text,
+      });
+
+      if (height < curMinHeight) {
+        if (curMinHeight <= MAX_HEIGHT) {
+          height = curMinHeight;
+          width = calcWidthByNodeSizes(height);
+        } else if (curMinHeight > MAX_HEIGHT && height < MAX_HEIGHT) {
+          height = MAX_HEIGHT;
+          width = calcWidthByNodeSizes(height);
+        }
+
+        if (width > MAX_WIDTH) {
+          width = MAX_WIDTH;
+          height = calcHeightByNodeSizes(width);
+        }
+        if (height < curMinHeight && !sideSizeError) {
+          setSideSizeError(errorMessages.create(curMinHeight));
+          // console.log(errorMessages.create(curMinHeight));
+        }
+      }
+      heightMarkerRef.current = height;
+      widthMarkerRef.current = width;
+
+      return {
+        height,
+        width,
+      };
+    });
+    // eslint-disable-next-line
   }, [heightMarker, textRef, setSides]);
   // AFTER FIRST RENDER -END
   // *
