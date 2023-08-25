@@ -1,3 +1,4 @@
+import { alignmentOptions } from "constants";
 import clsx from "clsx";
 import s from "./ScreenText.module.scss";
 import { useDisplayingText } from "hooks/useDisplayingText";
@@ -62,6 +63,13 @@ const ScreenText = ({
 
   const displayingText = useDisplayingText(text, lettersFormat);
 
+  console.log("textAlign :>> ", textAlign);
+  console.log("alignmentOptions.RIGHT :>> ", alignmentOptions.RIGHT);
+  console.log(
+    "textAlign === alignmentOptions.RIGHT :>> ",
+    textAlign === alignmentOptions.RIGHT
+  );
+
   return (
     <>
       <div
@@ -82,7 +90,9 @@ const ScreenText = ({
                 className={clsx(
                   s.text,
                   isTextLight && s.onLightText,
-                  s[textAlign]
+                  textAlign === alignmentOptions.LEFT && s.left,
+                  textAlign === alignmentOptions.CENTER && s.center,
+                  textAlign === alignmentOptions.RIGHT && s.right
                 )}
               >
                 {displayingText.map((el, idx, arr) => {
