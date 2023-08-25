@@ -63,13 +63,6 @@ const ScreenText = ({
 
   const displayingText = useDisplayingText(text, lettersFormat);
 
-  console.log("textAlign :>> ", textAlign);
-  console.log("alignmentOptions.RIGHT :>> ", alignmentOptions.RIGHT);
-  console.log(
-    "textAlign === alignmentOptions.RIGHT :>> ",
-    textAlign === alignmentOptions.RIGHT
-  );
-
   return (
     <>
       <div
