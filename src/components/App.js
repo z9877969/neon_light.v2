@@ -122,7 +122,7 @@ const App = () => {
           </ModalFeedback>
         )}
       </Container>
-      <ToastContainer />
+      <ToastContainer autoClose={5000} />
     </>
   );
 };
