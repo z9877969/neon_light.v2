@@ -43,7 +43,7 @@ const TextOptionsInputs = ({
   fontOption,
   setFontOption,
 }) => {
-  const handleWarningText = textWidth || textHeight ? true : false;
+  // const handleWarningText = textWidth || textHeight ? true : false;
 
   const changeWidth = (value) => {
     setSides((p) => ({ ...p, width: value }));
@@ -102,12 +102,12 @@ const TextOptionsInputs = ({
           </div>
         </div>
       </div>
-      {handleWarningText && (
+      {/* {handleWarningText && (
         <p className={s.warrningText}>
           Зверніть увагу, що вказані параметри ширини та висоти можуть
           відрізнятися від дійсних через процес виготовлення або вимірювання.
         </p>
-      )}
+      )} */}
     </div>
   );
 };
