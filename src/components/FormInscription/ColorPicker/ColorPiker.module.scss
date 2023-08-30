@@ -28,7 +28,7 @@
 
 .activeWarrningText {
   @include tablet {
-    margin-top: -166px;
+    // margin-top: -166px;
     margin-bottom: 32px;
   }
   @include desktop {

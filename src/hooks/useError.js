@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 
 import { textSizeConstants as textSize } from "constants";
+import { textSizeConstants } from "constants";
+import { toast } from "react-toastify";
 
 const useError = ({
   text,
@@ -51,6 +53,19 @@ const useError = ({
 
     setErrorTextHeight("");
   }, [textHeight, errorMessageTextHeight]);
+
+  useEffect(() => {
+    const { MAX_WIDTH, MAX_HEIGHT, MIN_HEIGHT } = textSizeConstants;
+    if (
+      textWidth > MAX_WIDTH ||
+      textHeight > MAX_HEIGHT ||
+      textHeight < MIN_HEIGHT
+    ) {
+      toast.error(
+        "Максимальні ширина та висота 200см. Мінімальна висота рядка 7см."
+      );
+    }
+  }, [textHeight, textWidth]);
 
   return { errorText, errorTextWidth, errorTextHeight };
 };

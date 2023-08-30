@@ -69,8 +69,7 @@ const App = () => {
               price={price}
             />
             <p className={s.warrningText}>
-              Зображення може спотворюватися для двох та більше рядків. Ми
-              погоджуємо макет перед запуском.
+              Фінальний макет узгоджується перед запуском у виробництво
             </p>
           </div>
           <div className={s.componentsWrapper}>
@@ -122,7 +121,7 @@ const App = () => {
           </ModalFeedback>
         )}
       </Container>
-      <ToastContainer />
+      <ToastContainer autoClose={5000} />
     </>
   );
 };

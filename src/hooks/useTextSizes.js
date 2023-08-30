@@ -289,8 +289,66 @@ export const useTextSizes = ({
   // === CHANGES SIDES BY NODE_SIZES
   useEffect(() => {
     if (firstRenderRef.current) return;
+    // console.log("change Sides");
     if (hasChangedOptionsRef.current) {
       hasChangedOptionsRef.current = false;
+      setSides((p) => {
+        // console.log("change Side by font options");
+
+        let height = p.height;
+        let width = 0;
+        if (height <= MAX_HEIGHT) {
+          width = calcWidthByNodeSizes(height);
+          if (nodeSize.height >= nodeSize.width) {
+            width = calcWidthByNodeSizes(height);
+          } else {
+            const widthCalc = calcWidthByNodeSizes(height);
+            if (widthCalc <= MAX_WIDTH) {
+              width = widthCalc;
+            } else {
+              width = MAX_WIDTH;
+              height = calcHeightByNodeSizes(width);
+            }
+          }
+        } else {
+          if (nodeSize.height >= nodeSize.width) {
+            height = MAX_HEIGHT;
+            width = calcWidthByNodeSizes(height);
+          } else {
+            width = MAX_WIDTH;
+            height = calcHeightByNodeSizes(width);
+          }
+        }
+        const { curMinHeight } = calcMinSizes({
+          nodeXSize: nodeSize.width,
+          nodeYSize: nodeSize.height,
+          widthMarker: width,
+          text,
+        });
+
+        if (Math.round(height) < curMinHeight) {
+          if (curMinHeight <= MAX_HEIGHT) {
+            height = curMinHeight;
+            width = calcWidthByNodeSizes(height);
+          } else if (curMinHeight > MAX_HEIGHT && height < MAX_HEIGHT) {
+            height = MAX_HEIGHT;
+            width = calcWidthByNodeSizes(height);
+          }
+
+          if (width > MAX_WIDTH) {
+            width = MAX_WIDTH;
+            height = calcHeightByNodeSizes(width);
+          }
+
+          if (height < curMinHeight && !sideSizeError) {
+            setSideSizeError(errorMessages.create(curMinHeight));
+            // console.log(errorMessages.create(curMinHeight));
+          }
+        }
+        widthMarkerRef.current = width;
+        heightMarkerRef.current = height;
+        return { width, height };
+      });
       return;
     }
     const { width: nodeXSize, height: nodeYSize } = nodeSize;
@@ -389,81 +447,14 @@ export const useTextSizes = ({
   }, [nodeSize, setSides]);
   // === CHANGES SIDES BY NODE_SIZES -END
   // *
-  // === CHANGE LetterFormat & Font
+  // === CHANGES LetterFormat & Font
   useEffect(() => {
     if (firstRenderRef.current) return;
+    // console.log("change font options");
+
     hasChangedOptionsRef.current = true;
-    setSides((p) => {
-      if (p.width === widthMarkerRef.current) return p;
-      let xSize = textRef.current.offsetWidth;
-      let ySize = textRef.current.offsetHeight;
-      // w = pxW/pxH*h
-      const calcHeightByNodeSizes = (width) => (ySize / xSize) * width;
-      const calcWidthByNodeSizes = (height) => (xSize / ySize) * height;
-
-      let width = p.width;
-      let height = p.height;
-
-      if (width <= MAX_WIDTH) {
-        if (width <= 1) {
-          height = p.height;
-          width = calcWidthByNodeSizes(height);
-        } else {
-          const heightCalc = calcHeightByNodeSizes(width);
-
-          if (xSize >= ySize) {
-            height = heightCalc;
-            width = calcWidthByNodeSizes(height);
-          } else {
-            height = heightCalc < MAX_HEIGHT ? heightCalc : MAX_HEIGHT;
-            width = calcWidthByNodeSizes(height);
-          }
-        }
-      } else {
-        if (xSize >= ySize) {
-          width = MAX_WIDTH;
-          height = calcHeightByNodeSizes(width);
-        } else {
-          height = MAX_HEIGHT;
-          width = calcWidthByNodeSizes(height);
-        }
-      }
-
-      const { curMinHeight } = calcMinSizes({
-        nodeXSize: xSize,
-        nodeYSize: ySize,
-        widthMarker: width,
-        text,
-      });
-
-      if (height < curMinHeight) {
-        if (curMinHeight <= MAX_HEIGHT) {
-          height = curMinHeight;
-          width = calcWidthByNodeSizes(height);
-        } else if (curMinHeight > MAX_HEIGHT && height < MAX_HEIGHT) {
-          height = MAX_HEIGHT;
-          width = calcWidthByNodeSizes(height);
-        }
-
-        if (width > MAX_WIDTH) {
-          width = MAX_WIDTH;
-          height = calcHeightByNodeSizes(width);
-        }
-        if (height < curMinHeight && !sideSizeError) {
-          setSideSizeError(errorMessages.create(curMinHeight));
-          // console.log(errorMessages.create(curMinHeight));
-        }
-      }
-      heightMarkerRef.current = height;
-      widthMarkerRef.current = width;
-      return {
-        width,
-        height,
-      };
-    });
-    // eslint-disable-next-line
   }, [textRef, lettersFormat, font, setSides]);
-  // === CHANGE LetterFormat & Font -END
+  // === CHANGES LetterFormat & Font -END
 
   // === SAVES PREV_TEXT TO LS
   useEffect(() => {
@@ -492,6 +483,7 @@ export const useTextSizes = ({
   // ===
   useEffect(() => {
     const observer = onResize(textRef.current, () => {
+      // console.log("change Side by handler ");
       setNodeSize((p) => {
         const sides = {
           width: textRef.current.offsetWidth,
@@ -502,9 +494,11 @@ export const useTextSizes = ({
           sides.width > maxTextNodeSize.width ||
           sides.height > maxTextNodeSize.height
         ) {
+          // console.log("sides not rewrited :>> ", p);
           calcSides = p;
         } else {
           setLS("sizes", p);
+          // console.log("sides rewrited :>> ", calcSides);
         }
         return calcSides;
       });

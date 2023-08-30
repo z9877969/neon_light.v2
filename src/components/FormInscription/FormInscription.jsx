@@ -104,12 +104,12 @@ const FormInscription = ({
           />
 
           <div className={clsx(s.ordering, !price && s.withOutWarningText)}>
-            {!price && (
+            {/* {!price && (
               <p className={s.coment}>
                 Додайте більше характеристик і перейдіть до оформлення
                 замовлення.
               </p>
-            )}
+            )} */}
             <div className={s.wrapper}>
               <b className={s.price}>
                 {numberWithSpaces(Math.round(price))} грн
@@ -121,7 +121,7 @@ const FormInscription = ({
                 type="submit"
                 className={s.btnOpenModal}
               >
-                Точна ціна
+                Залишити заявку
               </button>
             </div>
           </div>

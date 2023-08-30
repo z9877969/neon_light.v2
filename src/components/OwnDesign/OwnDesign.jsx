@@ -9,7 +9,7 @@ const OwnDesign = ({ openModal }) => {
         потреби, додайте файл. Ми зв'яжемося з вами протягом 1 робочого дня.
       </p>
       <button type="button" className={s.btnOpenModal} onClick={openModal}>
-        Отримати зараз
+        Залишити заявку
       </button>
     </section>
   );

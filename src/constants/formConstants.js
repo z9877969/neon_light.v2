@@ -1,3 +1,5 @@
+import { LINE_HEIGHT } from "./fontSize";
+
 export const alignmentOptions = {
   LEFT: "start",
   CENTER: "center",
@@ -11,8 +13,10 @@ export const lettersFormatOptions = {
   CAPITALIZE: "capitalize",
 };
 
+const MIN_TEXT_FONT_SIZE = 6;
+
 export const textSizeConstants = {
-  MIN_HEIGHT: 6,
+  MIN_HEIGHT: Math.round(MIN_TEXT_FONT_SIZE * LINE_HEIGHT),
   MIN_WIDTH: 1,
   MAX_WIDTH: 200,
   MAX_HEIGHT: 200,
