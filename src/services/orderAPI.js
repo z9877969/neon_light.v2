@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://neonlight.onrender.com/";
+axios.defaults.baseURL = "https://neon-light-b.onrender.com/";
 
 export async function addOrder(formData) {
   try {
