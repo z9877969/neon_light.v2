@@ -11,7 +11,7 @@ const DebouncedInput = ({ textWidth, cb, value, ...props }) => {
   const inputRef = useRef(null);
 
   // eslint-disable-next-line
-  const debouncedCb = useCallback(debounce(cb, 300), [cb]);
+  const debouncedCb = useCallback(debounce(cb, 500), [cb]);
 
   useEffect(() => {
     setCurValue(Number(value));
