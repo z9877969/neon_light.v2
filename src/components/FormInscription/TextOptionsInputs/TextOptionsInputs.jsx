@@ -28,7 +28,7 @@ const DebouncedInput = ({ textWidth, cb, value, ...props }) => {
         debouncedCb(Number(text));
         setCurValue(Number(text));
       }}
-      onFocus={e => e.target.select()}
+      onFocus={(e) => e.target.select()}
     />
   );
 };
@@ -72,6 +72,7 @@ const TextOptionsInputs = ({
             <label htmlFor="width">
               <p className={s.title}>Ширина, см</p>
               <DebouncedInput
+                id="width"
                 className={s.option}
                 type="number"
                 name="width"
@@ -88,6 +89,7 @@ const TextOptionsInputs = ({
             <label htmlFor="height">
               <p className={s.title}>Висота, см</p>
               <DebouncedInput
+                id="height"
                 className={s.option}
                 type="number"
                 name="height"

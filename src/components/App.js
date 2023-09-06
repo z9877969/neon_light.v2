@@ -117,6 +117,7 @@ const App = () => {
               price={price}
               width={sides.width}
               height={sides.height}
+              closeModal={handleToggleModal}
             />
           </ModalFeedback>
         )}
