@@ -5,6 +5,7 @@ import CheckBoxGroup from "../../shared/components/CheckBoxGroup/CheckBoxGroup";
 import ErrorMessageField from "../../shared/components/ErrorMessage/ErrorMessage";
 import { ReactComponent as IconPin } from "../../images/pin.svg";
 import InputField from "../../shared/components/InputField/InputField";
+import Loader from "components/Loader/Loader";
 import { addOrder } from "../../services/orderAPI";
 import errorStyle from "../../shared/components/ErrorMessage/ErrorMessage.module.scss";
 import s from "./FormFeedback.module.scss";
@@ -30,9 +31,11 @@ const FormFeedback = ({
   width,
   height,
   text,
+  closeModal,
 }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileError, setFileError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFileChange = (event) => {
     const file = event.currentTarget.files[0];
@@ -98,12 +101,16 @@ const FormFeedback = ({
     }
 
     try {
+      setIsLoading(true);
       await addOrder(formData);
       toast.success("Ваші дані були успішно надіслані!");
       resetForm();
       setSelectedFile(null);
+      closeModal();
     } catch (error) {
       toast.error(`Сталась помилка. ${error.response.data.message}`);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -177,6 +184,7 @@ const FormFeedback = ({
           </Form>
         </Formik>
       </div>
+      {isLoading && <Loader />}
     </>
   );
 };
