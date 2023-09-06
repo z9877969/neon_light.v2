@@ -1,4 +1,4 @@
-import { getMargins, getNextLetterSizes, getNodeSizes } from "services/helpers";
+import { getMargins, getNodeSizes } from "services/helpers";
 import { useCallback, useEffect, useState } from "react";
 
 import { fontSize as constants } from "constants";
