@@ -1,0 +1,26 @@
+.container {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  z-index: 900;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  //   background-color: #00000050;
+  background-color: #e3e3c81a;
+
+//   backdrop-filter: blur(2px); // +
+  backdrop-filter: brightness(20%); // +
+//   backdrop-filter: contrast(20%); // +
+//   backdrop-filter: drop-shadow(4px 4px 10px blue);
+//   backdrop-filter: grayscale(30%);
+//   backdrop-filter: hue-rotate(120deg);
+//   backdrop-filter: invert(70%); // +
+//   backdrop-filter: opacity(20%);
+//   backdrop-filter: sepia(900%);
+//   backdrop-filter: saturate(80%);
+}
