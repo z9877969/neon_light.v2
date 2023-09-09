@@ -7,6 +7,7 @@ import { ReactComponent as IconPin } from "../../images/pin.svg";
 import InputField from "../../shared/components/InputField/InputField";
 import Loader from "components/Loader/Loader";
 import { addOrder } from "../../services/orderAPI";
+import { colorPickerOptions } from "constants";
 import errorStyle from "../../shared/components/ErrorMessage/ErrorMessage.module.scss";
 import s from "./FormFeedback.module.scss";
 import { toast } from "react-toastify";
@@ -84,7 +85,8 @@ const FormFeedback = ({
     if (formInscription) {
       formData.append("order[positionText]", textAlign);
       formData.append("order[styleText]", lettersFormat);
-      formData.append("order[color]", color);
+      const checkedColor = colorPickerOptions.find((el) => el.color === color);
+      formData.append("order[color]", checkedColor.numOrder);
       formData.append("order[font]", font);
       formData.append("order[price]", price);
       formData.append("order[width]", width);
